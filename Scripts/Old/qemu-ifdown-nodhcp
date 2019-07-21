@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo "Leaving network without DHCP"
+
+switch="br-nodhcp"
+echo "Switch identified: ${switch}"
+
+/sbin/brctl delif $switch $1
+/sbin/ifconfig $1 0.0.0.0 down
+

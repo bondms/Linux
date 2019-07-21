@@ -1,0 +1,9 @@
+#!/bin/sh
+
+echo "Joining network with DHCP"
+
+switch="br-dhcp"
+echo "Switch identified: ${switch}"
+
+/sbin/ifconfig $1 0.0.0.0 up
+/sbin/brctl addif ${switch} $1

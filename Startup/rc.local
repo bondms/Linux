@@ -1,0 +1,99 @@
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+# vvv bondms: Additional startup tasks. vvv
+
+# This script is called with -e, so will terminate on the first error.
+# Therefore, ensure that any command which may fail has an alternative, e.g. cmd || err_log ...
+
+FAILURE=
+
+err_log ()
+{
+    echo "*** Error: $@ ***" >&2
+    FAILURE=1
+}
+
+STARTUP_LOG=/var/log/rc_local.log
+echo "Entered rc.local" > "${STARTUP_LOG}"
+echo "Running on=$(hostname)" >> "${STARTUP_LOG}"
+echo "Running as=$(whoami)" >> "${STARTUP_LOG}"
+echo "PATH=${PATH}" >> "${STARTUP_LOG}"
+
+# Enable firewall (just in case it was left disabled).
+{
+    which ufw && ufw enable &&
+        echo "Firewall done" ||
+        err_log "Filewall skipped or failed"
+} >> "${STARTUP_LOG}" 2>&1
+
+# Check firewall status.
+{
+    ufw status | grep "^Status: active$" &&
+    echo "Firewall is enabled" ||
+    err_log "Firewall is not enabled"
+} >> "${STARTUP_LOG}" 2>&1
+
+# Create some non-persistent folders.
+{
+    mkdir --parents --verbose /dev/shm/bondms &&
+    chmod --verbose go-rwx /dev/shm/bondms &&
+    chown --verbose bondms.bondms /dev/shm/bondms &&
+    mkdir --parents --verbose /tmp/bondms &&
+    chmod --verbose go-rwx /tmp/bondms &&
+    chown --verbose bondms.bondms /tmp/bondms &&
+    echo "Non-persistent done" ||
+    err_log "Non-persistent failed"
+} >> "${STARTUP_LOG}" 2>&1
+
+# Remove all but current and current-1 kernels.
+{
+    [ -x /usr/local/sbin/kernel-purge-all-old.sh ] &&
+    /usr/local/sbin/kernel-purge-all-old.sh &&
+    echo "Kernel purge done" ||
+    err_log "Kernel purge skipped or failed"
+} >> "${STARTUP_LOG}" 2>&1
+
+# Remove any obsoleted packages.
+# The package database may still be locked from the PurgeKernel event, so
+# if necessary wait a while before retrying.
+{
+    ( apt-get -y -q autoremove ||
+    ( sleep 30 && apt-get -y -q autoremove ) ) &&
+    echo "Auto remove done" ||
+    err_log "Auto remove failed"
+} >> "${STARTUP_LOG}" 2>&1
+
+# Check there is sufficient free disk space.
+{
+    [ -x /usr/local/bin/free-space-check.sh ] &&
+    /usr/local/bin/free-space-check.sh &&
+    echo "Free disk space check done" ||
+    err_log "Free disk space check skipped or failed"
+} >> "${STARTUP_LOG}" 2>&1
+
+if [ -z $FAILURE ]
+then
+    echo "SUCCESS: Skipping link of log file to desktop" >> "${STARTUP_LOG}"
+else
+    echo "FAILURE: Linking log file to desktop" >> "${STARTUP_LOG}"
+    {
+        ln --symbolic --symbolic --target-directory=/home/bondms-unencrypted/Desktop/. -- "${STARTUP_LOG}" &&
+        echo "Log file linked to desktop" ||
+        err_log "Failed to link log file to desktop"
+    } >> "${STARTUP_LOG}" 2>&1
+fi
+
+# ^^^ bondms: Additional startup tasks. ^^^
+
+exit 0

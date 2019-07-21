@@ -1,0 +1,9 @@
+#!/bin/sh
+
+echo "Leaving network with DHCP"
+
+switch="br-dhcp"
+echo "Switch identified: ${switch}"
+
+/sbin/brctl delif $switch $1
+/sbin/ifconfig $1 0.0.0.0 down
