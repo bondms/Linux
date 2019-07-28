@@ -8,12 +8,16 @@
 set -eux || exit $?
 set -o pipefail || exit $?
 
-[[ $# -eq 3 ]] || exit $?
+(( $# >= 2 && $# <= 3 )) || exit $?
 SOURCE=$1
 [[ -d "${SOURCE}" ]] || exit $?
 TARGET=$2
 [[ -d "${TARGET}" ]] || exit $?
-LIMIT=$3
+if (( $# >= 3 )) ; then
+  LIMIT=$3
+else
+  LIMIT=300
+fi
 (( LIMIT>0 && LIMIT<=300 )) || exit $?
 
 HERE="$(readlink -e "$(dirname "${0}")")"
@@ -25,7 +29,7 @@ find -L "${SOURCE}" -type f -iname "*.jpg" -print0 |
         while read -r -d $'\0' F
         do
             (( ++COUNT )) || exit $?
-            (( COUNT < ${LIMIT})) || exit 0
+            (( COUNT <= ${LIMIT})) || exit 0
             printf -v BASE \"%08d\" \"\${COUNT}\" || exit $?
             cp --dereference --interactive --verbose -- \"\${F}\" \"${TARGET}/\${BASE}.jpg\" ||
                 {
