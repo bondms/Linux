@@ -123,8 +123,7 @@ decrypt-file-for-edit()
 
     geany --new-instance -- "${ramdisk}/${base}" || return $?
 
-    encrypt-file-in-place "${ramdisk}/${base}" || return $?
-    [[ -f "${ramdisk}/${base}.gpg" ]] || return $?
+    encrypt-file-to-file "${ramdisk}/${base}" "${ramdisk}/${base}.gpg"  || return $?
     rm --verbose -- "${ramdisk}/${base}" || return $?
     mv --interactive --verbose -- "${ramdisk}/${base}.gpg" "${1}" || return $?
 }
