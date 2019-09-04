@@ -42,7 +42,6 @@ alias rsync-quick='rsync -ahi'
 alias rsync-verify='rsync -ahic'
 alias rsync-vfat-quick='rsync -rhit --modify-window=1'
 alias rsync-vfat-verify='rsync -rhitc --modify-window=1'
-alias show-secrets='decrypt-file-to-less ~/Documents/Secrets.txt.aes256'
 alias slideshow-all-monitor='feh --auto-zoom --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --fullscreen ~/Pictures/.'
 alias slideshow-all-tv='feh --auto-zoom --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --borderless --image-bg=black --geometry=1200x670+1960+25 ~/Pictures/.'
 alias slideshow-favorites-monitor='feh --auto-zoom --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --fullscreen ~/Pictures/Favorites/.'
@@ -64,21 +63,16 @@ decrypt-file-to-file()
     [[ -f "${1}" ]] || return $?
     [[ ! -e "${2}" ]] || return $?
 
-    openssl enc -aes256 -pbkdf2 -d -in "${1}" -out "${2}" || return $?
+    gpg --decrypt --output "${2}" "${1}" || return $?
 }
 
-decrypt-file-in-place()
+decrypt-file-to-file-old()
 {
-    [[ $# -eq 1 ]] || return $?
+    [[ $# -eq 2 ]] || return $?
     [[ -f "${1}" ]] || return $?
+    [[ ! -e "${2}" ]] || return $?
 
-    local directory="$(dirname "${1}")"
-    [[ -n "${directory}" ]] || return $?
-
-    local base="$(basename "${1}" .aes256)"
-    [[ -n "${base}" ]] || return $?
-
-    decrypt-file-to-file "${1}" "${directory}/${base}" || return $?
+    openssl enc -aes256 -pbkdf2 -d -in "${1}" -out "${2}" || return $?
 }
 
 decrypt-file-to-ramdisk()
@@ -89,7 +83,7 @@ decrypt-file-to-ramdisk()
     local ramdisk=~/RamDisk/.
     [[ -d "${ramdisk}" ]] || return $?
 
-    local base="$(basename "${1}" .aes256)"
+    local base="$(basename "${1}" .gpg)"
     [[ -n "${base}" ]] || return $?
 
     decrypt-file-to-file "${1}" "${ramdisk}/${base}" || return $?
@@ -100,33 +94,7 @@ decrypt-file-to-stdout()
     [[ $# -eq 1 ]] || return $?
     [[ -f "$1" ]] || return $?
 
-    openssl enc -aes256 -pbkdf2 -d -in "${1}" || return $?
-}
-
-decrypt-file-with-md5-digest-to-stdout()
-{
-    [[ $# -eq 1 ]] || return $?
-    [[ -f "$1" ]] || return $?
-
-    openssl enc -aes256 -md md5 -d -in "${1}" || return $?
-}
-
-decrypt-file-without-pbkdf2-to-stdout()
-{
-    [[ $# -eq 1 ]] || return $?
-    [[ -f "$1" ]] || return $?
-
-    openssl enc -aes256 -d -in "${1}" || return $?
-}
-
-decrypt-file-to-less()
-{
-    [[ $# -eq 1 ]] || return $?
-    [[ -f "$1" ]] || return $?
-
-    local p
-    read -s -p "Password: " p || return $?
-    builtin echo "${p}" | openssl enc -aes256 -pbkdf2 -d -pass stdin -in "${1}" | less
+    gpg --decrypt "${1}" || return $?
 }
 
 decrypt-and-untar-file-to-ramdisk()
@@ -137,20 +105,7 @@ decrypt-and-untar-file-to-ramdisk()
     local ramdisk=~/RamDisk/.
     [[ -d "${ramdisk}" ]] || return $?
 
-    local p
-    read -s -p "Password: " p || return $?
-    builtin echo "${p}" | openssl enc -aes256 -pbkdf2 -d -pass stdin -in "${1}" | tar -C "$ramdisk" -xv || return $?
-}
-
-encrypt-file-in-place()
-{
-    [[ $# -eq 1 ]] || return $?
-    [[ -f "$1" ]] || return $?
-
-    local destination="$1.aes256"
-    [[ ! -e "${destination}" ]] || return $?
-
-    openssl enc -aes256 -pbkdf2 -in "${1}" -out "${destination}" || return $?
+    gpg --decrypt "${1}" | tar -C "${ramdisk}" -x --verbose || return $?
 }
 
 decrypt-file-for-edit()
@@ -161,7 +116,7 @@ decrypt-file-for-edit()
     local ramdisk=~/RamDisk/.
     [[ -d "${ramdisk}" ]] || return $?
 
-    local base="$(basename "${1}" .aes256)"
+    local base="$(basename "${1}" .gpg)"
     [[ -n "${base}" ]] || return $?
 
     decrypt-file-to-file "${1}" "${ramdisk}/${base}" || return $?
@@ -169,9 +124,18 @@ decrypt-file-for-edit()
     geany --new-instance -- "${ramdisk}/${base}" || return $?
 
     encrypt-file-in-place "${ramdisk}/${base}" || return $?
-    [[ -f "${ramdisk}/${base}.aes256" ]] || return $?
+    [[ -f "${ramdisk}/${base}.gpg" ]] || return $?
     rm --verbose -- "${ramdisk}/${base}" || return $?
-    mv --interactive --verbose -- "${ramdisk}/${base}.aes256" "${1}" || return $?
+    mv --interactive --verbose -- "${ramdisk}/${base}.gpg" "${1}" || return $?
+}
+
+encrypt-file-to-file()
+{
+    [[ $# -eq 2 ]] || return $?
+    [[ -f "${1}" ]] || return $?
+    [[ ! -e "${2}" ]] || return $?
+
+    gpg --symmetric --output "${2}" "${1}" || return $?
 }
 
 mount-iso()
@@ -220,6 +184,11 @@ play-recording-in-progress()
     }
 
     cat "$1" | play -t mp3 - channels 1
+}
+
+show-secrets()
+{
+    decrypt-file-to-stdout "${HOME}/Documents/Secrets.txt.gpg" | less -iM || return $?
 }
 
 split-file()
