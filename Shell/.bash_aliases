@@ -25,7 +25,6 @@ alias netstat='netstat -aveep'
 alias openssl-view-cert='openssl x509 -noout -text -in'
 alias openssl-view-pub-key='openssl rsa -pubin -text -in'
 alias openssl-view-private-key='openssl rsa -text -in'
-alias password-generate='openssl rand -base64 1024'
 alias pstree='pstree -paul'
 alias qiv='qiv -Rm'
 alias radiofip-play-live='play http://direct.fipradio.fr/live/fip-midfi.mp3 channels 1'
@@ -169,6 +168,32 @@ openssl-verify-signature()
     [[ -f "$2" ]] || return $?
     [[ -f "${1}.sha256" ]] || return $?
     openssl dgst -sha256 -verify "$2" -signature "${1}.sha256" "$1" || return $?
+}
+
+password-generate()
+{
+    [[ $# -eq 2 ]] || return $?
+    (( $1 > 0 )) || return $?
+    [[ -n $2 ]] || return $?
+    < /dev/urandom tr --delete --complement "$2" | head --bytes="$1"
+    echo
+}
+
+password-generate-alnum()
+{
+    [[ $# -eq 1 ]] || return $?
+    password-generate "$1" "[:alnum:]"
+}
+
+password-generate-alnumsym()
+{
+    [[ $# -eq 1 ]] || return $?
+    password-generate "$1" '[:alnum:]!"$%^&*()-=_+[]{};#:@~,./<>?'
+}
+
+password-generate-pin()
+{
+    password-generate 4 0-9
 }
 
 play-recording-in-progress()
