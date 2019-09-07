@@ -96,6 +96,11 @@ decrypt-file-to-stdout()
     gpg --decrypt "${1}" || return $?
 }
 
+decrypt-file-to-less()
+{
+    decrypt-file-to-stdout $@ | less --ignore-case --LONG-PROMPT
+}
+
 decrypt-and-untar-file-to-ramdisk()
 {
     [[ $# -eq 1 ]] || return $?
