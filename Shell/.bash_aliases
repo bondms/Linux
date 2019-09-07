@@ -132,6 +132,26 @@ decrypt-file-for-edit()
     mv --interactive --verbose -- "${ramdisk}/${base}.gpg" "${1}" || return $?
 }
 
+decrypt-file-for-grisbi()
+{
+    [[ $# -eq 1 ]] || return $?
+    [[ -f "${1}" ]] || return $?
+
+    local ramdisk=~/RamDisk/.
+    [[ -d "${ramdisk}" ]] || return $?
+
+    local base="$(basename "${1}" .gpg)"
+    [[ -n "${base}" ]] || return $?
+
+    decrypt-file-to-file "${1}" "${ramdisk}/${base}" || return $?
+
+    grisbi -- "${ramdisk}/${base}" || return $?
+
+    encrypt-file-to-file "${ramdisk}/${base}" "${ramdisk}/${base}.gpg"  || return $?
+    rm --verbose -- "${ramdisk}/${base}" || return $?
+    mv --interactive --verbose -- "${ramdisk}/${base}.gpg" "${1}" || return $?
+}
+
 encrypt-file-to-file()
 {
     [[ $# -eq 2 ]] || return $?
