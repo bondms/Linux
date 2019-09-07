@@ -217,7 +217,7 @@ play-recording-in-progress()
 
 show-secrets()
 {
-    decrypt-file-to-stdout "${HOME}/Documents/Secrets.txt.gpg" | less -iM || return $?
+    decrypt-file-to-less "${HOME}/Documents/Secrets.txt.gpg" || return $?
 }
 
 split-file()
