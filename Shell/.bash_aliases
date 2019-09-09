@@ -152,6 +152,11 @@ decrypt-file-for-grisbi()
     mv --interactive --verbose -- "${ramdisk}/${base}.gpg" "${1}" || return $?
 }
 
+edit-finances()
+{
+    decrypt-file-for-grisbi "${HOME}/Documents/Finances.gsb.gpg" || return $?
+}
+
 encrypt-file-to-file()
 {
     [[ $# -eq 2 ]] || return $?
