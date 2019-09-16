@@ -147,9 +147,9 @@ decrypt-file-for-grisbi()
 
     grisbi -- "${ramdisk}/${base}" || return $?
 
-    encrypt-file-to-file "${ramdisk}/${base}" "${ramdisk}/${base}.gpg"  || return $?
+    mv --interactive --verbose -- "${1}" "${1}.old" || return $?
+    encrypt-file-to-file "${ramdisk}/${base}" "${1}"  || return $?
     rm --verbose -- "${ramdisk}/${base}" || return $?
-    mv --interactive --verbose -- "${ramdisk}/${base}.gpg" "${1}" || return $?
 }
 
 edit-finances()
