@@ -129,7 +129,7 @@ decrypt-file-for()
 
     decrypt-file-to-file "${target_file}" "${ramdisk}/${base}" || return $?
 
-    "${@}" -- "${ramdisk}/${base}" || return $?
+    "${@}" "${ramdisk}/${base}" || return $?
 
     mv --interactive --verbose -- "${target_file}" "${target_file}.old" || return $?
     encrypt-file-to-file "${ramdisk}/${base}" "${target_file}"  || return $?
@@ -138,12 +138,12 @@ decrypt-file-for()
 
 decrypt-file-for-edit()
 {
-    decrypt-file-for "${1}" geany --new-instance || return $?
+    decrypt-file-for "${1}" geany --new-instance -- || return $?
 }
 
 decrypt-file-for-grisbi()
 {
-    decrypt-file-for "${1}" grisbi || return $?
+    decrypt-file-for "${1}" grisbi -- || return $?
 }
 
 decrypt-file-for-office()
