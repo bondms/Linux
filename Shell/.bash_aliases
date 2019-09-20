@@ -112,44 +112,43 @@ decrypt-and-untar-file-to-ramdisk()
     gpg --decrypt "${1}" | tar -C "${ramdisk}" -x --verbose || return $?
 }
 
-decrypt-file-for-edit()
+decrypt-file-for()
 {
-    [[ $# -eq 1 ]] || return $?
+    [[ $# -ge 2 ]] || return $?
     [[ -f "${1}" ]] || return $?
+    # [[ -x "${2}" ]] || return $?
+
+    local target_file="${1}"
+    shift
 
     local ramdisk=~/RamDisk/.
     [[ -d "${ramdisk}" ]] || return $?
 
-    local base="$(basename "${1}" .gpg)"
+    local base="$(basename "${target_file}" .gpg)"
     [[ -n "${base}" ]] || return $?
 
-    decrypt-file-to-file "${1}" "${ramdisk}/${base}" || return $?
+    decrypt-file-to-file "${target_file}" "${ramdisk}/${base}" || return $?
 
-    geany --new-instance -- "${ramdisk}/${base}" || return $?
+    "${@}" -- "${ramdisk}/${base}" || return $?
 
-    encrypt-file-to-file "${ramdisk}/${base}" "${ramdisk}/${base}.gpg"  || return $?
+    mv --interactive --verbose -- "${target_file}" "${target_file}.old" || return $?
+    encrypt-file-to-file "${ramdisk}/${base}" "${target_file}"  || return $?
     rm --verbose -- "${ramdisk}/${base}" || return $?
-    mv --interactive --verbose -- "${ramdisk}/${base}.gpg" "${1}" || return $?
+}
+
+decrypt-file-for-edit()
+{
+    decrypt-file-for "${1}" geany --new-instance || return $?
 }
 
 decrypt-file-for-grisbi()
 {
-    [[ $# -eq 1 ]] || return $?
-    [[ -f "${1}" ]] || return $?
+    decrypt-file-for "${1}" grisbi || return $?
+}
 
-    local ramdisk=~/RamDisk/.
-    [[ -d "${ramdisk}" ]] || return $?
-
-    local base="$(basename "${1}" .gpg)"
-    [[ -n "${base}" ]] || return $?
-
-    decrypt-file-to-file "${1}" "${ramdisk}/${base}" || return $?
-
-    grisbi -- "${ramdisk}/${base}" || return $?
-
-    mv --interactive --verbose -- "${1}" "${1}.old" || return $?
-    encrypt-file-to-file "${ramdisk}/${base}" "${1}"  || return $?
-    rm --verbose -- "${ramdisk}/${base}" || return $?
+decrypt-file-for-office()
+{
+    decrypt-file-for "${1}" libreoffice || return $?
 }
 
 edit-finances()
