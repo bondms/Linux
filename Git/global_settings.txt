@@ -1,0 +1,3 @@
+user.email=34947848+bondms@users.noreply.github.com
+core.editor=geany -i
+core.pager=less -iM
