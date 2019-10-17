@@ -9,11 +9,6 @@ TARGET_LINK="${HOME}/Backup/BackupTargets/${TARGET}"
 TARGET_DIR="${TARGET_LINK}/backup"
 LOGFILE="${HOME}/Backup/BackupLogs/rsync-${TARGET}.log"
 
-[[ -z "$(find -L \
-    "${SOURCE}/Playlists/." \
-    "${SOURCE}/Pictures/Favorites/." \
-    -type l)" ]] || exit $?
-
 [[ -h "${TARGET_LINK}" ]] || exit $?
 [[ -d "${TARGET_DIR}" ]] || exit $?
 
