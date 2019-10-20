@@ -35,7 +35,7 @@ rsync \
     --sparse \
     --delete --delete-excluded \
     --exclude "/BackupLogs/" \
-    --exclude "/Images/ubuntu-*.iso" \
+    --exclude "/Images/*ubuntu-*.iso" \
     --exclude "/Temp/" \
     --exclude "/Videos/Temp/" \
     --exclude ".git/" \
