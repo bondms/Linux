@@ -1,0 +1,8 @@
+* Installation notes for 16.04 *
+
+During installation select the option to install 3rd party support so that H.264 support in FireFox will be enabled.
+After installation uninstall flashplugin-installer to avoid Adobe vulnerabilities but still maintain H.264 HTML5 video support.
+
+During installation select the option to encrypt users' home directories. This option also enable encrypted swap which can be configured manually, but is easiest to enable like this.
+
+Use ext4 filesystem, it's still the distribution default for all partitions except /boot which--if separate--can be ext2 since it doesn't require journalling which takes up significant space on a small /boot partition.

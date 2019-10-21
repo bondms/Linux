@@ -1,0 +1,48 @@
+mp3 from console:
+# mpg123 -s <file>.mp3 | play -f s -s w -r 44100 -t raw -c 2 -
+
+mp3 from X:
+# kmp3 <file>.mp3
+# mpg123 <file>.mp3
+# mpg321 <file>.mp3
+# play <file>.mp3
+
+midi from console or X:
+# timidity <file>.mid
+# bzcat <file>.mid.bz2 | timidity -
+# sh -c 'for FILE in *.mid.bz2 ; do bzcat $FILE | timidity - ; done'
+
+wave from console or X:
+# play <file>.wav
+
+wave with esd (esound running):
+# esdplay <file>.wav
+
+wmv from X:
+# mplayer <file>.wma
+
+CDs from command line:
+# cdplay
+
+CDs interactively from console:
+# cdp
+
+CDs from X:
+# kscd
+
+WAV files from X:
+# alsaplayer
+
+Play a sound with a special effect:
+# sox <file>.ext -t ossdsp /dev/dsp effect effect-options
+e.g.
+# sox ringring.wav -t ossdsp /dev/dsp trim 0:0:42.16 0:0:1.44
+# play fricomedy_20100326-1855a.mp3 trim 0:18:19.0 0:1:3.0
+# sox fricomedy_20100326-1855a.mp3 drunk_cook.wav trim 0:18:19.0 0:1:3.0
+
+To set ID3 tags on music files that correspond to a symlink playlist for use on a player that doesn't use playlists but does use tags:
+# Use this command to see a list of valid genres:
+$ mp3info -G
+# Use the ConvertPlaylist.sh script to generate an m3u playlist.
+# Load the playlist into RhythmBox.
+# Select multiple files based on the playlist and set the required tag.

@@ -1,0 +1,17 @@
+# git config --global user.email "34947848+bondms@users.noreply.github.com"
+
+# git config --global core.editor "geany --new-instance"
+
+# git clone https://github.com/magicmonty/bash-git-prompt.git ~/.bash-git-prompt --depth=1
+# cat >> ~/.bashrc << EOF
+GIT_PROMPT_ONLY_IN_REPO=1
+source ~/.bash-git-prompt/gitprompt.sh
+EOF
+
+# git config --global merge.tool meld
+# git config --global mergetool.meld.cmd 'meld --auto-merge "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED" --label "MERGE (REMOTE BASE MY)"'
+# git config --global mergetool.meld.trustExitCode false
+# git config --global mergetool.prompt false
+# git config --global mergetool.keepBackup false
+# git config --global diff.guitool meld
+# git config --global difftool.meld.cmd 'meld "$LOCAL" "$REMOTE" --label "DIFF (ORIGINAL MY)"'

@@ -1,0 +1,80 @@
+The ffmpeg video editor can also be used for editing sound files, e.g. mp3.
+
+Cropping:
+# ffmpeg -ss 15 -t 30 -i i.mp3 o.mp3
+
+# The "-acodec copy" options should eliminate decoding and re-encoding, but may give an error.
+# ffmpeg -acodec copy -ss 15 -t 30 -i i.mp3 o.mp3
+
+Use the System/Preferences/Sound to enable digital output for music and videos.
+
+For the black-box to be able to process digital audio from mplayer of videos with encoded sound, enable to "IEC958 Default PMC" switch in addition to "IEC958" in the volume control.
+
+Extracting audio from video:
+# ffmpeg -i i.mpg -f mp3 o.mp3
+
+Convert wav files to mp3:
+# find -type f -print0 | xargs --null --no-run-if-empty -I {} bash -c "F=\"{}\" && sox \"\${F}\" \"\${F%%.wav}.mp3\""
+
+Convert wma files to mp3:
+# find temp/ -type f -iname "*.wma" -print0 |
+    xargs --null --no-run-if-empty -I {} bash -c "SRC=\"{}\" && mplayer -ao pcm:file=\"{}.pcm\" \"{}\" && lame \"{}.pcm\" \"\${SRC%%.wma}.mp3\" && rm -v \"{}.pcm\""
+... and then ...
+# find -name "*.wma" -print0 |
+    xargs --null --no-run-if-empty -I {} bash -c "SRC=\"{}\" && mp3gain -s i \"\${SRC%%.wma}.mp3\" && rm -v \"{}\"
+
+If an audio file includes "strangly" encoded ID3 tags, then piping the output of eyeD3 may cause the shell to issue this error:
+'ascii' codec can't encode characters in position xx-xx: ordinal not in range(128)
+and prevent the ReplayGain data being parsed.
+Therefore, consider stripping ID3 tags from such files before re-generating ReplayGain tags.
+To identify the files and strip the tags (the sed expression is to cope with filenames containing single quotes):
+# find -type f -iname "*.mp3" -print0 |
+    sed "s/'/'\\\''/g" |
+    xargs --null --no-run-if-empty -I {} bash -c "{
+        eyeD3 --no-color '{}' | cat
+    } 2>&1 >/dev/null |
+    if grep -F \"'ascii' codec can't encode characters in position\"
+    then
+        id3convert --strip '{}'
+    fi"
+
+A similar search for music files with a different type of broken tag.
+# find /home/bondms/Music/ -type f -print0 |
+    sed "s/'/'\\\''/g" |
+    xargs --null -I{} bash -c "eyeD3 '{}' 2>&1 > /dev/null |
+    grep -F \"'ascii' codec can't decode byte\" && echo '{}' || true"
+
+More generally, find all gain-tag errors in mp3 files:
+# find /home/bondms/Music/ -type f -iname "*.mp3" -print0 |
+    sed "s/'/'\\\''/g" |
+    xargs --null -I{} bash -c "eyeD3 --no-color '{}' 2>&1 > /dev/null | grep "." && echo '{}' || true"
+
+Like above, but only catch errors that prevent track replay gain tag from being read:
+# find /home/bondms/Music/ -type f -iname "*.mp3" -print0 |
+    sed "s/'/'\\\''/g" |
+    xargs --null -I{} bash -c "eyeD3 --no-color '{}' 2>/dev/null |
+    grep -F --silent \"UserTextFrame: [Description: replaygain_track_gain]\" || echo '{}'"
+
+As above, but with fix-up by re-encoding and re-applying regain tags:
+# find /home/bondms/Music/ -type f -iname "*.mp3" -print0 |
+    sed "s/'/'\\\''/g" |
+    xargs --null -I{} bash -c "eyeD3 --no-color '{}' 2>/dev/null |
+    grep -F --silent \"UserTextFrame: [Description: replaygain_track_gain]\" || {
+        echo '{}' &&
+        sox '{}' '{}.mp3' &&
+        mv -fv '{}.mp3' '{}' &&
+        mp3gain -s i '{}'
+    }"
+
+Re-encode music files (by re-encoding) which cause divison-by-zero error in eyeD3 due to a bad tag:
+# find /home/bondms/Music/Other/. -type f -print0 | sed "s/'/'\\\''/g" |
+    xargs --null -I{} bash -c "eyeD3 --no-color '{}' 2>&1 > /dev/null |
+    grep -F "ZeroDivisionError" && sox '{}' '{}.mp3' && mv -fv '{}.mp3' '{}' && mp3gain -s i '{}' || true"
+
+# Re-encode mp2 to mp3:
+find /home/bondms/Music/Other/Joli/. -type f -name "*.mp3" -print0 |
+    xargs --null -I{} env f='{}' bash -c "file \"\$f\" |
+    grep -F \"layer II,\" && mv -nv \"\$f\" \"\$(dirname \"\$f\")/\$(basename \"\$f\" .mp3).mp2\" || true"
+find /home/bondms/Music/Other/Joli/. -type f -name "*.mp2" -print0 |
+    xargs --null -I{} env f='{}' bash -c "sox \"\$f\" \"\$(dirname \"\$f\")/\$(basename \"\$f\" .mp2).mp3\" || true"
+find /home/bondms/Music/Other/Joli/. -type f -name "*.mp2" -delete

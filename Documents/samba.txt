@@ -1,0 +1,2 @@
+To allow a remote Windows machine to connect as a user to the Samber server use "sudo smbpasswd -a <username>"
+

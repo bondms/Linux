@@ -1,0 +1,19 @@
+To re-install GRUB2 on the MBR, e.g. after a Windows installation has blatted it.
+
+- Boot from Live CD (Ubuntu 9.10 or later).
+- Mount the Linux partition(s) having the root folder and (if it's on a different partition) the grub configuration folder (i.e. /boot/grub/...).
+- From a command prompt execute:
+    sudo grub-install --root-directory=<mnt-folder>/ /dev/<drive>
+where:
+    <mnt-folder> is the folder where the root has been mounted.
+    <drive> is the disk (not partition) where the MBR is to be written (e.g. sda, not sda1)
+- Reboot.
+
+For details, see http://ubuntuguide.net/how-to-restore-grub-2-after-reinstalling-windows-xpvistawin7
+
+If a new kernel has broken startup, and the grub menu doesn't show at bootup to allow an alternative option then press and hold "shift" during bootup to access the menu.
+
+If it's still possible to boot into Linux, but you want to re-install the MBR because (for example) the other OS has installed a boot loader that you don't like (for example by placing itself as the defaul) then boot into Linux and:
+
+- sudo update-grub # Only required if there have been changes since the last grub was installed from this (e.g. you want to pick up the new OS).
+- sudo grub-install --root-directory=/ /dev/<drive> # As above, <drive> is the drive, not the partition.

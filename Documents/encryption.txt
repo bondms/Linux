@@ -1,0 +1,75 @@
+********************
+* Secure archiving *
+********************
+
+Encryption:
+# tar -cvf - /source_dir/. | openssl des3 -salt -out archive.tar.des3
+
+Decryption:
+# openssl des3 -d -salt -in archive.tar.des3 | tar -xv
+
+N.B. These commands will prompt for passwords but the prompt may not be
+     obviously visible if it is mixed in with the verbose output of "tar".
+     If you don't like this use the "-pass pass:***" parameter option to
+     supply the password on the command line.
+
+     See man pages: enc(1) and openssl(1).
+
+*************************
+* Encrypting partitions *
+*************************
+
+This works on removable devices such as USB flash pen-drives.
+
+Partition as usual:
+# sudo fdisk /dev/sd<n>
+
+Format using LUKS:
+# sudo luksformat [-t <fs>] /dev/sd<n><n> [-L <volume label>]
+
+Default filesystem will be VFAT if not specified (then -L option is not supported).
+Volume label is limited to 16 characters for ext4.
+Ubuntu will automatically prompt for the passphrase when a removable device is inserted.
+Note that umounting and remounts will NOT re-prompt for the passphrase unless the device has been removed and re-inserted.
+However, using the gnome desktop icon "Unmount" right-click menu option does more than umount (since that does require the passphrase to be re-entered--perhaps uses cryptsetup to erase the key from memory?).
+For SD cards, the device names are:
+  - /dev/mmcblk0 (full device).
+  - /dev/mmcblk0p1 (first partition).
+
+DVD-RAM
+=======
+
+References:
+http://www.selfservix.de/node/13
+http://forums.gentoo.org/viewtopic-t-536595-start-0.html
+
+For DVD-RAMs, a packet device is needed:
+# pktsetup dvdram /dev/dvd
+
+Confirm with:
+# pktsetup -s
+0 : 251:0 -> 22:0
+
+Encrypt and create filesystem:
+# cryptsetup -c aes-cbc-essiv:sha256 -y -s 256 luksFormat /dev/pktcdvd/dvdram
+# cryptsetup luksOpen /dev/pktcdvd/dvdram dvdram_crypt
+# export LABEL=<whatever>
+# mkudffs --utf8 --media-type=dvdram --lvid="${LABEL}" --vid="${LABEL}" --vsid="${LABEL}" --fsid="${LABEL}" /dev/mapper/dvdram_crypt
+
+Eject and re-insert. As for pen-drives, Ubuntu will prompt for the passphrase before mounting the device.
+
+Swap
+====
+
+Easiest is to install Ubuntu with the option to encrypt users' home directories. This enable swap encryption. But, it can be done manually by executing ecryptfs-setup-swap with these settings:
+
+/etc/crypttab
+===
+# <target name> <source device>     <key file>  <options>
+cryptswap1 /dev/sda4 /dev/urandom swap,cipher=aes-cbc-essiv:sha256
+===
+
+/etc/fstab
+===
+/dev/mapper/cryptswap1                     none            swap    sw              0       0
+===

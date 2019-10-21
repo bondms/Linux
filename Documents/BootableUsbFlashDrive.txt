@@ -1,0 +1,13 @@
+In order to boot from a USB pen drive:
+
+- Use the Ubuntu "Create a USB startup disk" application.
+- Ensure the "Legacy Storage Detect" BIOS option is enabled.
+- From the BIOS boot screen (F12) choose "+HDD".  If the drive has been detected it should be listed along with the regular hard drive(s).
+- If it isn't listed then try removing and re-inserting it and rebooting.
+- If it doesn't find the OS, then try using fdisk (e.g. sudo fdisk /dev/sdb) to erase the existing partion (/dev/sdb1).  The Ubuntu "Create a USB startup disk" application will then provide an option to format the drive before copying the files.
+
+N.B.
+- The "normal" type of USB pen drive partitions is "W93 FAT32 (LBA)" (type c).
+- Can be partitioned using sudo fdisk /def/sdb
+- Can be formatted using sudo mkfs.vfat /dev/sdb1
+

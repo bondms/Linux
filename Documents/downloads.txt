@@ -1,0 +1,2 @@
+Download with continue option:
+# wget -c <url>

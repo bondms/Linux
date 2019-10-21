@@ -1,0 +1,59 @@
+Commands for ISO images:
+
+Creation:
+From filesystem:
+# mkisofs -o image-file.iso -JR source-directory
+# genisoimage -o image-file.iso [-V label] -JR source-directory
+Following symlinks:
+# genisoimage -f -o image-file.iso [-V label] -JR source-directory
+From floppy:
+# dd if=/def/fd0 of=<dest>.img [bs=1024 count=1440]
+From CD:
+# dd if=/dev/cdrom of=<dest>.iso
+
+Bootable image:
+  Get an image from a bootabe floppy:
+# dd if=/dev/fd0 of=floppy-boot.img bs=1440k count=1
+  Add to the ISO image:
+  N.B. floppy-boot.img must be in the src-dir.
+       boot.catalog must NOT exist in the src-dir.
+# mkisofs -o cd-image.iso -b floppy-boot.img -c boot.catalog -JR src-dir
+# genisoimage -o cd-image.iso -b floppy-boot.img -c boot.catalog [-V label] -JR src-dir
+
+Mounting:
+  ISO image:
+# mount image-file.iso -o loop /mnt/loop
+  SCSI CD (if not present in /etc/fstab):
+# mount -t iso9660 /dev/sr0 /mnt/cdwriter/
+
+Burning:
+# cdrecord -v -blank=fast -speed=10 <image_file>.iso
+# wodim -v blank=fast -speed=10 <image_file>.iso
+
+Combine creating filesystem and buring in one step:
+# mkisofs -JR source-directory | cdrecord -v -blank=fast -speed=10 -
+# genisoimage [-V label] -JR source-directory | wodim -v -blank=fast -speed=10 -
+
+N.B. See man pages cdrecord(1) and mkisofs(8).
+     See CD-Writing HowTo.
+     See /usr/src/linux-2.4.16/Documentation/devices.txt.
+     Specified burn speed will only take effect if it is supported by both the drive and the media.
+
+DVD+RW
+- Format the disk:
+# dvd+rw-format -force /dev/dvd
+- To master and burn an ISO9660 volume with Joliet and Rock-Ridge extensions on a DVD or Blu-ray Disc:
+# growisofs -Z /dev/dvd -R -J /some/files
+- To append more data to same media:
+# growisofs -M /dev/dvd -R -J /more/files
+- To finalize the multisession DVD maintaining maximum compatibility:
+# growisofs -M /dev/dvd=/dev/zero
+- To use growisofs to write a pre-mastered ISO-image to a DVD:
+# growisofs -dvd-compat -Z /dev/dvd=image.iso
+
+Copy a DVD:
+# cd ~/Temp/
+# dvdbackup -M
+- Confirm that content of <created_dir> appears similar to content of DVD (in particular existence of AUDIO_TS directory.
+# genisoimage -dvd-video -udf -o <image>.iso <created_dir>/
+# growisofs -dvd-compat -Z /dev/dvd=<image>.iso

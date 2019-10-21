@@ -1,0 +1,103 @@
+To use the TV as a second video output:
+- Configure with:
+# nvidea-settings
+With previous version of Ubuntu, it was possible to set the widescreen TV to be a letterbox view of the monitor.
+However, with the lastest version this seems to mess up the windows manager unless "clones" mode is select, in which case
+the letterbox shows the top rather than the centre of the view.
+A better solution seems to be to configure the TV to be a second screen off the side of the monitor. Using the workspace switcher makes it usable.
+
+To view a video with Bulgarian subtitles:
+- Put the .avi and .sub file in the same folder.
+- From that folder, run gmplayer.
+- From the preferences, select Cyrilic (Windows) encoding from the Subtitles tab.
+- Enable subtitles from the right-click menu.
+- Restart gmplayer if necessary.
+
+- Convert (large) Apple QuickTime MOV to (much smaller) MPEG AVI:
+  # mencoder -ovc lavc -oac mp3lame ./source.mov -o ./target.avi
+
+- As above, but also rotating (e.g. for a video filmed with a portrait orientation):
+  # mencoder -vf rotate=1 -ovc lavc -oac mp3lame ./P1000765.MOV -o ./P1000765-rotated.avi
+
+- Convert to a format that Windows Media Player can cope with :-)
+mencoder -vf rotate=1 -ovc lavc -lavcopts vcodec=wmv2 -af resample=44100 -oac pcm ./P1000765.MOV -o ./P1000765-rotated-recoded.avi
+
+- VOB files can be concatenated:
+  # cat i1.vob i2.vob > o.vob
+  or convert to MPEG at same time as concatenating, using alias from .bashrc (seems to have audio sync issues):
+  # mencoder-dvd -o o.mpg i1.vob i2.vob
+
+- Video files ?may? also be split:
+  # split --bytes=123456789 i.VRO
+
+- Convert VOBs to MPEG (using alias from .bashrc):
+  # mencoder-dvd -o o.mpg i.vob
+  or, using shell function (preferred for avoiding audio sync issues):
+  # ffmpeg-dvd i.vob o.mpg
+
+- If copying video codec doesn't work (e.g. perhaps there is an error in the stream that causes DeVeDe (dvdauthor) to fail) then try re-encoding:
+  # mencoder-dvd -o o.mpg i.mpg
+  # ffmpeg -i i.mpg o.mpg
+  # ffmpeg -i i.mpg -vcodec mpeg4 -acodec copy -target pal-dvd o.mpg
+- Example mencoder issued by DeVeDe with a video bit rate of 2500kbps specified (copying audio):
+  # mencoder -oac copy -aid 128 -ovc lavc -of mpeg -mpegopts format=dvd:tsaf -ofps 25 -vf scale=720:576,harddup -lavcopts vcodec=mpeg2video:trell:mbd=2:sc_threshold=1000000000:cgop:vstrict=0:vrc_maxrate=5000:vrc_buf_size=1835:vbitrate=2500:keyint=12:aspect=16/9 -o o.mpg i.mpg
+- Uses 4500k bps quality and 704x576.
+  # ffmpeg -i i.mpg -vcodec mpeg4 -acodec copy -target pal-dvd -b 4500k -s 4cif b.mpg
+- For multiple files:
+  # for I in *.mpg ; do echo $I ; ffmpeg -i $I -vcodec mpeg4 -acodec copy -target pal-dvd -b 4500k -s 4cif fixed/$I ; done
+
+- To produce smaller, low-quality output:
+  # ffmpeg -i i.mpg -b 64k o.mpg
+
+- Concatenate MPEGs:
+  # mencoder-dvd -o o.mpg i1.mpg i2.mpg
+  or (seems to work better for audio sync):
+  # cat i1.mpg i2.mpg > t.mpg
+  # ffmpeg -i t.mpg -vcodec copy -acodec copy -target pal-dvd o.mpg
+  If there are still audio sync problems then investigate use of -async option for ffmpeg (e.g. with a value of 1).
+  Failing that, try using ffmpeg to split audio and video channels and then re-combine.
+
+- Trim MPEGs:
+  # mencoder-dvd -ss 1:23:45 -o o.mpg i.mpg
+  # mencoder-dvd -endpos 1:23:45 -o o.mpg i.mpg
+  # ffmpeg -ss 1:23:45 -i i.mpg -vcodec copy -acodec copy -target pal-dvd o.mpg
+  # ffmpeg -t 1:23:45 -i i.mpg -vcodec copy -acodec copy -target pal-dvd o.mpg
+
+- Playing MPEGs:
+  # mplayer i.mpg
+  # gmplayer i.mpg
+
+- Extracting audio from a video:
+  # ffmpeg -i <input>.mpg -acodec copy <output>.mp3
+
+- Burning DVD-RAM (VRO) recording to DVD-R(W):
+  DeVeDe fails to burn a video taken from a DVD-RAM (.VRO) file to an mpg with ffmpeg.  Unless is given a second convertion from mpeg to mpeg with mencoder.
+  In this second stage it seems necessary to use mencoder without the "-mc 0" option in order to maintain reasonable audio sync.
+
+- DVD-RAMs (perhaps especially those that have been edited on the Panasonic player) may fail to convert using the copy codec.  Try converting the audio, video, or both streams using ffmpeg, e.g.
+
+Fails:
+# ffmpeg-dvd DVD_RTAV/VR_MOVIE.VRO o.mpg
+# ffmpeg -i DVD_RTAV/VR_MOVIE.VRO -target pal-dvd -acodec copy -s 4cif o.mpg
+
+Produces output larger than source:
+# ffmpeg -i DVD_RTAV/VR_MOVIE.VRO -target pal-dvd o.mpg
+# ffmpeg -i DVD_RTAV/VR_MOVIE.VRO -target pal-dvd -ab 256k -s 4cif music1.mpg
+
+Solution:
+# ffmpeg -i DVD_RTAV/VR_MOVIE.VRO -target pal-dvd -ab 256k -vcodec copy music2.mpg
+
+- The following is from the DeVeDe FAQ (how to use it with VOB files).
+  - In addition to allowing DeVeDe to work, it also fixes timestamp issues with mplayer/mencoder.
+  - It also works for .VRO files (from recorded DVD-RAM).
+
+---
+
+# I added a VOB file and marked the option "This is already a DVD/xCD-suitable MPEG file", but DeVeDe fails.
+
+The VOB files aren't fully suitable for DVDAuthor. In order to get the right file you can repackage it (without recompressing, so you will not loose quality) using the command:
+
+mencoder -oac copy -ovc copy -of mpeg -mpegopts format=dvd:tsaf -o output.mpg input.vob
+
+Being input.vob the path to the input file, and output.mpg the path for the output file. Now you can add output.mpg marking the option "This is already a DVD/xCD-suitable MPEG file".
+

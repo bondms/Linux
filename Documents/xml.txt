@@ -1,0 +1,31 @@
+Command-line tools for XML processing:
+
+Select a section of an XML document using an XPath query:
+# xgrep -x <path> <document.xml>
+# xpath -q -e <path> <document.xml>
+
+Transform an XML document using an XSLT transform stylesheet:
+# xsltproc <stylesheet.xsl> <document.xml>
+
+Compare two XML documents:
+# xmldiff <document1.xml> <document2.xml>
+or
+# xmlstarlet fo <document1.xml> > <document1-fo.xml>
+# xmlstarlet fo <document2.xml> > <document2-fo.xml>
+# diff <document1-fo.xml> <document2-fo.xml>
+
+Format an XML file with nice line wrapping and intentation:
+# xmlstarlet fo <document.xml>
+
+===
+
+XML editor:
+# komodo <document>
+
+===
+
+Example pipe-lines:
+
+Transform a document and view formatted output:
+# xsltproc LocalConfig.xsl 302/LocalConfig.xml | xmlstarlet fo - | less
+

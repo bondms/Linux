@@ -1,0 +1,182 @@
+Default networking:
+- Subnet mask: 255.255.255.0
+- DHCP server: 10.0.2.2
+- Default gateway: 10.0.2.2
+- DNS server: 10.0.2.3
+- First DHCP assigned address: 10.0.2.15
+- SMB share: \\10.0.2.4\qemu
+
+Create a 64Gb sparse file:
+# dd if=/dev/zero of=./hdd bs=1 count=0 seek=64G
+
+Create a more versatile 64Gb qcow2 filesystem file:
+# kvm-img create -f qcow2 ./hdd 64G
+
+Create a differencing filesystem file:
+With a relative path to the base:
+# kvm-img create -b ./hdd-base -f qcow2 ./hdd
+With an absolute path to the base:
+# kvm-img create -b /path/hdd-base -f qcow2 ./hdd
+
+Move/compact a disk:
+Base image:
+# kvm-img convert -f qcow2 ./old/base.hdd -O qcow2 /new/base.hdd
+Differencing disk:
+# kvm-img convert -f qcow2 ./old/differencing.hdd -O qcow2 -B /new/base.hdd /new/differencing.hdd
+
+Commit changes in a differencing file to the base file:
+# kvm-img commit -f qcow2 ./hdd
+
+Convert a multi-part VMWare disk image into a single part qcow2 disk image:
+1) Combine the vmdks (Ubuntu.vmdk, Ubuntu-s001.vmdk, Ubuntu-s002.vmdk etc) after ensuring there are no snapshots:
+# vmware-vdiskmanager -r ./Ubuntu.vmdk -t 0 Single.vmdk
+2) Convert the format:
+# qemu-img convert Single.vmdk -O qcow2 Single.qcow2
+
+For help:
+# man kvm-qemu
+
+Switching modes:
+Acquire/Release: Ctrl-Alt
+Display: Ctrl-Alt 1
+Monitor: Ctrl-Alt 2
+Full-screen: Ctrl-Alt f (doesn't seem to work reliably).
+Restore un-scaled screen size (e.g. to remove blur after resizing window): Ctrl-Alt u
+
+To send Ctrl-Alt-Delete to guest:
+1) Acquire input using Ctrl-Alt
+2) Press Ctrl-Alt-Delete
+If it doesn't work use sendkey (see monitor commands below).
+
+Monitor commands:
+> help (use Ctrl-Up and Ctrl-Down to scroll)
+> quit
+> system_reset
+> sendkey ctrl-alt-delete (if actually pressing Ctrl-Alt-Delete doesn't work).
+> info
+> info network
+> change ide1-cd0 /path/image.iso (preceed by "info block" to determine device name, follow by "eject <device>").
+> usb_add host:<xxxx>:<yyyy> where <xxxx>:<yyyy> is the ID (use shell command 'lsusb' or kvm-qemu command 'info usbhost' to determine ID, follow by "usb_del host:<xxxx>:<yyyy>".  Need to be root).
+> usb_add host:<b>.<d> where <b> is the bus and <d> is the device (use shell command 'lsusb' or kvm-qemu command 'info usbhost' to determine bus and device, follow by "usb_del host:<b>.<d>".  Need to be root.  Works with Linux guest but Windows guest fails to load driver).
+
+To allow remote control of the VM (e.g. from a script for automated testing):
+> kvm ... -monitor telnet:localhost:4444,server
+then the test automation script can connect using telnet protcol, e.g.
+> telnet localhost 4444
+
+Start a 2Gb vm:
+# kvm -m 2048 ./hdd
+With CD-ROM:
+# kvm -cdrom /backup/images/w2k8-x64-en.iso -m 2048 ./hdd
+With SCSI hard-disk:
+# kvm -m 2048 -drive file=./hdd,if=scsi,media=disk
+Requiring explict commit (the -no-shutdown option doesn't appear to work so it's not possible to commit after powerdown, therefore use differencing disks if a commit may be required):
+# kvm -m 2048 ./hdd -snapshot -no-shutdown
+With dual-core processor:
+# kvm -m 2048 ./hdd -smp 2
+With sound:
+# kvm -m 2048 ./hdd -soundhw all
+Two machines, connected with a guest-only network:
+# kvm -m 2048 ./1.hdd -net nic -net socket,listen=:8010
+# kvm -m 2048 ./2.hdd -net nic,macaddr=52:54:00:12:34:57 -net socket,connect=:8010
+Any number of machines, connected with a guest-only network:
+# kvm -m 2048 ./1.hdd -net nic -net socket,mcast=224.0.0.1:1234
+# kvm -m 2048 ./2.hdd -net nic,macaddr=52:54:00:12:34:57 -net socket,mcast=224.0.0.1:1234
+# kvm -m 2048 ./3.hdd -net nic,macaddr=52:54:00:12:34:58 -net socket,mcast=224.0.0.1:1234
+Two machines, connected to each other and to the internet (each using having two NICs and using the QEMU gateway to the internet rather than one providing a gateway for the other):
+# kvm -m 2048 ./1.hdd -net nic,macaddr=52:54:00:12:34:56,vlan=0 -net user,vlan=0 -net nic,macaddr=52:54:00:12:34:57,vlan=1 -net socket,listen=:8010,vlan=1
+# kvm -m 2048 ./2.hdd -net nic,macaddr=52:54:00:12:34:58,vlan=0 -net user,vlan=0 -net nic,macaddr=52:54:00:12:34:59,vlan=1 -net socket,connect=:8010,vlan=1
+
+Any number of machine, connected to each other and to the internet (each using having two NICs and using the QEMU gateway to the internet rather than one providing a gateway for the other):
+# kvm -m 2048 ./1.hdd -net nic,macaddr=52:54:00:12:34:56,vlan=0 -net user,vlan=0 -net nic,macaddr=52:54:00:12:34:57,vlan=1 -net socket,mcast=224.0.0.1:1234,vlan=1
+# kvm -m 2048 ./2.hdd -net nic,macaddr=52:54:00:12:34:58,vlan=0 -net user,vlan=0 -net nic,macaddr=52:54:00:12:34:59,vlan=1 -net socket,mcast=224.0.0.1:1234,vlan=1
+# kvm -m 2048 ./3.hdd -net nic,macaddr=52:54:00:12:34:60,vlan=0 -net user,vlan=0 -net nic,macaddr=52:54:00:12:34:61,vlan=1 -net socket,mcast=224.0.0.1:1234,vlan=1
+
+Use local time for MS Windows/DOS (don't configure Windows to automatically adjust for DST):
+# kvm -m 2048 -localtime ./hdd
+Share a folder with a Windows guest using Samba (doesn't seem to work so instead just configure Samba manually on the host):
+# kvm -m 2048 -smb /tmp ./hdd
+Use a USB tablet device (so that capturing the mouse is not required):
+# kvm -m 2048 -usb -usbdevice tablet ./hdd
+Without allowing Alt-F4 to accidentally kill the guest:
+# kvm -m 2048 -no-quit ./hdd
+
+---
+
+TUN/TAP network bridging:
+
+SETUP
+// kvm will create a TAP device (like this) # sudo tunctl -u bondms -t tap<n>
+// kvm will add the TAP device to the bridge (like this) # sudo brctl addif br0 tap<n>
+// kvm will bring TAP device up (like this) # sudo ifconfig tap<n> up
+
+// Optionally add a NIC to the bridge (if TAP network is to be part of a real LAN) # sudo brctl addif br0 eth<n>
+// Zero the NIC's IP address (if TAP network is to be part of a real LAN) # sudo ifconfig eth<n> 0.0.0.0
+
+Restart the DHCP server # sudo /etc/init.d/dhcp3-server stop ; sudo /etc/init.d/dhcp3-server start
+
+EXECUTE
+Run kvm as root ensuring each instance has a unique MAC address # sudo kvm -net nic,macaddr=<52:54:00:xx:xx:xx> -net tap ...
+
+TEAR DOWN
+// kvm will delete the TAP device (like this) # sudo tunctl -d tap<n>
+
+EXAMINE
+# ifconfig
+# sudo brctl show
+
+---
+
+Shared-disk clustering:
+
+Install support for mounting networked drives:
+# sudo apt-get install nbd-client
+
+// Load the module:
+// # sudo modprobe nbd max_part=8
+
+Export shared-disk image (shared between up to <n> nodes):
+# sudo kvm-nbd -e <n> SharedDisk.qcow2
+
+Import shared-disk image to <n> local ndb devices:
+# sudo nbd-client localhost 1024 /dev/nbd0
+# sudo nbd-client localhost 1024 /dev/nbd1
+# ...
+
+// or, reduced to one line (export and import) (untested):
+// # sudo kvm-nbd --connect=/dev/nbd0 SharedDisk.qcow2
+// # sudo kvm-nbd --connect=/dev/nbd1 SharedDisk.qcow2
+// # ...
+
+// Check the disk is accessible:
+# sudo fdisk /dev/nbd0
+# sudo fdisk /dev/nbd1
+
+Start <n> cluster nodes, one attached to each device:
+# kvm ... -drive file=/dev/nbd0,if=scsi
+# kvm ... -drive file=/dev/nbd1,if=scsi
+# ...
+
+// or include directly the nbd protocol in qemu (untested):
+// # kvm ... -drive file=nbd:localhost:1024
+
+Shutdown:
+# sudo nbd-client -d /dev/nbd0
+# sudo nbd-client -d /dev/nbd1
+# ...
+
+---
+
+Running nested VMs inside a VM
+
+kvm within kvm works (pass -alt-grab option to outer instance to aid switching to and from console).
+
+---
+
+To disable the "alt" key behviour of launching the HUD (which breaks qemu):
+- Launch "System Settings...".
+- Open "Keyboard" settings.
+- Switch to "Shortcuts" tab.
+- Select "Launchers" item.
+- Select "Key to show the HUD".
+- Press backspace to disable the shortcut.

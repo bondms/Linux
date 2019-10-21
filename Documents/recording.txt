@@ -1,0 +1,73 @@
+replaygain is from the python-rgain package.
+
+Cutting songs out of recordings:
+# play radio-varna-2016-06-05.mp3 trim 16:26.5 =20:33.1
+# sox radio-varna-2016-06-05.mp3 summer_wine.mp3 trim 16:26.5 =20:33.1
+# replaygain summer_wine.mp3
+
+To record as wav (for later burning onto CD):
+# cdparanoia -B
+(track files are automatically named in current directory).
+
+Record from the cd writer:
+# cdparanoia -B -d /dev/cdwriter
+
+Batch convert to mp3:
+# for f in track??.cdda.wav ; do sox $f `basename $f .cdda.wav`.mp3; done
+
+To record as mp3 (notlame is available in a .tar.gz package):
+# cdparanoia <track_nums> - | notlame -h - <file_name>.mp3
+
+Ubuntu now has lame:
+# cdparanoia <track_nums> - | lame -h - <file_name>.mp3
+
+To convert to mp2 (toolame is available from Ubuntu) (mp2 file may have mp3 extension):
+# toolame <source>.wav <target>.mp3
+
+To convert to mp3:
+# lame -h <source>.wav <target>.mp3
+
+Convert mp3 to wav (before burning onto CD):
+# mpg123 -s <src>.mp3 | sox -s -w -r 44100 -t raw -c 2 - <dst>.wav
+# mpg123 --stereo --wav <dst>.wav <src>.mp3
+# sox source.mp3 destination.cdr
+
+Convert more obscure formats (e.g. wma) to wav (before burning onto CD):
+# mplayer -vo null -vc dummy -af resample=44100 -ao pcm:waveheader <src>.wma
+# for f in *.wma ; do echo "$f" ; mplayer -vo null -vc dummy -af resample=44100 -ao pcm:waveheader "$f" ; sox audiodump.wav "$f.cdr" && rm audiodump.wav ; done
+# for FILE in *.wma; do echo ${FILE} && mplayer "${FILE}" -ao pcm:waveheader:file="${FILE}.wav"; done
+
+Re-sample wav from 22khz to 44khz:
+# sox -r 22050 souce.wav -r 44100 destination.wav
+Convert a generic wav to a CD-R format (i.e. 44khz, 16-bit, stereo):
+# sox source.wav destination.cdr
+
+To burn music onto a CD:
+# cdrecord -v -blank=fast -dao -audio -pad <track1>.wav <track2>.wav ...
+# wodim -v -blank=fast -dao -audio -pad <track1>.cdr <track2>.cdr
+
+Burn on a CD-R (i.e. not a CD-RW so no erase needed) at a slower speed:
+# cdrecord -v -speed=4 -dao -audio -pad track??.cdda.wav
+# wodim -v -speed=4 -dao -audio -pad track??.cdr
+
+Do a test run before burning a CD:
+- Don't forget the speed option.
+- Ensure disk is erased before doing dummy run.
+- WARNING: Dummy writes appear to change disks!
+# cdrecord -dummy ...
+
+Record a sound with a special effect:
+# sox <source>.ext <target>.ext effect effect-options
+e.g.
+# sox ringring.wav cut.wav trim 0:0:42.16 0:0:1.44
+
+View audio-file metadata tags:
+# id3v2 -l track.mp3
+
+Blank/Erase/Format a disk after use:
+# wodim -blank=[fast|all] [-force]
+# wodim -format [-force]
+# dvd+rw-format [-force[=all]] /dev/dvd
+
+Fully erase a DVD.  May need a reboot after this?
+# dvd+rw-format /dev/dvd -force=full
