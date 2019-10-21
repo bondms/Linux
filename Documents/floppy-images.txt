@@ -1,6 +1,0 @@
-To create /dev/fd0 (as root):
-# modprobe floppy
-
-To copy an image (as root, or at least member of "floppy" group):
-# dd if=/dev/fd0 of=path/out.img
-

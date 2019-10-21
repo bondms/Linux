@@ -1,8 +1,0 @@
-In order for settings to be saved to X configuration file, nvidia-settings needs to be run as root:
-# sudo nvidia-settings
-
-In order for the Samsung display (1280x720) to display a letterbox view of the Iiyama display (1280x1024) configure as TwinView and then set the position as "Absolute". Position the screen at "+0+152".
-
-If nvidia-settings cannot parse the default X configuration file when saving settings then create a new one:
-# sudo nvidia-xconfig
-
