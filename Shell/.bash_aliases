@@ -25,6 +25,8 @@ alias netstat='netstat -aveep'
 alias openssl-view-cert='openssl x509 -noout -text -in'
 alias openssl-view-pub-key='openssl rsa -pubin -text -in'
 alias openssl-view-private-key='openssl rsa -text -in'
+alias orientate='find -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.jpe" -o -iname "*.jif" -o -iname "*.jfif" -o -iname "*.jfi" \) -print0 |
+    xargs --null --no-run-if-empty jhead -autorot'
 alias pstree='pstree -paul'
 alias qiv='qiv -Rm'
 alias radiofip-play-live='play http://direct.fipradio.fr/live/fip-midfi.mp3 channels 1'
@@ -35,8 +37,6 @@ alias rmdir-and-content='find "$(readlink -f .)" -delete'
 alias rmdir-content='find -mindepth 1 -delete'
 alias ro-files='find -type f -print0 |
     xargs --null --no-run-if-empty chmod --verbose a-w'
-alias orientate='find -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.jpe" -o -iname "*.jif" -o -iname "*.jfif" -o -iname "*.jfi" \) -print0 |
-    xargs --null --no-run-if-empty jhead -autorot'
 alias rsync-quick='rsync -ahi'
 alias rsync-verify='rsync -ahic'
 alias rsync-vfat-quick='rsync -rhit --modify-window=1'
@@ -163,6 +163,12 @@ encrypt-file-to-file()
     [[ ! -e "${2}" ]] || return $?
 
     gpg --symmetric --output "${2}" "${1}" || return $?
+}
+
+generate-replay-gain-track-tags()
+{
+    find -type f -print0 | xargs --null -I{} id3convert --v1tag -- {}
+    find -type f -print0 | xargs --null -I{} replaygain --no-album -- {}
 }
 
 mount-iso()
