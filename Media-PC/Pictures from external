@@ -1,0 +1,3 @@
+#!/bin/bash
+
+feh --auto-zoom --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --fullscreen "/media/${USER}/."
