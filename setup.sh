@@ -6,10 +6,12 @@ set -o pipefail
 HERE="$(readlink -e "$(dirname "$0")")"
 [[ -d "${HERE}" ]] || exit $?
 
+BACKUP="$(readlink -e "${HERE}/Backup")"
+[[ -d "${BACKUP}" ]] || exit $?
+
 for NAME in Documents Downloads Images Music Pictures Playlists Videos VirtualMachines
 do
-    # This script is intended to be run from Backup root (e.g. via a symlink).
-    [[ -d "${HERE}/${NAME}" ]] || exit $?
+    [[ -d "${BACKUP}/${NAME}" ]] || exit $?
 
     if [[ -d "${HOME}/${NAME}" && ! -h "${HOME}/${NAME}" ]]
     then
@@ -17,7 +19,7 @@ do
     fi
 
     [[ -h "${HOME}/${NAME}" ]] ||
-        ln --symbolic --verbose -- "${HERE}/${NAME}" "${HOME}/." || exit $?
+        ln --symbolic --verbose -- "${BACKUP}/${NAME}" "${HOME}/." || exit $?
 done
 
 UNENCRYPTED_DIR="/home/${USER}-unencrypted"
@@ -46,7 +48,7 @@ do
 
 done
 
-mkdir --verbose --parents -- "${HERE}/BackupLogs" || exit $?
+mkdir --verbose --parents -- "${BACKUP}/BackupLogs" || exit $?
 
 mkdir --verbose --parents -- "${HOME}/Mount" || exit $?
 mkdir --parents --verbose -- "${HOME}/Temp" || exit $?
@@ -56,6 +58,13 @@ mkdir --parents --verbose -- "${HOME}/Temp" || exit $?
 
 [[ -h "${HOME}/.bash_aliases" ]] ||
     ln --symbolic --verbose -- "${HERE}/Shell/.bash_aliases" "${HOME}/." || exit $?
+
+if [[ ! -h "${HOME}/.profile" ]]
+then
+    mv --no-clobber -- "${HOME}/.profile" "${HOME}/.profile.orig" || exit $?
+fi
+[[ -h "${HOME}/.profile" ]] ||
+    ln --symbolic --verbose --force -- "${HERE}/Shell/.profile" "${HOME}/." || exit $?
 
 [[ -h "${HOME}/RamDisk" ]] ||
     ln --symbolic --verbose -- "/dev/shm/${USER}" "${HOME}/RamDisk" || exit $?
