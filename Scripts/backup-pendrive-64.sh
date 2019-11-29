@@ -36,6 +36,7 @@ rsync \
     --delete --delete-excluded \
     --exclude "/BackupLogs/" \
     --exclude "/Images/*ubuntu-*.iso" \
+    --exclude "/Images/RaspberryPi/" \
     --exclude "/Temp/" \
     --exclude "/Videos/Temp/" \
     --exclude ".git/" \
