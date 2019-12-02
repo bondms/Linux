@@ -9,6 +9,8 @@ Installing Raspbian (as per https://www.raspberrypi.org/documentation/installati
 * Copy Music, Pictures, Playlists, ...
 * Install xscreensaver and disable screensaver to turn-off screen blanking.
 * Copy asound.conf to /etc/. to downmix all audio output from stereo to mono. Reboot to take effect.
+  * From https://www.tinkerboy.xyz/raspberry-pi-downmixing-from-stereo-to-mono-sound-output/
+  * The device number in `hw:N` is determined from the output of `cat /proc/asound/modules`.
 
 TODO:
 * Enable auto-updates including the firmware/boot-loader (from https://www.raspberrypi.org/documentation/hardware/raspberrypi/booteeprom.md):
@@ -20,6 +22,5 @@ sudo apt install rpi-eeprom # Install bootloader updater software (Was already i
 sudo rpi-eeprom-update # Check bootloader status (Was shown as up-to-date with latest 10 Sep 10:41:50 UTC 2019).
 
 TODO:
-* Stereo to mono downmixing in sox (shuffle-play etc.) is no longer necessary.
 * Picture orientation and audio levelling for external and when copying new files to internal storage.
 * ...

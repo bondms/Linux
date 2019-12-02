@@ -12,4 +12,4 @@ HERE=$(readlink -e "$(dirname "$0")")
 # Automatic replay gain in SoX doesn't appear to be supported
 # for mp3 files, so disable it (for all files) and manually
 # apply ReplayGain.
-play "$1" --replay-gain off gain $("${HERE}/track-replay-gain.sh" "$1") channels 1
+play "$1" --replay-gain off gain $("${HERE}/track-replay-gain.sh" "$1")
