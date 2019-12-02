@@ -1,0 +1,3 @@
+#!/bin/bash
+
+"${HOME}/Linux-master/Scripts/shuffle-play.sh" "${HOME}/Playlists/MarkAndJoli/."

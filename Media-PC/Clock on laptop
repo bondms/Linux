@@ -1,5 +1,0 @@
-#!/bin/bash
-
-firefox http://www.clocktab.com/ &
-xdotool search --sync --onlyvisible --class "Firefox" windowactivate key F11
-fg
