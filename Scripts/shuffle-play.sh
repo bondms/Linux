@@ -9,6 +9,8 @@ set -o pipefail
 HERE=$(readlink -e "$(dirname "$0")")
 [[ -d "${HERE}" ]] || exit $?
 
+trap '' INT || exit $?
+
 find -L "$1" -type f -iname "*.mp3" -print0 |
     sort --zero-terminated --random-sort |
     xargs --null --no-run-if-empty -I{} "${HERE}/play-with-track-replay-gain.sh" '{}'
