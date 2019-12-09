@@ -26,5 +26,4 @@ TODO:
 * ...
 
 TODO:
-* Scripts for Radio (Varna, Fip, ...).
 * Rsync pictures (after cleaning), music files & playlists.
