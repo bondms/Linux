@@ -24,3 +24,9 @@ sudo rpi-eeprom-update # Check bootloader status (Was shown as up-to-date with l
 TODO:
 * Picture orientation and audio levelling for external and when copying new files to internal storage.
 * ...
+
+TODO:
+* Scripts for Radio (Varna, Fip, ...).
+* Rsync pictures (after cleaning), music files & playlists.
+* How to skip tracks in shuffle-play.
+* How to stop music when using find ... | xargs  ... play ...
