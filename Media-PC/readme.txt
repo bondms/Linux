@@ -11,6 +11,7 @@ Installing Raspbian (as per https://www.raspberrypi.org/documentation/installati
 * Copy asound.conf to /etc/. to downmix all audio output from stereo to mono. Reboot to take effect.
   * From https://www.tinkerboy.xyz/raspberry-pi-downmixing-from-stereo-to-mono-sound-output/
   * The device number in `hw:N` is determined from the output of `cat /proc/asound/modules`.
+* Symlink Shell/.bash_aliases to home folder.
 
 TODO:
 * Enable auto-updates including the firmware/boot-loader (from https://www.raspberrypi.org/documentation/hardware/raspberrypi/booteeprom.md):
