@@ -28,5 +28,3 @@ TODO:
 TODO:
 * Scripts for Radio (Varna, Fip, ...).
 * Rsync pictures (after cleaning), music files & playlists.
-* How to skip tracks in shuffle-play.
-* How to stop music when using find ... | xargs  ... play ...
