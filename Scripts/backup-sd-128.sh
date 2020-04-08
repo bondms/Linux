@@ -3,9 +3,9 @@
 set -eux
 set -o pipefail
 
-SOURCE="${HOME}/Archive"
+SOURCE="${HOME}/Archive/bondms"
 TARGET="sd-128"
-TARGET_LINK="${SOURCE}/BackupTargets/${TARGET}"
+TARGET_LINK="${SOURCE}/latest/BackupTargets/${TARGET}"
 TARGET_DIR="${TARGET_LINK}/backup"
 LOGFILE="${SOURCE}/BackupLogs/rsync-${TARGET}.log"
 
