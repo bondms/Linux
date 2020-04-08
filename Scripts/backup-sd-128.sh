@@ -5,9 +5,9 @@ set -o pipefail
 
 SOURCE="${HOME}/Archive/bondms"
 TARGET="sd-128"
-TARGET_LINK="${SOURCE}/latest/BackupTargets/${TARGET}"
+TARGET_LINK="${HOME}/Backup/BackupTargets/${TARGET}"
 TARGET_DIR="${TARGET_LINK}/backup"
-LOGFILE="${SOURCE}/BackupLogs/rsync-${TARGET}.log"
+LOGFILE="${HOME}/Backup/BackupLogs/rsync-${TARGET}.log"
 
 [[ -h "${TARGET_LINK}" ]] || exit $?
 [[ -d "${TARGET_DIR}" ]] || exit $?
