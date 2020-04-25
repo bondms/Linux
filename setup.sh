@@ -53,8 +53,12 @@ mkdir --verbose --parents -- "${BACKUP}/BackupLogs" || exit $?
 mkdir --verbose --parents -- "${HOME}/Mount" || exit $?
 mkdir --parents --verbose -- "${HOME}/Temp" || exit $?
 
-[[ -h "${HOME}/Git" ]] ||
-    ln --symbolic --verbose -- "${HERE}/Documents/Archive/Programming/Git" "${HOME}/." || exit $?
+if [[ ! -h "${HOME}/Git" ]]
+then
+    PARENT="$(dirname "${HERE}")"
+    [[ "Git" == "$(basename "${PARENT}")" ]] || exit $?
+    ln --symbolic --verbose -- "${PARENT}" "${HOME}/." || exit $?
+fi
 
 [[ -h "${HOME}/.bash_aliases" ]] ||
     ln --symbolic --verbose -- "${HERE}/Shell/.bash_aliases" "${HOME}/." || exit $?
