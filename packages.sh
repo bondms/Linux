@@ -14,3 +14,4 @@ sudo apt install grisbi || exit $?
 sudo apt install build-essential || exit $?
 sudo apt install cmake || exit $?
 sudo apt install python-is-python3 || exit $?
+sudo snap install --classic code || exit $?
