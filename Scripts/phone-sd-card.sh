@@ -158,14 +158,18 @@ exit 0
 # Preferred option: Remove the SD card from the phone and place directly in the laptop.
 sudo fdisk /dev/mmcblk0  # Create exfat partition (type 7).
 sudo mkfs.exfat -n "${NAME}-nnn" /dev/mmcblk0p1 || exit $?
-rsync-vfat-quick --delete "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit $?
+rsync-vfat --delete "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit $?
 sudo umount "${MOUNT_DIR}/"
 
 # Alternative option: Mount the SD card while it's in the phone.
 # Enable "Use USB to" "Transfer files" option on the phone after connecting USB.
 # Eject the phone from File Manager (otherwise jmtpfs will core dump).
 jmtpfs "${HOME}/Phone/" || exit $?
-rsync-vfat --delete "${MOUNT_DIR}/." "${HOME}/Phone/SanDisk SD card/." --exclude "/Android/" || exit $?
+rsync-vfat --delete "${MOUNT_DIR}/." "${HOME}/Phone/SanDisk SD card/." \
+    --exclude "/Android/" ||
+    --exclude "/.android_secure/" ||
+    --exclude "/DCIM/" ||
+        exit $?
 sudo umount "${MOUNT_DIR}/"
 umount "${HOME}/Phone/"
 # Disable "Use USB to" "Transfer files" option on the phone.
