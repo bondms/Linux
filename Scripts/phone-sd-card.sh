@@ -131,7 +131,7 @@ find "${PLAYLIST_SOURCE_DIR}/." \
 import os.path
 import sys
 for i in iter(sys.stdin):
-    i.rstrip('\n')
+    i = i.rstrip('\n')
     print(os.path.relpath(i, sys.argv[1]))
 \" \"${PLAYLIST_SOURCE_DIR_SANITIZED}\" |
             sort --numeric-sort |
