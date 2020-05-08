@@ -166,4 +166,10 @@ sudo fdisk /dev/mmcblk0  # Create exfat partition (type 7).
 sudo mkfs.exfat -n "${NAME}-nnn" /dev/mmcblk0p1 || exit $?
 rsync-vfat-quick --delete "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit $?
 
-# Consider using jmtpfs to mount the SD card while it's in the phone, but so far this hasn't worked.
+# Using jmtpfs to mount the SD card while it's in the phone.
+# Enable "Use USB to" "Transfer files" option on the phone after connecting USB.
+# Eject the phone from File Manager (otherwise jmtpfs will core dump).
+jmtpfs "${HOME}/Phone/" || exit $?
+rsync-vfat-quick --delete "${MOUNT_DIR}/." "${HOME}/Phone/SanDisk SD card/." \
+    --exclude "/Android/" ||
+        exit $?

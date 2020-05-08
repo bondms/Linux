@@ -51,6 +51,7 @@ done
 mkdir --verbose --parents -- "${BACKUP}/BackupLogs" || exit $?
 
 mkdir --verbose --parents -- "${HOME}/Mount" || exit $?
+mkdir --verbose --parents -- "${HOME}/Phone" || exit $?
 mkdir --parents --verbose -- "${HOME}/Temp" || exit $?
 
 if [[ ! -h "${HOME}/Git" ]]
@@ -114,6 +115,7 @@ sudo snap install --classic code || exit $?
 sudo apt install feh || exit $?
 sudo apt install sox libsox-fmt-all || exit $?
 sudo apt install jmtpfs || exit $?
+sudo apt install exfat-utils || exit $?
 
 # bs1770gain from 20.04 is broken for --list. Use version from 19.10.
 # sudo apt install bs1770gain || exit $?
