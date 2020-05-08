@@ -5,6 +5,7 @@ alias checktime='ntpdate -q uk.pool.ntp.org'
 alias chmod='chmod -v'
 alias chown='chown -v'
 alias cp='cp -aiv'
+alias dd='dd bs=4M conv=fsync status=progress'
 alias df='df --si'
 alias du='du --si'
 alias firefox='firefox -no-remote'
@@ -12,6 +13,7 @@ alias follow-from-current='tail -F -n 0'
 alias follow-from-start='tail -F -n +1'
 alias g++debug='g++ -Wall -Werror -O0 -ggdb'
 alias g++warn='g++ -Wall -Werror'
+alias git-branch='git checkout -b "${USER}-$(date +%Y%m%d-%H%M%S)"'
 alias grep-context='grep -C 5'
 alias gunzip='gunzip -v'
 alias gzip='gzip -v'
@@ -39,8 +41,13 @@ alias ro-files='find -type f -print0 |
     xargs --null --no-run-if-empty chmod --verbose a-w'
 alias rsync-quick='rsync -ahi'
 alias rsync-verify='rsync -ahic'
+
+# Modify windows allows for both precision and daylight saving time issues.
+# Recommend using the (slow but reasonable) first alias which doesn't compare or copy timestamps.
+alias rsync-vfat='rsync -rhic'
 alias rsync-vfat-quick='rsync -rhit --modify-window=3601'
 alias rsync-vfat-verify='rsync -rhitc --modify-window=3601'
+
 alias slideshow-all-monitor='feh --auto-zoom --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --fullscreen ~/Pictures/.'
 alias slideshow-all-tv='feh --auto-zoom --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --borderless --image-bg=black --geometry=1200x670+1960+25 ~/Pictures/.'
 alias slideshow-favorites-monitor='feh --auto-zoom --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --fullscreen ~/Pictures/Favorites/.'
@@ -303,3 +310,10 @@ case ":${PATH:=${HOME}/Backup/bin}:" in
 esac
 
 PATH="${PATH}:${HOME}/Linux-master/Scripts"
+
+# https://github.com/magicmonty/bash-git-prompt
+if [[ -e "${HOME}/.bash-git-prompt/gitprompt.sh" ]]
+then
+    GIT_PROMPT_ONLY_IN_REPO=1
+    source "${HOME}/.bash-git-prompt/gitprompt.sh"
+fi
