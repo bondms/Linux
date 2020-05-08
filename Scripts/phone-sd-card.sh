@@ -133,7 +133,7 @@ import string
 import sys
 for i in iter(sys.stdin):
     i = string.rstrip(i, '\n')
-    print os.path.relpath(i, sys.argv[1])
+    print(os.path.relpath(i, sys.argv[1]))
 \" \"${PLAYLIST_SOURCE_DIR_SANITIZED}\" |
             sort --numeric-sort |
             uniq |
