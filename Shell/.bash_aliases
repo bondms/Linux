@@ -308,5 +308,8 @@ mkdir --parents --verbose "/dev/shm/${USER}"
 mkdir --parents --verbose "/tmp/${USER}"
 
 # https://github.com/magicmonty/bash-git-prompt
-GIT_PROMPT_ONLY_IN_REPO=1
-source ~/.bash-git-prompt/gitprompt.sh
+if [[ -e "${HOME}/.bash-git-prompt/gitprompt.sh" ]]
+then
+    GIT_PROMPT_ONLY_IN_REPO=1
+    source "${HOME}/.bash-git-prompt/gitprompt.sh"
+fi
