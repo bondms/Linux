@@ -113,9 +113,13 @@ sudo apt install python-is-python3 || exit $?
 sudo snap install --classic code || exit $?
 sudo apt install feh || exit $?
 sudo apt install sox libsox-fmt-all || exit $?
+sudo apt install jmtpfs || exit $?
 
 # bs1770gain from 20.04 is broken for --list. Use version from 19.10.
 # sudo apt install bs1770gain || exit $?
 sudo dpkg -i "${HERE}/bs1770gain_0.5.2-2_amd64.deb" || exit $?
 
-git clone https://github.com/magicmonty/bash-git-prompt.git "${HOME}/.bash-git-prompt" --depth=1 || exit $?
+if [[ ! -d "${HOME}/.bash-git-prompt" ]]
+then
+    git clone https://github.com/magicmonty/bash-git-prompt.git "${HOME}/.bash-git-prompt" --depth=1 || exit $?
+fi
