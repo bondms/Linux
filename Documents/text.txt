@@ -1,3 +1,0 @@
-todos converts LF to CR-LF.
-fromdos converts CR-LF to LF.
-

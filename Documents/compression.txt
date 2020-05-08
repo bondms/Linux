@@ -1,9 +1,0 @@
-To compress each file in a directory tree:
-# find <dir> -type f -exec bzip2 {} \;
-
-To uncompress the same:
-# find <dir> -name "*.bz2" -exec bunzip2 {} \;
-
-To view a compressed file without uncompressing to a temporary file:
-# bzcat <file>.bz2 | less
-# bzless <file>.bz2

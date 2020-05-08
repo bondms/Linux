@@ -1,1 +1,0 @@
-Kernel parameters are documented in /usr/share/doc/linux-doc/kernel-parameters.txt.gz if linux-doc is installed. Read with zless.

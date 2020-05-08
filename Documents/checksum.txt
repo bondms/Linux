@@ -1,6 +1,0 @@
-Create checksum (of binary file):
-# sha1sum -b inputfile > sha1sum.out
-
-Validate file against checksum:
-# sha1sum -c sha1sum.out
-
