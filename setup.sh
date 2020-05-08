@@ -116,6 +116,7 @@ sudo apt install feh || exit $?
 sudo apt install sox libsox-fmt-all || exit $?
 sudo apt install jmtpfs || exit $?
 sudo apt install exfat-utils || exit $?
+sudo apt install tofrodos || exit $?
 
 # bs1770gain from 20.04 is broken for --list. Use version from 19.10.
 # sudo apt install bs1770gain || exit $?
