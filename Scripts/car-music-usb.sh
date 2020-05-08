@@ -103,11 +103,10 @@ find "${PLAYLIST_SOURCE_DIR}/." \
             xargs --null --max-args=1 --no-run-if-empty readlink -e |
             python -c \"
 import os.path
-import string
 import sys
 for i in iter(sys.stdin):
-    i = string.rstrip(i, '\n')
-    print os.path.relpath(i, sys.argv[1])
+    i.rstrip('\n')
+    print(os.path.relpath(i, sys.argv[1]))
 \" \"${PLAYLIST_SOURCE_DIR_SANITIZED}\" |
             sort --numeric-sort |
             uniq |
@@ -137,3 +136,4 @@ exit 0
 
 sudo mkfs.vfat -n "${NAME}-nnn" /dev/sdb1 || exit $?
 rsync-vfat-quick --delete "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit $?
+sudo umount "${MOUNT_DIR}/"
