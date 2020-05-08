@@ -43,7 +43,7 @@ mkdir --parents --verbose -- "${MOUNT_DIR}/${PODCASTS_SUBDIR_NAME}" || exit $?
 rsync \
     --recursive \
     --times \
-    --modify-window=1 \
+    --modify-window=3601 \
     --verbose \
     --delete \
     --human-readable \
@@ -64,7 +64,7 @@ mkdir --parents --verbose -- "${MOUNT_DIR}/${MUSIC_SUBDIR_NAME}" || exit $?
 rsync \
     --recursive \
     --times \
-    --modify-window=1 \
+    --modify-window=3601 \
     --verbose \
     --delete \
     --human-readable \
@@ -121,7 +121,7 @@ rsync \
     --recursive \
     --no-times \
     --checksum \
-    --modify-window=1 \
+    --modify-window=3601 \
     --verbose \
     --delete \
     --human-readable \
