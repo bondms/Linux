@@ -42,8 +42,7 @@ PODCASTS_SOURCE_DIR="${PODCASTS_PARENT_DIR}/${PODCASTS_SUBDIR_NAME}"
 mkdir --parents --verbose -- "${MOUNT_DIR}/${PODCASTS_SUBDIR_NAME}" || exit $?
 rsync \
     --recursive \
-    --times \
-    --modify-window=3601 \
+    --checksum \
     --verbose \
     --delete \
     --human-readable \
@@ -63,8 +62,7 @@ MUSIC_SOURCE_DIR="${MUSIC_PARENT_DIR}/${MUSIC_SUBDIR_NAME}"
 mkdir --parents --verbose -- "${MOUNT_DIR}/${MUSIC_SUBDIR_NAME}" || exit $?
 rsync \
     --recursive \
-    --times \
-    --modify-window=3601 \
+    --checksum \
     --verbose \
     --delete \
     --human-readable \
@@ -119,9 +117,7 @@ PLAYLIST_TARGET_DIR="${MOUNT_DIR}/Playlists"
 mkdir --parents --verbose -- "${PLAYLIST_TARGET_DIR}" || exit $?
 rsync \
     --recursive \
-    --no-times \
     --checksum \
-    --modify-window=3601 \
     --verbose \
     --delete \
     --human-readable \
@@ -135,5 +131,5 @@ echo The remainder of this script is not intended to be executed automatically b
 exit 0
 
 sudo mkfs.vfat -n "${NAME}-nnn" /dev/sdb1 || exit $?
-rsync-vfat-quick --delete "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit $?
+rsync-vfat --delete "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit $?
 sudo umount "${MOUNT_DIR}/"

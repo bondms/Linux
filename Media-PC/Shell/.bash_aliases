@@ -42,8 +42,8 @@ alias ro-files='find -type f -print0 |
 alias rsync-quick='rsync -ahi'
 alias rsync-verify='rsync -ahic'
 
-# Modify windows allows for both precision and daylight saving time issues.
-# Recommend using the (slow but reasonable) first alias which doesn't compare or copy timestamps.
+# Modify window allows for both precision and daylight saving time issues.
+# But it's recommend to use checksum and avoid even copying timestamps to completely avoid these issues.
 alias rsync-vfat='rsync -rhic'
 alias rsync-vfat-quick='rsync -rhit --modify-window=3601'
 alias rsync-vfat-verify='rsync -rhitc --modify-window=3601'

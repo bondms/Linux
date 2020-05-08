@@ -42,8 +42,7 @@ PICTURES_SOURCE_DIR="${PICTURES_PARENT_DIR}/${PICTURES_SUBDIR_NAME}"
 mkdir --parents --verbose -- "${MOUNT_DIR}/${PICTURES_SUBDIR_NAME}" || exit $?
 rsync \
     --recursive \
-    --times \
-    --modify-window=3601 \
+    --checksum \
     --verbose \
     --delete --delete-excluded \
     --human-readable \
@@ -67,8 +66,7 @@ PODCASTS_SOURCE_DIR="${PODCASTS_PARENT_DIR}/${PODCASTS_SUBDIR_NAME}"
 mkdir --parents --verbose -- "${MOUNT_DIR}/${PODCASTS_SUBDIR_NAME}" || exit $?
 rsync \
     --recursive \
-    --times \
-    --modify-window=3601 \
+    --checksum \
     --verbose \
     --delete \
     --human-readable \
@@ -88,8 +86,7 @@ MUSIC_SOURCE_DIR="${MUSIC_PARENT_DIR}/${MUSIC_SUBDIR_NAME}"
 mkdir --parents --verbose -- "${MOUNT_DIR}/${MUSIC_SUBDIR_NAME}" || exit $?
 rsync \
     --recursive \
-    --times \
-    --modify-window=3601 \
+    --checksum \
     --verbose \
     --delete \
     --human-readable \
@@ -145,9 +142,7 @@ PLAYLIST_TARGET_DIR="${MOUNT_DIR}/Playlists"
 mkdir --parents --verbose -- "${PLAYLIST_TARGET_DIR}" || exit $?
 rsync \
     --recursive \
-    --no-times \
     --checksum \
-    --modify-window=3601 \
     --verbose \
     --delete \
     --human-readable \
@@ -160,13 +155,13 @@ rsync \
 echo The remainder of this script is not intended to be executed automatically but rather to serve as documentation. || exit $?
 exit 0
 
-# Removing the SD card from the phone and placing directly in the laptop.
+# Preferred option: Remove the SD card from the phone and place directly in the laptop.
 sudo fdisk /dev/mmcblk0  # Create exfat partition (type 7).
 sudo mkfs.exfat -n "${NAME}-nnn" /dev/mmcblk0p1 || exit $?
 rsync-vfat-quick --delete "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit $?
 sudo umount "${MOUNT_DIR}/"
 
-# Using jmtpfs to mount the SD card while it's in the phone.
+# Alternative option: Mount the SD card while it's in the phone.
 # Enable "Use USB to" "Transfer files" option on the phone after connecting USB.
 # Eject the phone from File Manager (otherwise jmtpfs will core dump).
 jmtpfs "${HOME}/Phone/" || exit $?
