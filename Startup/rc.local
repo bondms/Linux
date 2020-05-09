@@ -68,10 +68,20 @@ echo "PATH=${PATH}" >> "${STARTUP_LOG}"
 # The package database may still be locked from the PurgeKernel event, so
 # if necessary wait a while before retrying.
 {
-    ( apt-get -y -q autoremove ||
-    ( sleep 30 && apt-get -y -q autoremove ) ) &&
+    ( apt-get --yes --quiet autoremove ||
+    ( sleep 30 && apt-get --yes --quiet autoremove ) ) &&
     echo "Auto remove done" ||
     err_log "Auto remove failed"
+} >> "${STARTUP_LOG}" 2>&1
+
+# Clean up local repository.
+# The package database may still be locked from the PurgeKernel event, so
+# if necessary wait a while before retrying.
+{
+    ( apt-get --yes --quiet autoclean ||
+    ( sleep 30 && apt-get --yes --quiet autoclean ) ) &&
+    echo "Auto clean done" ||
+    err_log "Auto clean failed"
 } >> "${STARTUP_LOG}" 2>&1
 
 # Check there is sufficient free disk space.
