@@ -123,8 +123,8 @@ sudo apt-get autoremove || exit $?
 sudo apt-get autoclean || exit $?
 
 # bs1770gain from 20.04 is broken for --list. Use version from 19.10.
-# sudo apt install bs1770gain || exit $?
 sudo dpkg -i "${HERE}/bs1770gain_0.5.2-2_amd64.deb" || exit $?
+sudo apt-mark hold bs1770gain || exit $?
 
 if [[ ! -d "${HOME}/.bash-git-prompt" ]]
 then
