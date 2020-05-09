@@ -101,6 +101,7 @@ else
 fi
 
 sudo apt update || exit $?
+sudo apt-get dist-upgrade || exit $?
 
 sudo apt install geany || exit $?
 sudo apt install synaptic || exit $?
@@ -117,6 +118,9 @@ sudo apt install sox libsox-fmt-all || exit $?
 sudo apt install jmtpfs || exit $?
 sudo apt install exfat-utils || exit $?
 sudo apt install tofrodos || exit $?
+
+sudo apt-get autoremove || exit $?
+sudo apt-get autoclean || exit $?
 
 # bs1770gain from 20.04 is broken for --list. Use version from 19.10.
 # sudo apt install bs1770gain || exit $?
