@@ -118,6 +118,7 @@ sudo apt install sox libsox-fmt-all || exit $?
 sudo apt install jmtpfs || exit $?
 sudo apt install exfat-utils || exit $?
 sudo apt install tofrodos || exit $?
+sudo snap install skype --classic || exit $?
 
 sudo apt-get autoremove || exit $?
 sudo apt-get autoclean || exit $?
