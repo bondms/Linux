@@ -121,13 +121,10 @@ sudo apt install tofrodos || exit $?
 sudo snap install skype --classic || exit $?
 sudo apt install 2to3 || exit $?
 sudo apt install python3-mutagen || exit $?
+sudo apt install symlinks || exit $?
 
 sudo apt-get autoremove || exit $?
 sudo apt-get autoclean || exit $?
-
-# bs1770gain from 20.04 is broken for --list. Use version from 19.10.
-sudo dpkg -i "${HERE}/bs1770gain_0.5.2-2_amd64.deb" || exit $?
-sudo apt-mark hold bs1770gain || exit $?
 
 if [[ ! -d "${HOME}/.bash-git-prompt" ]]
 then
