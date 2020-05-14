@@ -120,6 +120,7 @@ sudo apt install exfat-utils || exit $?
 sudo apt install tofrodos || exit $?
 sudo snap install skype --classic || exit $?
 sudo apt install 2to3 || exit $?
+sudo apt install python3-mutagen || exit $?
 
 sudo apt-get autoremove || exit $?
 sudo apt-get autoclean || exit $?
