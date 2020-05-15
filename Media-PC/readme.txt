@@ -6,7 +6,7 @@ Installing Raspbian (as per https://www.raspberrypi.org/documentation/installati
 * Install packages for bs1770gain, sox (player and all free formats), feh, ...
 * Download Linux-master.zip from Github and expand to home folder (i.e. to create ~/Linux-master/...
 * Copy Desktop shortcut files.
-* Copy Music, Pictures, Playlists, ...
+* Copy Music, Pictures, Playlists, Podcasts, ...
 * Install xscreensaver and disable screensaver to turn-off screen blanking.
 * Copy asound.conf to /etc/. to downmix all audio output from stereo to mono. Reboot to take effect.
   * From https://www.tinkerboy.xyz/raspberry-pi-downmixing-from-stereo-to-mono-sound-output/
@@ -24,7 +24,3 @@ sudo rpi-eeprom-update # Check bootloader status (Was shown as up-to-date with l
 
 TODO:
 * Picture orientation and audio levelling for external and when copying new files to internal storage.
-* ...
-
-TODO:
-* Rsync pictures (after cleaning), music files & playlists.
