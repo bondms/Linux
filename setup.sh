@@ -139,5 +139,3 @@ git config --global user.email "34947848+bondms@users.noreply.github.com" || exi
     git clone --depth 1 --branch 1.0.0 --verbose -- git@github.com:chaudum/rgain.git "${HERE}/../rgain" || exit $?
 [[ -h "${HERE}/../rgain/scripts/rgain3" ]] ||
     ln --symbolic --verbose -- "../rgain3" "${HERE}/../rgain/scripts/." || exit $?
-[[ -h "${HERE}/Scripts/replaygain" ]] ||
-    ln --symbolic --verbose -- "../../rgain/scripts/replaygain" "${HERE}/Scripts/." || exit $?
