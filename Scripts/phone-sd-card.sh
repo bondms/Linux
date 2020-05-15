@@ -11,6 +11,9 @@ NAME="PHONE-SD"
 IMAGES_DIR="/home/bondms-unencrypted/SparseImages"
 [[ -d "${IMAGES_DIR}" ]] || exit $?
 
+PLAYLIST_STAGE_DIR="${HOME}/RamDisk/Playlists"
+[[ ! -e "${PLAYLIST_STAGE_DIR}" ]] || exit $?
+
 IMAGE_PATH="${IMAGES_DIR}/${NAME}.img"
 if [[ ! -e "${IMAGE_PATH}" ]]
 then
@@ -104,7 +107,6 @@ PLAYLIST_SOURCE_DIR="${HOME}/Playlists"
 PLAYLIST_SOURCE_DIR_SANITIZED="$(readlink -e "${PLAYLIST_SOURCE_DIR}")"
 [[ -d "${PLAYLIST_SOURCE_DIR_SANITIZED}" ]] || exit $?
 
-PLAYLIST_STAGE_DIR="${HOME}/RamDisk/Playlists"
 mkdir --verbose -- "${PLAYLIST_STAGE_DIR}" || exit $?
 
 find "${PLAYLIST_SOURCE_DIR}/." \
