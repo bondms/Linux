@@ -113,6 +113,7 @@ find "${PLAYLIST_SOURCE_DIR}/." \
     -mindepth 1 -maxdepth 1 \
     -type d \
     ! -name "All" \
+    ! -name "MarkAndJoli" \
     -print0 |
     bash -c "
         set -eux
@@ -138,6 +139,7 @@ for i in iter(sys.stdin):
             tr '/' '\\\\' |
             todos |
             tee \"\${TARGET_PLAYLIST}\" || exit \$?
+            (( \$(wc --lines \"\${TARGET_PLAYLIST}\" | cut --fields 1 --delimiter=\" \") <= 1000 )) || exit \$?
         done" || exit $?
 
 PLAYLIST_TARGET_DIR="${MOUNT_DIR}/Playlists"
