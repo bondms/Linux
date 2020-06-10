@@ -138,6 +138,6 @@ git config --global core.pager "less -iM" || exit $?
 git config --global user.email "34947848+bondms@users.noreply.github.com" || exit $?
 
 [[ -d "${HERE}/../rgain" ]] ||
-    git clone --depth 1 --branch 1.0.0 --verbose -- git@github.com:chaudum/rgain.git "${HERE}/../rgain" || exit $?
+    git clone --depth 1 --branch 1.0.0 --verbose -- https://github.com/chaudum/rgain.git "${HERE}/../rgain" || exit $?
 [[ -h "${HERE}/../rgain/scripts/rgain3" ]] ||
     ln --symbolic --verbose -- "../rgain3" "${HERE}/../rgain/scripts/." || exit $?
