@@ -10,7 +10,6 @@ sudo apt update || exit $?
 sudo apt full-upgrade || exit $?
 
 sudo apt install rpi-eeprom || exit $?
-sudo apt install bs1770gain || exit $?
 sudo apt install feh || exit $?
 sudo apt install sox libsox-fmt-all || exit $?
 sudo apt install xscreensaver || exit $?
@@ -31,3 +30,8 @@ then
     sudo ln --symbolic --verbose -- "${HERE}/MonoAudio/asound.conf" /etc/. || exit $?
     echo *** Reboot for mono audio downmix to take effect ***
 fi
+
+[[ -d "${HERE}/../../rgain" ]] ||
+    git clone --depth 1 --branch 1.0.0 --verbose -- https://github.com/chaudum/rgain.git "${HERE}/../../rgain" || exit $?
+[[ -h "${HERE}/../../rgain/scripts/rgain3" ]] ||
+    ln --symbolic --verbose -- "../rgain3" "${HERE}/../../rgain/scripts/." || exit $?
