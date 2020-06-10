@@ -14,6 +14,9 @@ sudo apt install feh || exit $?
 sudo apt install sox libsox-fmt-all || exit $?
 sudo apt install xscreensaver || exit $?
 
+# rgain dependencies
+sudo apt-get install gstreamer1.0-python3-plugin-loader python3-mutagen || exit $?
+
 sudo rpi-eeprom-update || exit $?
 
 sudo apt autoremove || exit $?
