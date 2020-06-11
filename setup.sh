@@ -124,6 +124,7 @@ sudo apt install python3-mutagen || exit $?
 sudo apt install symlinks || exit $?
 sudo apt install jhead || exit $?
 sudo apt install mencoder || exit $?
+sudo apt install gimp || exit $?
 
 sudo apt-get autoremove || exit $?
 sudo apt-get autoclean || exit $?
