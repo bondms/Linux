@@ -48,6 +48,7 @@ alias rsync-vfat='rsync -rhic'
 alias rsync-vfat-quick='rsync -rhit --modify-window=3601'
 alias rsync-vfat-verify='rsync -rhitc --modify-window=3601'
 
+alias silence='play --type s8 --rate 8k --channels 1 - < /dev/zero'
 alias slideshow-all-monitor='feh --auto-zoom --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --fullscreen ~/Pictures/.'
 alias slideshow-all-tv='feh --auto-zoom --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --borderless --image-bg=black --geometry=1200x670+1960+25 ~/Pictures/.'
 alias slideshow-favorites-monitor='feh --auto-zoom --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --fullscreen ~/Pictures/Favorites/.'
