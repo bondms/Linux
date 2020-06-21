@@ -7,5 +7,5 @@
 ## General
 Configure an Ubuntu 20.04 Desktop system.
 
-# Media-PC
+## Media-PC
 Configure Raspberry PI 4 media system.
