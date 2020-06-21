@@ -2,7 +2,7 @@
 
 err_msg ()
 {
-    echo "`basename $0`: Error: $@" >&2
+    echo "$(basename "$0"): Error: $@" >&2
     exit 1
 }
 
@@ -39,16 +39,16 @@ then
     err_msg "Cannot commit top-level disk."
 fi
 
-CHILDREN=`find "${FOLDER}" -name "${VERSION}.*.hdd"`
+CHILDREN=$(find "${FOLDER}" -name "${VERSION}.*.hdd")
 if [ -n "${CHILDREN}" ]
 then
     err_msg "Cannot commit image that has children."
 fi
 
-PARENTVERSION=`echo "${VERSION}" | awk -F "." '{ for ( i = 1 ; i < NF - 1 ; i++ ) { printf("%s.", $i) } printf("%s", $(NF-1)) }'`
+PARENTVERSION=$(echo "${VERSION}" | awk -F "." '{ for ( i = 1 ; i < NF - 1 ; i++ ) { printf("%s.", $i) } printf("%s", $(NF-1)) }')
 PARENTIMAGE="${PARENTVERSION}.hdd"
 
-SIBLINGS=`find "${FOLDER}" -name "${PARENTVERSION}.*.hdd" ! -name "${IMAGE}"`
+SIBLINGS=$(find "${FOLDER}" -name "${PARENTVERSION}.*.hdd" ! -name "${IMAGE}")
 if [ -n "${SIBLINGS}" ]
 then
     err_msg "Cannot commit image that has siblings."
@@ -59,35 +59,15 @@ echo "Committing"
 echo "to parent"
 /bin/ls -l --si "${FOLDER}/${PARENTIMAGE}"
 
-chmod u+w "${FOLDER}/${IMAGE}"
-if [ $? -ne 0 ]
-then
-    err_msg "Failed to write-enable disk."
-fi
+chmod u+w "${FOLDER}/${IMAGE}" || err_msg "Failed to write-enable disk."
 
-chmod u+w "${FOLDER}/${PARENTIMAGE}"
-if [ $? -ne 0 ]
-then
-    err_msg "Failed to write-enable parent disk."
-fi
+chmod u+w "${FOLDER}/${PARENTIMAGE}" || err_msg "Failed to write-enable parent disk."
 
-qemu-img commit "${FOLDER}/${IMAGE}"
-if [ $? -ne 0 ]
-then
-    err_msg "Failed to commit changes."
-fi
+qemu-img commit "${FOLDER}/${IMAGE}" || err_msg "Failed to commit changes."
 
 echo "Commited to parent"
 /bin/ls -l --si "${FOLDER}/${PARENTIMAGE}"
 
-chmod a-w "${FOLDER}/${PARENTIMAGE}"
-if [ $? -ne 0 ]
-then
-    err_msg "Failed to write-protect parent disk."
-fi
+chmod a-w "${FOLDER}/${PARENTIMAGE}" || err_msg "Failed to write-protect parent disk."
 
-rm "${FOLDER}/${IMAGE}"
-if [ $? -ne 0 ]
-then
-    err_msg "Failed to delete child disk."
-fi
+rm "${FOLDER}/${IMAGE}" || err_msg "Failed to delete child disk."
