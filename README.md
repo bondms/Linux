@@ -1,5 +1,10 @@
-![Lint Code Base](https://github.com/bondms/Linux/workflows/Lint%20Code%20Base/badge.svg)
+# README
 
+## Status
+
+![Super-Linter](https://github.com/bondms/CppDemos/workflows/Super-Linter/badge.svg)
+
+## General
 Configure an Ubuntu 20.04 Desktop system.
 
 # Media-PC
