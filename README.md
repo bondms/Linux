@@ -2,7 +2,7 @@
 
 ## Status
 
-![Super-Linter](https://github.com/bondms/CppDemos/workflows/Super-Linter/badge.svg)
+![Super-Linter](https://github.com/bondms/Linux/workflows/Super-Linter/badge.svg)
 
 ## General
 Configure an Ubuntu 20.04 Desktop system.
