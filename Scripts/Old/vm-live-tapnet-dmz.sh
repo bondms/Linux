@@ -30,9 +30,9 @@ shift
 MACADDROUI="52:54:00"
 
 # Random Network Interface Controller (NIC) Specific part:
-ONE=$((${RANDOM}%100))
-TWO=$((${RANDOM}%100))
-THREE=$((${RANDOM}%100))
+ONE=$((RANDOM % 100))
+TWO=$((RANDOM % 100))
+THREE=$((RANDOM % 100))
 MACADDRNIC="${ONE}:${TWO}:${THREE}"
 
 MACADDR="${MACADDROUI}:${MACADDRNIC}"
@@ -51,7 +51,7 @@ sudo kvm \
     -m 4096 \
     -net nic,macaddr=${MACADDR},model=virtio -net tap,script=/usr/local/bin/qemu-ifup-dmz,downscript=/usr/local/bin/qemu-ifdown-dmz \
     -no-quit \
-    -runas `whoami` \
+    -runas $(whoami) \
     -smp "${SMP},cores=${CORES},sockets=${SOCKETS}" \
     -soundhw all \
     -usb -usbdevice tablet \

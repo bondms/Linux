@@ -52,7 +52,7 @@ def execute_interactively(items):
                 item
             except Exception:
                 while True:
-                    user_response = raw_input("Continue (y/n)? ")
+                    user_response = input("Continue (y/n)? ")
                     if user_response == "y" or user_response == "Y":
                         break
                     if user_response == "n" or user_response == "N":
@@ -79,6 +79,7 @@ class Player:
         self.tracks = tracks
 
     def play(self):
+        command_line = []
         if not self.tracks:
             raise Exception("No tracks to play")
 
@@ -87,11 +88,11 @@ class Player:
 
         if self.level_volume:
             #gain = $(track-replay-gain.sh "$1")
-            #command_line.extend(["-replay-gain", "off", "gain", gain])
+            #command_line += ["-replay-gain", "off", "gain", gain]
             raise Exception("Level volume: Not yet implemented")
 
         if self.mono:
-            command_line.extend(["channels", "1"])
+            command_line += ["channels", "1"]
 
         original_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)
         try:
