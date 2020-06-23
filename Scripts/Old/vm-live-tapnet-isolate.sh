@@ -44,7 +44,7 @@ sudo kvm \
     -m 4096 \
     -net nic,macaddr=${MACADDR},model=virtio -net tap,script=no,downscript=no \
     -no-quit \
-    -runas $(whoami) \
+    -runas "$(whoami)" \
     -smp "${SMP},cores=${CORES},sockets=${SOCKETS}" \
     -soundhw all \
     -usb -usbdevice tablet \
