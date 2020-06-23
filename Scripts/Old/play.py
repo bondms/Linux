@@ -100,7 +100,7 @@ class Player:
             signal.signal(signal.SIGINT, original_handler)
 
 if __name__ == "__main__":
-    items = [lambda : print "1", lambda : print "2"]
+    items = [lambda : print("1"), lambda : print("2")]
     execute_interactively(items)
 
     raise Exception("Not yet implemented")

@@ -7,15 +7,15 @@
 # gateway: 172.17.0.1
 # DNS: As appropriate. May be found in /etc/resolv.conf (e.g. for Virgin Broadband: 194.168.4.100,194.168.8.100)
 
-LOCATION=`dirname $0`
+LOCATION=$(dirname "$0")
 if ! echo "${LOCATION}" | grep -E -e "^/" > /dev/null
 then
-    LOCATION=`pwd`/${LOCATION}
+    LOCATION=$(pwd)/${LOCATION}
 fi
 
 err_msg ()
 {
-    echo "`basename $0`: Error: $@" >&2
+    echo "$(basename "$0"): Error: $*" >&2
     exit 1
 }
 
@@ -38,11 +38,11 @@ MACADDRNIC="${ONE}:${TWO}:${THREE}"
 MACADDR="${MACADDROUI}:${MACADDRNIC}"
 echo "Using MAC address: ${MACADDR}"
 
-SMP=`cat /proc/cpuinfo | grep "^processor[[:space:]]:[[:space:]][[:digit:]]*$" | sort -u | wc -l`
+SMP=$(grep "^processor[[:space:]]:[[:space:]][[:digit:]]*$" /proc/cpuinfo | sort -u | wc -l)
 echo "Using automatic SMP: ${SMP}"
-CORES=`cat /proc/cpuinfo | grep "^cpu cores[[:space:]]:[[:space:]][[:digit:]]*$" | head -n 1 | cut -f 2 -d ":" | grep -o -P "(?<=^[[:space:]])[[:digit:]]*$"`
+CORES=$(grep "^cpu cores[[:space:]]:[[:space:]][[:digit:]]*$" /proc/cpuinfo | head -n 1 | cut -f 2 -d ":" | grep -o -P "(?<=^[[:space:]])[[:digit:]]*$")
 echo "Using automatic cores: ${CORES}"
-SOCKETS=`cat /proc/cpuinfo | grep "^physical id[[:space:]]:[[:space:]][[:digit:]]*$" | sort -u | wc -l`
+SOCKETS=$(grep "^physical id[[:space:]]:[[:space:]][[:digit:]]*$" /proc/cpuinfo | sort -u | wc -l)
 echo "Using automatic sockets: ${SOCKETS}"
 
 sudo kvm \
@@ -55,5 +55,4 @@ sudo kvm \
     -smp "${SMP},cores=${CORES},sockets=${SOCKETS}" \
     -soundhw all \
     -usb -usbdevice tablet \
-    $@
-
+    "$@"

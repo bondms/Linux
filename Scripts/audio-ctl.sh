@@ -11,14 +11,14 @@ echo "PROFILE='${PROFILE}'"
 INDEXES=$(pacmd list-cards \
     | grep -P -o "(?<=^[[:space:]]{4,4}index: )[[:digit:]]+$")
 echo "INDEXES='${INDEXES}'"
-INDEXES_COUNT="`echo \"${INDEXES}\" | wc -l`"
+INDEXES_COUNT="$(echo \"${INDEXES}\" | wc -l)"
 echo "INDEXES_COUNT='${INDEXES_COUNT}'"
 
 DESCRIPTIONS=$(pacmd list-cards \
     | grep -P -o "(?<=^[[:space:]]{2,2}device.description = \").+" \
     | grep -P -o ".+(?=\"$)")
 echo "DESCRIPTIONS='${DESCRIPTIONS}'"
-DESCRIPTIONS_COUNT="`echo \"${DESCRIPTIONS}\" | wc -l`"
+DESCRIPTIONS_COUNT="$(echo \"${DESCRIPTIONS}\" | wc -l)"
 echo "DESCRIPTIONS_COUNT='${DESCRIPTIONS_COUNT}'"
 
 (( INDEXES_COUNT == DESCRIPTIONS_COUNT )) || exit 1
