@@ -8,7 +8,7 @@ fi
 
 err_msg ()
 {
-    echo "$(basename "$0"): Error: $@" >&2
+    echo "$(basename "$0"): Error: $*" >&2
     exit 1
 }
 
