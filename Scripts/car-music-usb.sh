@@ -40,7 +40,7 @@ sudo mount -o uid=${UID} "${IMAGE_PATH}" "${MOUNT_DIR}" || exit "$?"
 PODCASTS_PARENT_DIR="${HOME}/Backup"
 PODCASTS_SUBDIR_NAME="Podcasts"
 PODCASTS_SOURCE_DIR="${PODCASTS_PARENT_DIR}/${PODCASTS_SUBDIR_NAME}"
-[[ -d "${PODCASTS_SOURCE_DIR}" ]] || exit $1
+[[ -d "${PODCASTS_SOURCE_DIR}" ]] || exit "$?"
 
 mkdir --parents --verbose -- "${MOUNT_DIR}/${PODCASTS_SUBDIR_NAME}" || exit "$?"
 rsync \

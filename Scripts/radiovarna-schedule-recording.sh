@@ -35,7 +35,7 @@ END_EPOCH=$(date --date="${ROUNDED_END_TIME}" +"%s")
 TARGET_DATE=$(date --date="${ROUNDED_START_TIME}" --iso-8601=date)
 [[ -n "${TARGET_DATE}" ]] || exit $?
 
-DURATION_MINUTES=$(( (${END_EPOCH} - ${START_EPOCH}) / 60 ))
+DURATION_MINUTES=$(( (END_EPOCH - START_EPOCH) / 60 ))
 [[ "${DURATION_MINUTES}" -ge 1 ]] || exit $?
 [[ "${DURATION_MINUTES}" -le 1440 ]] || exit $?
 
@@ -59,7 +59,7 @@ EOF
 
 if [[ -n "${POWER_OFF:-}" ]]
 then
-    DURATION_FOR_SHUTDOWN=$(( ${DURATION_MINUTES} + 1 ))
+    DURATION_FOR_SHUTDOWN=$(( DURATION_MINUTES + 1 ))
     [[ "${DURATION_FOR_SHUTDOWN}" -ge 2 ]] || exit $?
     sudo at -M "${AT_START_TIME}" << EOF || exit $?
 shutdown "+${DURATION_FOR_SHUTDOWN}"
@@ -73,7 +73,7 @@ popd
 
 if [[ -n "${POWER_ON:-}" ]]
 then
-    WAKE_TIME_EPOCH=$(( ${START_EPOCH} - (4 * 60) ))
+    WAKE_TIME_EPOCH=$(( START_EPOCH - (4 * 60) ))
     NOW_EPOCH=$(date +"%s")
     [[ "${WAKE_TIME_EPOCH}" -gt "${NOW_EPOCH}" ]] || exit $?
     WAKE_TIME=$(date --date="@${WAKE_TIME_EPOCH}" +"%F %T")

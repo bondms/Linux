@@ -2,7 +2,7 @@
 
 err_msg ()
 {
-    echo "`basename $0`: Error: $@" >&2
+    echo "$(basename "$0"): Error: "$@"" >&2
     exit 1
 }
 
@@ -26,7 +26,7 @@ then
     err_msg "No version supplied."
 fi
 
-CHILDREN=`find "${FOLDER}" -name "${VERSION}.*.hdd"`
+CHILDREN=$(find "${FOLDER}" -name "${VERSION}.*.hdd")
 if [ -n "${CHILDREN}" ]
 then
     err_msg "Revert children first."
@@ -36,11 +36,7 @@ IMAGE="${VERSION}.hdd"
 
 if [ -e "${FOLDER}/${IMAGE}" ]
 then
-    rm --verbose "${FOLDER}/${IMAGE}"
-    if [ $? -ne 0 ]
-    then
-      err_msg "Failed to delete disk."
-    fi
+    rm --verbose "${FOLDER}/${IMAGE}" || err_msg "Failed to delete disk."
 else
     err_msg "No disk to revert."
 fi

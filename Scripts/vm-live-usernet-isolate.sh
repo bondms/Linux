@@ -19,11 +19,11 @@ fi
 IMAGE=$1
 shift
 
-SMP=`cat /proc/cpuinfo | grep "^processor[[:space:]]:[[:space:]][[:digit:]]*$" | sort -u | wc -l`
+SMP=$(cat /proc/cpuinfo | grep "^processor[[:space:]]:[[:space:]][[:digit:]]*$" | sort -u | wc -l)
 echo "Using automatic SMP: ${SMP}"
-CORES=`cat /proc/cpuinfo | grep "^cpu cores[[:space:]]:[[:space:]][[:digit:]]*$" | head -n 1 | cut -f 2 -d ":" | grep -o -P "(?<=^[[:space:]])[[:digit:]]*$"`
+CORES=$(cat /proc/cpuinfo | grep "^cpu cores[[:space:]]:[[:space:]][[:digit:]]*$" | head -n 1 | cut -f 2 -d ":" | grep -o -P "(?<=^[[:space:]])[[:digit:]]*$")
 echo "Using automatic cores: ${CORES}"
-SOCKETS=`cat /proc/cpuinfo | grep "^physical id[[:space:]]:[[:space:]][[:digit:]]*$" | sort -u | wc -l`
+SOCKETS=$(cat /proc/cpuinfo | grep "^physical id[[:space:]]:[[:space:]][[:digit:]]*$" | sort -u | wc -l)
 echo "Using automatic sockets: ${SOCKETS}"
 
 kvm \
@@ -36,4 +36,4 @@ kvm \
     -soundhw all \
     -usb -device usb-tablet \
     -vga vmware \
-    $@
+    "$@"
