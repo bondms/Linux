@@ -8,20 +8,20 @@ echo "DESCRIPTION='${DESCRIPTION}'"
 PROFILE=$2
 echo "PROFILE='${PROFILE}'"
 
-INDEXES=`pacmd list-cards \
-    | grep -P -o "(?<=^[[:space:]]{4,4}index: )[[:digit:]]+$"`
+INDEXES=$(pacmd list-cards \
+    | grep -P -o "(?<=^[[:space:]]{4,4}index: )[[:digit:]]+$")
 echo "INDEXES='${INDEXES}'"
 INDEXES_COUNT="`echo \"${INDEXES}\" | wc -l`"
 echo "INDEXES_COUNT='${INDEXES_COUNT}'"
 
-DESCRIPTIONS=`pacmd list-cards \
+DESCRIPTIONS=$(pacmd list-cards \
     | grep -P -o "(?<=^[[:space:]]{2,2}device.description = \").+" \
-    | grep -P -o ".+(?=\"$)"`
+    | grep -P -o ".+(?=\"$)")
 echo "DESCRIPTIONS='${DESCRIPTIONS}'"
 DESCRIPTIONS_COUNT="`echo \"${DESCRIPTIONS}\" | wc -l`"
 echo "DESCRIPTIONS_COUNT='${DESCRIPTIONS_COUNT}'"
 
-(( $INDEXES_COUNT == $DESCRIPTIONS_COUNT )) || exit 1
+(( INDEXES_COUNT == DESCRIPTIONS_COUNT )) || exit 1
 
 POSITION=$(echo "${DESCRIPTIONS}" | awk "{ if ( \$0 ~ \"${DESCRIPTION}\" ) { print NR ; exit } }")
 echo "POSITION='${POSITION}'"
@@ -35,7 +35,7 @@ echo "INDEX='${INDEX}'"
 
 for i in $INDEXES
 do
-    if (( $i == $INDEX ))
+    if (( i == INDEX ))
     then
         pactl set-card-profile "$i" "${PROFILE}"
     else

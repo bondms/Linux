@@ -40,7 +40,7 @@ sudo mount -o uid=${UID} "${IMAGE_PATH}" "${MOUNT_DIR}" || exit $?
 PICTURES_PARENT_DIR="${HOME}"
 PICTURES_SUBDIR_NAME="Pictures"
 PICTURES_SOURCE_DIR="${PICTURES_PARENT_DIR}/${PICTURES_SUBDIR_NAME}"
-[[ -d "${PICTURES_SOURCE_DIR}" ]] || exit $1
+[[ -d "${PICTURES_SOURCE_DIR}" ]] || exit $?
 
 mkdir --parents --verbose -- "${MOUNT_DIR}/${PICTURES_SUBDIR_NAME}" || exit $?
 rsync \
@@ -64,7 +64,7 @@ rsync \
 PODCASTS_PARENT_DIR="${HOME}/Backup"
 PODCASTS_SUBDIR_NAME="Podcasts"
 PODCASTS_SOURCE_DIR="${PODCASTS_PARENT_DIR}/${PODCASTS_SUBDIR_NAME}"
-[[ -d "${PODCASTS_SOURCE_DIR}" ]] || exit $1
+[[ -d "${PODCASTS_SOURCE_DIR}" ]] || exit $?
 
 mkdir --parents --verbose -- "${MOUNT_DIR}/${PODCASTS_SUBDIR_NAME}" || exit $?
 rsync \
@@ -170,8 +170,8 @@ sudo umount "${MOUNT_DIR}/"
 # Eject the phone from File Manager (otherwise jmtpfs will core dump).
 jmtpfs "${HOME}/Phone/" || exit $?
 rsync-vfat --delete "${MOUNT_DIR}/." "${HOME}/Phone/SanDisk SD card/." \
-    --exclude "/Android/" ||
-    --exclude "/.android_secure/" ||
+    --exclude "/Android/" \
+    --exclude "/.android_secure/" \
     --exclude "/DCIM/" ||
         exit $?
 sudo umount "${MOUNT_DIR}/"

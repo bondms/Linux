@@ -31,7 +31,7 @@ then
     # https://www.tinkerboy.xyz/raspberry-pi-downmixing-from-stereo-to-mono-sound-output/
     # The device number in `hw:N` is determined from the output of `cat /proc/asound/modules`.
     sudo ln --symbolic --verbose -- "${HERE}/MonoAudio/asound.conf" /etc/. || exit $?
-    echo *** Reboot for mono audio downmix to take effect ***
+    echo "*** Reboot for mono audio downmix to take effect ***"
 fi
 
 [[ -d "${HERE}/../../rgain" ]] ||

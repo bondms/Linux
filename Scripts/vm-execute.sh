@@ -2,7 +2,7 @@
 
 err_msg ()
 {
-    echo "`basename $0`: Error: $@" >&2
+    echo "$(basename $0): Error: *" >&2
     exit 1
 }
 
@@ -94,7 +94,7 @@ fi
 
 if [ -z "${SMP}" ]
 then
-    SMP=`cat /proc/cpuinfo | grep "^processor[[:space:]]:[[:space:]][[:digit:]]*$" | sort -u | wc -l`
+    SMP=$(grep "^processor[[:space:]]:[[:space:]][[:digit:]]*$" /proc/cpuinfo | sort -u | wc -l)
     echo "Using automatic SMP: ${SMP}"
 else
     if [ "${SMP}" -eq "0" ]
@@ -109,7 +109,7 @@ if [ -z "${CORES}" ]
 then
     if [ -n "${SMP}" ] && [ "${SMP}" -ne 0 ]
     then
-        CORES=`cat /proc/cpuinfo | grep "^cpu cores[[:space:]]:[[:space:]][[:digit:]]*$" | head -n 1 | cut -f 2 -d ":" | grep -o -P "(?<=^[[:space:]])[[:digit:]]*$"`
+        CORES=$(grep "^cpu cores[[:space:]]:[[:space:]][[:digit:]]*$" /proc/cpuinfo | head -n 1 | cut -f 2 -d ":" | grep -o -P "(?<=^[[:space:]])[[:digit:]]*$")
         echo "Using automatic cores: ${CORES}"
     else
         echo "No need to calculate cores (SMP is disabled)."
@@ -122,7 +122,7 @@ if [ -z "${SOCKETS}" ]
 then
     if [ -n "${SMP}" ] && [ "${SMP}" -ne 0 ]
     then
-        SOCKETS=`cat /proc/cpuinfo | grep "^physical id[[:space:]]:[[:space:]][[:digit:]]*$" | sort -u | wc -l`
+        SOCKETS=$(grep "^physical id[[:space:]]:[[:space:]][[:digit:]]*$" /proc/cpuinfo | sort -u | wc -l)
         echo "Using automatic sockets: ${SOCKETS}"
     else
         echo "No need to calculate sockets (SMP is disabled)."
@@ -210,11 +210,7 @@ then
         echo "Creating new top-level disk: ${VERSION}"
 
         echo qemu-img create -f qcow2 "${FOLDER}/${IMAGE}"
-        qemu-img create -f qcow2 "${FOLDER}/${IMAGE}" 128G
-        if [ $? -ne 0 ]
-        then
-            err_msg "Failed to create base disk."
-        fi
+        qemu-img create -f qcow2 "${FOLDER}/${IMAGE}" 128G || err_msg "Failed to create base disk."
     else
         if [ -n "${SNAPSHOT}" ]
         then
@@ -227,25 +223,13 @@ then
 
         echo "Differencing from: ${PARENTVERSION}"
 
-        chmod a-w "${FOLDER}/${PARENTIMAGE}"
-        if [ $? -ne 0 ]
-        then
-            err_msg "Failed to write-protect parent disk."
-        fi
+        chmod a-w "${FOLDER}/${PARENTIMAGE}" || err_msg "Failed to write-protect parent disk."
 
         # In order to use a relative path in the differencing disk for the base, we need to create the differencing disk in whilst in the target FOLDER.
         SAVEDIR="`pwd`"
-        cd "${FOLDER}"
-        if [ $? -ne 0 ]
-        then
-            err_msg "Failed to change to target FOLDER."
-        fi
+        cd "${FOLDER}" || err_msg "Failed to change to target FOLDER."
 
-        qemu-img create -f qcow2 -b "./${PARENTIMAGE}" "./${IMAGE}"
-        if [ $? -ne 0 ]
-        then
-            err_msg "Failed to create differencing disk."
-        fi
+        qemu-img create -f qcow2 -b "./${PARENTIMAGE}" "./${IMAGE}" || err_msg "Failed to create differencing disk."
 
         cd "${SAVEDIR}"
     fi
@@ -254,7 +238,7 @@ else
 
     if [ -z "${SNAPSHOT}" ]
     then
-        CHILDREN=`find "${FOLDER}" -maxdepth 1 -name "${VERSION}.*.hdd"`
+        CHILDREN=$(find "${FOLDER}" -maxdepth 1 -name "${VERSION}.*.hdd")
         if [ -n "${CHILDREN}" ]
         then
             err_msg "Cannot execute image that has children unless snapshot is specified."
