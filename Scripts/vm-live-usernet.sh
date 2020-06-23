@@ -8,7 +8,7 @@ fi
 
 err_msg ()
 {
-    echo "$(basename "$0"): Error: "$@"" >&2
+    echo "$(basename "$0"): Error: $@" >&2
     exit 1
 }
 
@@ -19,11 +19,11 @@ fi
 IMAGE=$1
 shift
 
-SMP=$(cat /proc/cpuinfo | grep "^processor[[:space:]]:[[:space:]][[:digit:]]*$" | sort -u | wc -l)
+SMP=$(grep "^processor[[:space:]]:[[:space:]][[:digit:]]*$" /proc/cpuinfo | sort -u | wc -l)
 echo "Using automatic SMP: ${SMP}"
-CORES=$(cat /proc/cpuinfo | grep "^cpu cores[[:space:]]:[[:space:]][[:digit:]]*$" | head -n 1 | cut -f 2 -d ":" | grep -o -P "(?<=^[[:space:]])[[:digit:]]*$")
+CORES=$(grep "^cpu cores[[:space:]]:[[:space:]][[:digit:]]*$" /proc/cpuinfo | head -n 1 | cut -f 2 -d ":" | grep -o -P "(?<=^[[:space:]])[[:digit:]]*$")
 echo "Using automatic cores: ${CORES}"
-SOCKETS=$(cat /proc/cpuinfo | grep "^physical id[[:space:]]:[[:space:]][[:digit:]]*$" | sort -u | wc -l)
+SOCKETS=$(grep "^physical id[[:space:]]:[[:space:]][[:digit:]]*$" /proc/cpuinfo | sort -u | wc -l)
 echo "Using automatic sockets: ${SOCKETS}"
 
 kvm \
