@@ -125,6 +125,7 @@ sudo apt install symlinks || exit $?
 sudo apt install jhead || exit $?
 sudo apt install mencoder || exit $?
 sudo apt install gimp || exit $?
+sudo apt install clang clang-format clang-tidy || exit $?
 
 sudo apt-get autoremove || exit $?
 sudo apt-get autoclean || exit $?
