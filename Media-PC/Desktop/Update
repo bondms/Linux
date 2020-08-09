@@ -1,0 +1,4 @@
+#!/bin/bash
+
+"${HOME}/Linux-master/Media-PC/setup.sh"
+read -p "Prese Enter to finish"
