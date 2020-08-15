@@ -2,6 +2,7 @@
 
 import sys
 
+
 def base36encode(number, alphabet='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'):
     """Converts an integer to a base36 string."""
     if not isinstance(number, int):
@@ -23,8 +24,10 @@ def base36encode(number, alphabet='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'):
 
     return sign + base36
 
+
 def base16to36(base16str):
     return base36encode(int(base16str, 16))
+
 
 if __name__ == "__main__":
     print(base16to36(sys.argv[1]))

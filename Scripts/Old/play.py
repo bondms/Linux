@@ -5,6 +5,7 @@ import random
 import signal
 import subprocess
 
+
 def parse_arguments():
     parser = argparse.ArgumentParser()
 
@@ -15,6 +16,7 @@ def parse_arguments():
     parser.add_argument("tracks", nargs="+")
 
     return parser.parse_args()
+
 
 class SoxCommandLineGenerator:
     def __init__(self):
@@ -46,17 +48,19 @@ class SoxCommandLineGenerator:
 
         return command_line
 
+
 def execute_interactively(items):
-        for item in items:
-            try:
-                item
-            except Exception:
-                while True:
-                    user_response = input("Continue (y/n)? ")
-                    if user_response == "y" or user_response == "Y":
-                        break
-                    if user_response == "n" or user_response == "N":
-                        raise
+    for item in items:
+        try:
+            item
+        except Exception:
+            while True:
+                user_response = input("Continue (y/n)? ")
+                if user_response == "y" or user_response == "Y":
+                    break
+                if user_response == "n" or user_response == "N":
+                    raise
+
 
 class Player:
     def __init__(self):
@@ -87,8 +91,8 @@ class Player:
             random.shuffle(self.tracks)
 
         if self.level_volume:
-            #gain = $(track-replay-gain.sh "$1")
-            #command_line += ["-replay-gain", "off", "gain", gain]
+            # gain = $(track-replay-gain.sh "$1")
+            # command_line += ["-replay-gain", "off", "gain", gain]
             raise Exception("Level volume: Not yet implemented")
 
         if self.mono:
@@ -100,8 +104,9 @@ class Player:
         finally:
             signal.signal(signal.SIGINT, original_handler)
 
+
 if __name__ == "__main__":
-    items = [lambda : print("1"), lambda : print("2")]
+    items = [lambda: print("1"), lambda: print("2")]
     execute_interactively(items)
 
     raise Exception("Not yet implemented")
