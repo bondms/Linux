@@ -162,7 +162,7 @@ exit 0
 # Preferred option: Remove the SD card from the phone and place directly in the laptop.
 sudo fdisk /dev/mmcblk0  # Create exfat partition (type 7).
 sudo mkfs.exfat -n "${NAME}-nnn" /dev/mmcblk0p1 || exit $?
-rsync-vfat --delete "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit $?
+rsync-vfat-{quick,verify} --delete "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit $?
 sudo umount "${MOUNT_DIR}/"
 
 # Alternative option: Mount the SD card while it's in the phone.
