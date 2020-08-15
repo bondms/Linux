@@ -134,5 +134,5 @@ echo The remainder of this script is not intended to be executed automatically b
 exit 0
 
 sudo mkfs.vfat -n "${NAME}-nnn" /dev/sdb1 || exit "$?"
-rsync-vfat --delete "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit "$?"
+rsync-vfat-{quick,verify} --delete "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit "$?"
 sudo umount "${MOUNT_DIR}/"

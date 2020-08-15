@@ -46,7 +46,6 @@ alias rsync-verify='rsync -ahic'
 
 # Modify window allows for both precision and daylight saving time issues.
 # But it's recommend to use checksum and avoid even copying timestamps to completely avoid these issues.
-alias rsync-vfat='rsync -rhic'
 alias rsync-vfat-quick='rsync -rhit --modify-window=3601'
 alias rsync-vfat-verify='rsync -rhitc --modify-window=3601'
 
