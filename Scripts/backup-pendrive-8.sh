@@ -35,6 +35,7 @@ rsync \
     --sparse \
     --delete --delete-excluded \
     --exclude "/BackupLogs/" \
+    --exclude "/Documents/Archive/Motoring/Ursula/200801 Polestar 2 press kit UK.zip" \
     --exclude "/Images/" \
     --exclude "/Music/AudioCDs/" \
     --exclude "/Music/Other/" \

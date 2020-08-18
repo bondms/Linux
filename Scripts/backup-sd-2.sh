@@ -29,6 +29,7 @@ rsync \
     --checksum \
     --sparse \
     --delete --delete-excluded \
+    --exclude "/Archive/Motoring/Ursula/200801 Polestar 2 press kit UK.zip" \
     --exclude ".git/" \
     --exclude "bin/" \
     --exclude "int/" \
