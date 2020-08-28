@@ -8,6 +8,7 @@ TARGET="sd-2"
 TARGET_LINK="${HOME}/Backup/BackupTargets/${TARGET}"
 TARGET_DIR="${TARGET_LINK}/backup"
 LOGFILE="${HOME}/Backup/BackupLogs/rsync-${TARGET}.log"
+TIMESTAMP_PATH="${TARGET_DIR}/timestamp.txt"
 
 [[ -h "${TARGET_LINK}" ]] || exit $?
 [[ -d "${TARGET_DIR}" ]] || exit $?
@@ -21,6 +22,7 @@ find "${SOURCE}" -mount \( -type f -o -type d \) \
   \( -perm /go=rwx -execdir chmod -v go-rwx {} + \) \
 \) || exit $?
 
+rm --force --verbose "${TIMESTAMP_PATH}" || exit $?
 rsync \
     --archive \
     --verbose \
@@ -35,3 +37,6 @@ rsync \
     --exclude "int/" \
     --exclude "thirdparty/" \
     "${SOURCE}/" "${TARGET_DIR}/" | tee "${LOGFILE}" || exit $?
+
+date +%Y%m%d-%H%M%S > "${TIMESTAMP_PATH}" || exit $?
+sync --file-system "${TIMESTAMP_PATH}" || exit $?
