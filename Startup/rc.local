@@ -26,7 +26,7 @@ err_log ()
 
 STARTUP_LOG=/var/log/rc_local.log
 {
-    printf "Entered rc.local\nRunning on=$(hostname)\nRunning as=$(whoami)\nPATH=${PATH}"
+    printf "Entered rc.local\nRunning on=$(hostname)\nRunning as=$(whoami)\nPATH=%s" "${PATH}"
 
     # Enable firewall (just in case it was left disabled).
     if ufw && ufw enable
