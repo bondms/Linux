@@ -25,10 +25,7 @@ err_log ()
 }
 
 STARTUP_LOG=/var/log/rc_local.log
-echo "Entered rc.local" > "${STARTUP_LOG}"
-echo "Running on=$(hostname)" >> "${STARTUP_LOG}"
-echo "Running as=$(whoami)" >> "${STARTUP_LOG}"
-echo "PATH=${PATH}" >> "${STARTUP_LOG}"
+echo "Entered rc.local\nRunning on=$(hostname)\nRunning as=$(whoami)\nPATH=${PATH}" > "${STARTUP_LOG}"
 
 # Enable firewall (just in case it was left disabled).
 {
