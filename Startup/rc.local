@@ -115,14 +115,12 @@ then
     echo "SUCCESS: Skipping link of log file to desktop" >> "${STARTUP_LOG}"
 else
     echo "FAILURE: Linking log file to desktop" >> "${STARTUP_LOG}"
-    {
-        if ln --symbolic --symbolic --target-directory=/home/bondms-unencrypted/Desktop/. -- "${STARTUP_LOG}"
-        then
-            echo "Log file linked to desktop"
-        else
-            err_log "Failed to link log file to desktop"
-        fi
-    } >> "${STARTUP_LOG}" 2>&1
+    if ln --symbolic --symbolic --target-directory=/home/bondms-unencrypted/Desktop/. -- "${STARTUP_LOG}"
+    then
+        echo "Log file linked to desktop"
+    else
+        err_log "Failed to link log file to desktop"
+    fi
 fi
 
 # ^^^ bondms: Additional startup tasks. ^^^
