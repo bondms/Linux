@@ -1,4 +1,4 @@
 #!/bin/bash
 
 "${HOME}/Linux-master/Media-PC/setup.sh" && echo SUCCESS || echo FAILURE
-read -p "Prese Enter to finish"
+read -r -p "Prese Enter to finish"
