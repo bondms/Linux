@@ -29,64 +29,85 @@ echo "Entered rc.local\nRunning on=$(hostname)\nRunning as=$(whoami)\nPATH=${PAT
 
 # Enable firewall (just in case it was left disabled).
 {
-    which ufw && ufw enable &&
-        echo "Firewall done" ||
+    if ufw && ufw enable
+    then
+        echo "Firewall done"
+    else
         err_log "Filewall skipped or failed"
+    fi
 } >> "${STARTUP_LOG}" 2>&1
 
 # Check firewall status.
 {
-    ufw status | grep "^Status: active$" &&
-    echo "Firewall is enabled" ||
-    err_log "Firewall is not enabled"
+    if ufw status | grep "^Status: active$"
+    then
+        echo "Firewall is enabled"
+    else
+        err_log "Firewall is not enabled"
+    fi
 } >> "${STARTUP_LOG}" 2>&1
 
 # Create some non-persistent folders.
 {
-    mkdir --parents --verbose /dev/shm/bondms &&
-    chmod --verbose go-rwx /dev/shm/bondms &&
-    chown --verbose bondms.bondms /dev/shm/bondms &&
-    mkdir --parents --verbose /tmp/bondms &&
-    chmod --verbose go-rwx /tmp/bondms &&
-    chown --verbose bondms.bondms /tmp/bondms &&
-    echo "Non-persistent done" ||
-    err_log "Non-persistent failed"
+    if mkdir --parents --verbose /dev/shm/bondms &&
+        chmod --verbose go-rwx /dev/shm/bondms &&
+        chown --verbose bondms.bondms /dev/shm/bondms &&
+        mkdir --parents --verbose /tmp/bondms &&
+        chmod --verbose go-rwx /tmp/bondms &&
+        chown --verbose bondms.bondms /tmp/bondms
+    then
+        echo "Non-persistent done"
+    else
+        err_log "Non-persistent failed"
+    fi
 } >> "${STARTUP_LOG}" 2>&1
 
 # Remove all but current and current-1 kernels.
 {
-    [ -x /usr/local/sbin/kernel-purge-all-old.sh ] &&
-    /usr/local/sbin/kernel-purge-all-old.sh &&
-    echo "Kernel purge done" ||
-    err_log "Kernel purge skipped or failed"
+    if [ -x /usr/local/sbin/kernel-purge-all-old.sh ] &&
+        /usr/local/sbin/kernel-purge-all-old.sh
+    then
+        echo "Kernel purge done"
+    else
+        err_log "Kernel purge skipped or failed"
+    fi
 } >> "${STARTUP_LOG}" 2>&1
 
 # Remove any obsoleted packages.
 # The package database may still be locked from the PurgeKernel event, so
 # if necessary wait a while before retrying.
 {
-    ( apt-get --yes --quiet autoremove ||
-    ( sleep 30 && apt-get --yes --quiet autoremove ) ) &&
-    echo "Auto remove done" ||
-    err_log "Auto remove failed"
+    if ( apt-get --yes --quiet autoremove ||
+        ( sleep 30 && apt-get --yes --quiet autoremove ) )
+    then
+        echo "Auto remove done"
+    else
+        err_log "Auto remove failed"
+    fi
 } >> "${STARTUP_LOG}" 2>&1
 
 # Clean up local repository.
 # The package database may still be locked from the PurgeKernel event, so
 # if necessary wait a while before retrying.
 {
-    ( apt-get --yes --quiet autoclean ||
-    ( sleep 30 && apt-get --yes --quiet autoclean ) ) &&
-    echo "Auto clean done" ||
-    err_log "Auto clean failed"
+    if ( apt-get --yes --quiet autoclean ||
+    ( sleep 30 && apt-get --yes --quiet autoclean ) )
+    then
+        echo "Auto clean done"
+    else
+        err_log "Auto clean failed"
+    fi
 } >> "${STARTUP_LOG}" 2>&1
 
 # Check there is sufficient free disk space.
 {
-    [ -x /usr/local/bin/free-space-check.sh ] &&
-    /usr/local/bin/free-space-check.sh &&
-    echo "Free disk space check done" ||
-    err_log "Free disk space check skipped or failed"
+    if [ -x /usr/local/bin/free-space-check.sh ] &&
+        /usr/local/bin/free-space-check.sh
+    then
+        echo "Free disk space check done"
+    else
+        err_log "Free disk space check skipped or failed"
+    fi
 } >> "${STARTUP_LOG}" 2>&1
 
 if [ -z $FAILURE ]
@@ -95,9 +116,12 @@ then
 else
     echo "FAILURE: Linking log file to desktop" >> "${STARTUP_LOG}"
     {
-        ln --symbolic --symbolic --target-directory=/home/bondms-unencrypted/Desktop/. -- "${STARTUP_LOG}" &&
-        echo "Log file linked to desktop" ||
-        err_log "Failed to link log file to desktop"
+        if ln --symbolic --symbolic --target-directory=/home/bondms-unencrypted/Desktop/. -- "${STARTUP_LOG}"
+        then
+            echo "Log file linked to desktop"
+        else
+            err_log "Failed to link log file to desktop"
+        fi
     } >> "${STARTUP_LOG}" 2>&1
 fi
 
