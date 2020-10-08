@@ -20,7 +20,7 @@ FAILURE=
 
 err_log ()
 {
-    echo "*** Error: $@ ***" >&2
+    echo "*** Error: $* ***" >&2
     FAILURE=1
 }
 

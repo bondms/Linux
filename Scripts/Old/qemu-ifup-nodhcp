@@ -5,6 +5,6 @@ echo "Joining network without DHCP"
 switch="br-nodhcp"
 echo "Switch identified: ${switch}"
 
-/sbin/ifconfig $1 0.0.0.0 up
-/sbin/brctl addif ${switch} $1
+/sbin/ifconfig "$1" 0.0.0.0 up
+/sbin/brctl addif "${switch}" "$1"
 
