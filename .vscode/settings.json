@@ -1,8 +1,11 @@
 {
     "files.exclude": {
-        "Backup/": true
+        "**/Backup/**": true
     },
+    "files.watcherExclude": {
+        "**/Backup/**": true
+    },    
     "search.exclude": {
-        "Backup/": true
+        "**/Backup/**": true
     }
 }
