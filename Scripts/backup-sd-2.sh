@@ -10,6 +10,9 @@ TARGET_DIR="${TARGET_LINK}/backup"
 LOGFILE="${HOME}/Backup/BackupLogs/rsync-${TARGET}.log"
 TIMESTAMP_PATH="${TARGET_DIR}/timestamp.txt"
 
+find "${SOURCE}" -xtype l || exit $?
+[[ -z "$(find "${SOURCE}" -xtype l)" ]] || exit $?
+
 [[ -h "${TARGET_LINK}" ]] || exit $?
 [[ -d "${TARGET_DIR}" ]] || exit $?
 

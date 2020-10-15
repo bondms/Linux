@@ -1,6 +1,6 @@
 ### Aliases ###
 
-alias broken-links='find -L . -type l'
+alias broken-links='find . -xtype l'
 alias checktime='ntpdate -q uk.pool.ntp.org'
 alias chmod='chmod -v'
 alias chown='chown -v'
