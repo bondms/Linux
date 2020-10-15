@@ -1,5 +1,8 @@
 {
     "files.exclude": {
         "Backup/": true
+    },
+    "search.exclude": {
+        "Backup/": true
     }
 }
