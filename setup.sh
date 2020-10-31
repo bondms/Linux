@@ -95,7 +95,7 @@ if [[ -e "${EXISTING_RC_LOCAL}" ]]
 then
   diff -- "${EXISTING_RC_LOCAL}" "${NEW_RC_LOCAL}" || exit $?
 else
-  sudo cp --force --verbose -- "${NEW_RC_LOCAL}" "${EXISTING_RC_LOCAL}" || exit $?
+  sudo cp --verbose -- "${NEW_RC_LOCAL}" "${EXISTING_RC_LOCAL}" || exit $?
   sudo chown --verbose root.root "${EXISTING_RC_LOCAL}" || exit $?
   sudo chmod --verbose 755 "${EXISTING_RC_LOCAL}" || exit $?
 fi
@@ -127,6 +127,7 @@ sudo apt install mencoder || exit $?
 sudo apt install gimp || exit $?
 sudo apt install clang clang-format clang-tidy || exit $?
 sudo apt install imagemagick || exit $?
+sudo apt install curl || exit $?
 
 sudo apt-get autoremove || exit $?
 sudo apt-get autoclean || exit $?
