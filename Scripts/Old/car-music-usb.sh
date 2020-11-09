@@ -88,7 +88,6 @@ mkdir --verbose -- "${PLAYLIST_STAGE_DIR}" || exit "$?"
 find "${PLAYLIST_SOURCE_DIR}/." \
     -mindepth 1 -maxdepth 1 \
     -type d \
-    ! -name "MarkAndJoliShort" \
     -print0 |
     bash -c "
         set -eux
