@@ -18,6 +18,7 @@ GAS_MPRN=$(gpg --decrypt "${HERE}/gas_mprn.txt.gpg")
 GAS_SERIAL_NUMBER=$(gpg --decrypt "${HERE}/gas_serial_number.txt.gpg")
 
 curl -u "${API_KEY}:" "https://api.octopus.energy/v1/electricity-meter-points/${ELECTRICITY_MPAN}/meters/${ELECTRICITY_SERIAL_NUMBER}/consumption/" > electricity.json || exit $?
+curl -u "${API_KEY}:" "https://api.octopus.energy/v1/electricity-meter-points/${ELECTRICITY_MPAN}/meters/${ELECTRICITY_SERIAL_NUMBER}/consumption/?page=2" > electricity_prev1.json || exit $?
 curl -u "${API_KEY}:" "https://api.octopus.energy/v1/gas-meter-points/${GAS_MPRN}/meters/${GAS_SERIAL_NUMBER}/consumption/" > gas.json || exit $?
 curl -u "${API_KEY}:" "https://api.octopus.energy/v1/products/" > products.json || exit $?
 curl -u "${API_KEY}:" "https://api.octopus.energy/v1/products/${ELECTRICITY_PRODUCT}/" > electricity_rates.json || exit $?
