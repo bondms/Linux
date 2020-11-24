@@ -146,24 +146,24 @@ git config --global user.email "34947848+bondms@users.noreply.github.com" || exi
 [[ -h "${HERE}/../rgain/scripts/rgain3" ]] ||
     ln --symbolic --verbose -- "../rgain3" "${HERE}/../rgain/scripts/." || exit $?
 
-sudo apt-get install dnsmasq || exit $?
+sudo apt-get install dnsmasq resolvconf || exit $?
 sudo systemctl stop systemd-resolved || exit $?
 sudo systemctl disable systemd-resolved || exit $?
-if [[ -h /etc/resolv.conf && ! -e /etc/resolv.conf.orig ]]
+sudo systemctl enable resolvconf.service || exit $?
+sudo systemctl start resolvconf.service || exit $?
+if [[ ! -e /etc/resolvconf/resolv.conf.d/head.orig ]]
 then
-    mv --no-clobber /etc/resolv.conf /etc/resolv.conf.orig || exit $?
-fi
-if [[ ! -e /etc/resolv.conf ]]
-then
-    echo "search connect" | sudo tee /etc/resolv.conf || exit $?
+    sudo cp --archive --no-clobber /etc/resolvconf/resolv.conf.d/head /etc/resolvconf/resolv.conf.d/head.orig || exit $?
 fi
 for ns in "8.8.8.8" "8.8.4.4" "1.1.1.1"
 do
-    grep "^nameserver ${ns}\$" /etc/resolv.conf && result=$? || result=$?
+    grep "^nameserver ${ns}\$" /etc/resolvconf/resolv.conf.d/head && result=$? || result=$?
     case $result in
     0 ) ;;
-    1 ) echo "nameserver ${ns}" | sudo tee --append /etc/resolv.conf || exit $? ;;
+    1 ) echo "nameserver ${ns}" | sudo tee --append /etc/resolvconf/resolv.conf.d/head || exit $? ;;
     * ) exit $? ;;
     esac
 done
-sudo sed --in-place=".old" --expression='{s/^nameserver 127.0.0.53$/# nameserver 127.0.0.53/g}' /etc/resolv.conf || exit $?
+# sudo sed --in-place=".old" --expression='{s/^nameserver 127.0.0.53$/# nameserver 127.0.0.53/g}' /etc/resolv.conf || exit $?
+sudo resolvconf --enable-updates || exit $?
+sudo resolvconf -u || exit $?
