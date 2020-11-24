@@ -145,3 +145,17 @@ git config --global user.email "34947848+bondms@users.noreply.github.com" || exi
     git clone --depth 1 --branch 1.0.0 --verbose -- https://github.com/chaudum/rgain.git "${HERE}/../rgain" || exit $?
 [[ -h "${HERE}/../rgain/scripts/rgain3" ]] ||
     ln --symbolic --verbose -- "../rgain3" "${HERE}/../rgain/scripts/." || exit $?
+
+sudo apt-get install dnsmasq || exit $?
+sudo systemctl stop systemd-resolved || exit $?
+sudo systemctl disable systemd-resolved || exit $?
+for ns in "8.8.8.8" "8.8.4.4" "1.1.1.1"
+do
+    grep "^nameserver ${ns}\$" /etc/resolv.conf && result=$? || result=$?
+    case $result in
+    0 ) ;;
+    1 ) echo "nameserver ${ns}" | sudo tee --append /etc/resolv.conf || exit $? ;;
+    * ) exit $? ;;
+    esac
+done
+sudo sed --in-place=".old" --expression='{s/^nameserver 127.0.0.53$/# nameserver 127.0.0.53/g}' /etc/resolv.conf || exit $?
