@@ -149,6 +149,14 @@ git config --global user.email "34947848+bondms@users.noreply.github.com" || exi
 sudo apt-get install dnsmasq || exit $?
 sudo systemctl stop systemd-resolved || exit $?
 sudo systemctl disable systemd-resolved || exit $?
+if [[ -h /etc/resolv.conf && ! -e /etc/resolv.conf.orig ]]
+then
+    mv --no-clobber /etc/resolv.conf /etc/resolv.conf.orig || exit $?
+fi
+if [[ ! -e /etc/resolv.conf ]]
+then
+    echo "search connect" | sudo tee /etc/resolv.conf || exit $?
+fi
 for ns in "8.8.8.8" "8.8.4.4" "1.1.1.1"
 do
     grep "^nameserver ${ns}\$" /etc/resolv.conf && result=$? || result=$?
