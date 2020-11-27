@@ -137,7 +137,8 @@ then
     git clone https://github.com/magicmonty/bash-git-prompt.git "${HOME}/.bash-git-prompt" --depth=1 || exit $?
 fi
 
-git config --global core.editor "geany -i" || exit $?
+# git config --global core.editor "geany -i" || exit $?
+git config --global core.editor "code --wait --new-window" || exit $?
 git config --global core.pager "less -iM" || exit $?
 git config --global user.email "34947848+bondms@users.noreply.github.com" || exit $?
 
