@@ -103,7 +103,7 @@ fi
 sudo apt update || exit $?
 sudo apt-get dist-upgrade || exit $?
 
-sudo apt install geany || exit $?
+# sudo apt install geany || exit $?
 sudo apt install synaptic || exit $?
 sudo apt install chromium-browser || exit $?
 sudo apt install git || exit $?
