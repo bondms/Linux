@@ -58,13 +58,13 @@ STARTUP_LOG=/var/log/rc_local.log
     fi
 
     # Remove all but current and current-1 kernels.
-    if [ -x /usr/local/sbin/kernel-purge-all-old.sh ] &&
-        /usr/local/sbin/kernel-purge-all-old.sh
-    then
-        echo "Kernel purge done"
-    else
-        err_log "Kernel purge skipped or failed"
-    fi
+    # if [ -x /usr/local/sbin/kernel-purge-all-old.sh ] &&
+    #     /usr/local/sbin/kernel-purge-all-old.sh
+    # then
+    #     echo "Kernel purge done"
+    # else
+    #     err_log "Kernel purge skipped or failed"
+    # fi
 
     # Remove any obsoleted packages.
     # The package database may still be locked from the PurgeKernel event, so
