@@ -103,7 +103,6 @@ fi
 sudo apt update || exit $?
 sudo apt-get dist-upgrade || exit $?
 
-# sudo apt install geany || exit $?
 sudo apt install synaptic || exit $?
 sudo apt install chromium-browser || exit $?
 sudo apt install git || exit $?
@@ -137,7 +136,6 @@ then
     git clone https://github.com/magicmonty/bash-git-prompt.git "${HOME}/.bash-git-prompt" --depth=1 || exit $?
 fi
 
-# git config --global core.editor "geany -i" || exit $?
 git config --global core.editor "code --wait --new-window" || exit $?
 git config --global core.pager "less -iM" || exit $?
 git config --global user.email "34947848+bondms@users.noreply.github.com" || exit $?
@@ -165,6 +163,5 @@ do
     * ) exit $? ;;
     esac
 done
-# sudo sed --in-place=".old" --expression='{s/^nameserver 127.0.0.53$/# nameserver 127.0.0.53/g}' /etc/resolv.conf || exit $?
 sudo resolvconf --enable-updates || exit $?
 sudo resolvconf -u || exit $?
