@@ -38,3 +38,5 @@ fi
     git clone --depth 1 --branch 1.0.0 --verbose -- https://github.com/chaudum/rgain.git "${HERE}/../../rgain" || exit $?
 [[ -h "${HERE}/../../rgain/scripts/rgain3" ]] ||
     ln --symbolic --verbose -- "../rgain3" "${HERE}/../../rgain/scripts/." || exit $?
+
+find "${HOME}/Desktop/." -name "wget-log*" -delete || exit $?
