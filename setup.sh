@@ -127,6 +127,7 @@ sudo apt install gimp || exit $?
 sudo apt install clang clang-format clang-tidy || exit $?
 sudo apt install imagemagick || exit $?
 sudo apt install curl || exit $?
+# sudo apt install python3-dev python3-bluez || exit $?
 
 sudo apt-get autoremove || exit $?
 sudo apt-get autoclean || exit $?
