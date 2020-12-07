@@ -147,7 +147,7 @@ decrypt-file-for()
 
 decrypt-file-for-edit()
 {
-    decrypt-file-for "${1}" geany --new-instance -- || return $?
+    decrypt-file-for "${1}" code --wait --new-window -- || return $?
 }
 
 decrypt-file-for-grisbi()
