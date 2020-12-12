@@ -42,9 +42,11 @@ then
     # https://askubuntu.com/questions/17791/can-i-downmix-stereo-audio-to-mono
     # The device name (master) is determined from the output of `pacmd list-sinks`.
     # Test with `speaker-test -c 2 -t sine` and/or https://www.youtube.com/watch?v=6TWJaFD6R2s
-    sudo cp --archive --interactive --verbose /etc/pulse/default.pa{,.orig} || exit $?
     grep -Fv "sink_name=mono" /etc/pulse/default.pa || exit $?
-    echo "load-module module-remap-sink sink_name=mono master=alsa_card.platform-bcm2835_audio channels=2 channel_map=mono,mono" >> /etc/pulse/default.pa || exit $?
+    grep -Fv "set-default-sink mono" /etc/pulse/default.pa || exit $?
+    sudo cp --archive --interactive --verbose /etc/pulse/default.pa{,.orig} || exit $?
+    echo "load-module module-remap-sink sink_name=mono master=alsa_output.platform-bcm2835_audio.digital-stereo channels=2 channel_map=mono,mono" | sudo tee --append /etc/pulse/default.pa || exit $?
+    echo "set-default-sink mono" | sudo tee --append /etc/pulse/default.pa || exit $?
     echo "*** Reboot for mono audio downmix to take effect ***"
 fi
 
