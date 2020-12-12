@@ -25,12 +25,26 @@ sudo apt-get autoclean || exit $?
 [[ -h "${HOME}/.bash_aliases" ]] ||
     ln --symbolic --verbose -- "${HERE}/Shell/.bash_aliases" "${HOME}/." || exit $?
 
-if [[ ! -h /etc/asound.conf ]]
+# Old versions of Raspbian used ALSA:
+# if [[ ! -h /etc/asound.conf ]]
+# then
+#     # Downmix all audio output from stereo to mono.
+#     # https://www.tinkerboy.xyz/raspberry-pi-downmixing-from-stereo-to-mono-sound-output/
+#     # The device number in `hw:N` is determined from the output of `cat /proc/asound/modules`.
+#     sudo ln --symbolic --verbose -- "${HERE}/MonoAudio/asound.conf" /etc/. || exit $?
+#     echo "*** Reboot for mono audio downmix to take effect ***"
+# fi
+
+# New version of Raspbian use Pulse audio:
+if [[ ! -e /etc/pulse/default.pa.orig ]]
 then
     # Downmix all audio output from stereo to mono.
-    # https://www.tinkerboy.xyz/raspberry-pi-downmixing-from-stereo-to-mono-sound-output/
-    # The device number in `hw:N` is determined from the output of `cat /proc/asound/modules`.
-    sudo ln --symbolic --verbose -- "${HERE}/MonoAudio/asound.conf" /etc/. || exit $?
+    # https://askubuntu.com/questions/17791/can-i-downmix-stereo-audio-to-mono
+    # The device name (master) is determined from the output of `pacmd list-sinks`.
+    # Test with `speaker-test -c 2 -t sine` and/or https://www.youtube.com/watch?v=6TWJaFD6R2s
+    sudo cp --archive --interactive --verbose /etc/pulse/default.pa{,.orig} || exit $?
+    grep -Fv "sink_name=mono" /etc/pulse/default.pa || exit $?
+    echo "load-module module-remap-sink sink_name=mono master=alsa_card.platform-bcm2835_audio channels=2 channel_map=mono,mono" >> /etc/pulse/default.pa || exit $?
     echo "*** Reboot for mono audio downmix to take effect ***"
 fi
 
