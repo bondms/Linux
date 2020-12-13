@@ -166,3 +166,5 @@ do
 done
 sudo resolvconf --enable-updates || exit $?
 sudo resolvconf -u || exit $?
+
+echo "*** SUCCESS ***"
