@@ -103,31 +103,31 @@ fi
 sudo apt update || exit $?
 sudo apt-get dist-upgrade || exit $?
 
-sudo apt install synaptic || exit $?
-sudo apt install chromium-browser || exit $?
-sudo apt install git || exit $?
-sudo apt install meld || exit $?
-sudo apt install grisbi || exit $?
-sudo apt install build-essential || exit $?
-sudo apt install cmake || exit $?
-sudo apt install python-is-python3 || exit $?
+sudo apt install --assume-yes synaptic || exit $?
+sudo apt install --assume-yes chromium-browser || exit $?
+sudo apt install --assume-yes git || exit $?
+sudo apt install --assume-yes meld || exit $?
+sudo apt install --assume-yes grisbi || exit $?
+sudo apt install --assume-yes build-essential || exit $?
+sudo apt install --assume-yes cmake || exit $?
+sudo apt install --assume-yes python-is-python3 || exit $?
 sudo snap install --classic code || exit $?
-sudo apt install feh || exit $?
-sudo apt install sox libsox-fmt-all || exit $?
-sudo apt install jmtpfs || exit $?
-sudo apt install exfat-utils || exit $?
-sudo apt install tofrodos || exit $?
+sudo apt install --assume-yes feh || exit $?
+sudo apt install --assume-yes sox libsox-fmt-all || exit $?
+sudo apt install --assume-yes jmtpfs || exit $?
+sudo apt install --assume-yes exfat-utils || exit $?
+sudo apt install --assume-yes tofrodos || exit $?
 sudo snap install skype --classic || exit $?
-sudo apt install 2to3 || exit $?
-sudo apt install python3-mutagen || exit $?
-sudo apt install symlinks || exit $?
-sudo apt install jhead || exit $?
-sudo apt install mencoder || exit $?
-sudo apt install gimp || exit $?
-sudo apt install clang clang-format clang-tidy || exit $?
-sudo apt install imagemagick || exit $?
-sudo apt install curl || exit $?
-# sudo apt install python3-dev python3-bluez || exit $?
+sudo apt install --assume-yes 2to3 || exit $?
+sudo apt install --assume-yes python3-mutagen || exit $?
+sudo apt install --assume-yes symlinks || exit $?
+sudo apt install --assume-yes jhead || exit $?
+sudo apt install --assume-yes mencoder || exit $?
+sudo apt install --assume-yes gimp || exit $?
+sudo apt install --assume-yes clang clang-format clang-tidy || exit $?
+sudo apt install --assume-yes imagemagick || exit $?
+sudo apt install --assume-yes curl || exit $?
+# sudo apt install --assume-yes python3-dev python3-bluez || exit $?
 
 sudo apt-get autoremove || exit $?
 sudo apt-get autoclean || exit $?

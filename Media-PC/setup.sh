@@ -9,10 +9,10 @@ HERE="$(readlink -e "$(dirname "$0")")"
 sudo apt update || exit $?
 sudo apt full-upgrade || exit $?
 
-sudo apt install rpi-eeprom || exit $?
-sudo apt install feh || exit $?
-sudo apt install sox libsox-fmt-all || exit $?
-sudo apt install xscreensaver || exit $?
+sudo apt install --assume-yes rpi-eeprom || exit $?
+sudo apt install --assume-yes feh || exit $?
+sudo apt install --assume-yes sox libsox-fmt-all || exit $?
+sudo apt install --assume-yes xscreensaver || exit $?
 
 # rgain dependencies
 sudo apt-get install gstreamer1.0-python3-plugin-loader python3-mutagen || exit $?
