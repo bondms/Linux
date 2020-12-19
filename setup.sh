@@ -101,7 +101,7 @@ else
 fi
 
 sudo apt update || exit $?
-sudo apt-get dist-upgrade || exit $?
+sudo apt full-upgrade || exit $?
 
 sudo apt install --assume-yes synaptic || exit $?
 sudo apt install --assume-yes chromium-browser || exit $?
@@ -129,7 +129,7 @@ sudo apt install --assume-yes imagemagick || exit $?
 sudo apt install --assume-yes curl || exit $?
 # sudo apt install --assume-yes python3-dev python3-bluez || exit $?
 
-sudo apt-get autoremove || exit $?
+sudo apt autoremove || exit $?
 sudo apt-get autoclean || exit $?
 
 if [[ ! -d "${HOME}/.bash-git-prompt" ]]
@@ -146,7 +146,7 @@ git config --global user.email "34947848+bondms@users.noreply.github.com" || exi
 [[ -h "${HERE}/../rgain/scripts/rgain3" ]] ||
     ln --symbolic --verbose -- "../rgain3" "${HERE}/../rgain/scripts/." || exit $?
 
-sudo apt-get install dnsmasq resolvconf || exit $?
+sudo apt install --assume-yes dnsmasq resolvconf || exit $?
 sudo systemctl stop systemd-resolved || exit $?
 sudo systemctl disable systemd-resolved || exit $?
 sudo systemctl enable resolvconf.service || exit $?

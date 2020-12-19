@@ -8,7 +8,7 @@ err_msg ()
 
 if ! which mkudffs
 then
-    sudo apt-get install udftools || err_msg "Failed to install package."
+    sudo apt install --assume-yes udftools || err_msg "Failed to install package."
 
     # Installing this package seemed to break the symlinks. Fix them,
     if ! [ -e /dev/cdrom ]

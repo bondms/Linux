@@ -15,7 +15,7 @@ sudo apt install --assume-yes sox libsox-fmt-all || exit $?
 sudo apt install --assume-yes xscreensaver || exit $?
 
 # rgain dependencies
-sudo apt-get install gstreamer1.0-python3-plugin-loader python3-mutagen || exit $?
+sudo apt install --assume-yes gstreamer1.0-python3-plugin-loader python3-mutagen || exit $?
 
 sudo rpi-eeprom-update || exit $?
 

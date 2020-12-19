@@ -130,7 +130,7 @@ EXAMINE
 Shared-disk clustering:
 
 Install support for mounting networked drives:
-# sudo apt-get install nbd-client
+# sudo apt install nbd-client
 
 // Load the module:
 // # sudo modprobe nbd max_part=8
