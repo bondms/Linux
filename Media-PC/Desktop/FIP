@@ -1,5 +1,4 @@
 #!/bin/bash
 
-find "${HOME}/Desktop/." -name "wget-log*" -size 0c -delete
+trap "find \"${HOME}/Desktop/.\" -name \"wget-log*\" -size 0c -delete" 0
 play http://direct.fipradio.fr/live/fip-midfi.mp3
-find "${HOME}/Desktop/." -name "wget-log*" -size 0c -delete
