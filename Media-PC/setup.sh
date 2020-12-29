@@ -55,4 +55,4 @@ fi
 [[ -h "${HERE}/../../rgain/scripts/rgain3" ]] ||
     ln --symbolic --verbose -- "../rgain3" "${HERE}/../../rgain/scripts/." || exit $?
 
-find "${HOME}/Desktop/." -name "wget-log*" -delete || exit $?
+echo "*** SUCCESS ***"
