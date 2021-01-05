@@ -81,14 +81,6 @@ sudo cp --force --verbose -- "${HERE}/Startup/free-space-check.sh" /usr/local/bi
 sudo chown --verbose root.root /usr/local/bin/free-space-check.sh || exit $?
 sudo chmod --verbose 755 /usr/local/bin/free-space-check.sh || exit $?
 
-sudo cp --force --verbose -- "${HERE}/Startup/kernel-purge-all-old.sh" /usr/local/sbin/. || exit $?
-sudo chown --verbose root.root /usr/local/sbin/kernel-purge-all-old.sh || exit $?
-sudo chmod --verbose 755 /usr/local/sbin/kernel-purge-all-old.sh || exit $?
-
-sudo cp --force --verbose -- "${HERE}/Startup/kernel-purge.sh" /usr/local/sbin/. || exit $?
-sudo chown --verbose root.root /usr/local/sbin/kernel-purge.sh || exit $?
-sudo chmod --verbose 755 /usr/local/sbin/kernel-purge.sh || exit $?
-
 EXISTING_RC_LOCAL=/etc/rc.local
 NEW_RC_LOCAL="${HERE}/Startup/rc.local"
 if [[ -e "${EXISTING_RC_LOCAL}" ]]
