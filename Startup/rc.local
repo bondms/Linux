@@ -55,7 +55,7 @@ STARTUP_LOG=/var/log/rc_local.log
     fi
 
     # Clean up local repository.
-    # The package database may be lockedevent, so if necessary wait a while before retrying.
+    # The package database may be locked, so if necessary wait a while before retrying.
     if ( apt-get --yes --quiet autoclean ||
         ( sleep 30 && apt-get --yes --quiet autoclean ) )
     then
