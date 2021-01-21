@@ -119,6 +119,7 @@ sudo apt install --assume-yes gimp || exit $?
 sudo apt install --assume-yes clang clang-format clang-tidy || exit $?
 sudo apt install --assume-yes imagemagick || exit $?
 sudo apt install --assume-yes curl || exit $?
+sudo apt install --assume-yes latexdraw || exit $?
 # sudo apt install --assume-yes python3-dev python3-bluez || exit $?
 
 sudo apt autoremove || exit $?
