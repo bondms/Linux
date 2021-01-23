@@ -92,6 +92,17 @@ else
   sudo chmod --verbose 755 "${EXISTING_RC_LOCAL}" || exit $?
 fi
 
+# Visual Studio Code settings
+mkdir --parents --verbose -- "${HOME}/.config/Code/User" || exit $?
+EXISTING_CODE_CONFIG="${HOME}/.config/Code/User/settings.json"
+NEW_CODE_CONFIG="${HERE}/Code/settings.json"
+if [[ -e "${EXISTING_CODE_CONFIG}" ]]
+then
+  diff -- "${EXISTING_CODE_CONFIG}" "${NEW_CODE_CONFIG}" || exit $?
+else
+  sudo cp --verbose -- "${NEW_CODE_CONFIG}" "${EXISTING_CODE_CONFIG}" || exit $?
+fi
+
 sudo apt update || exit $?
 sudo apt full-upgrade || exit $?
 
