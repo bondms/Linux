@@ -1,4 +1,5 @@
 {
+    "editor.acceptSuggestionOnEnter": "off",
     "editor.renderWhitespace": "all",
     "files.hotExit": "off",
     "files.insertFinalNewline": true,
