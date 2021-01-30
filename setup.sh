@@ -133,6 +133,9 @@ sudo apt install --assume-yes curl || exit $?
 sudo apt install --assume-yes latexdraw || exit $?
 sudo apt install --assume-yes python-pytest || exit $?
 # sudo apt install --assume-yes python3-dev python3-bluez || exit $?
+sudo apt install --assume-yes npm || exit $?
+
+sudo npm install -g @bazel/bazelisk || exit $?
 
 sudo apt autoremove || exit $?
 sudo apt-get autoclean || exit $?
