@@ -15,7 +15,6 @@ alias g++debug='g++ -Wall -Werror -O0 -ggdb'
 alias g++warn='g++ -Wall -Werror'
 alias git-branch='git checkout -b "${USER}-$(date +%Y%m%d-%H%M%S)"'
 alias git-clone-min='git clone --depth 1 --single-branch'
-alias git-merge='git merge --no-edit'
 alias grep-context='grep -C 5'
 alias gunzip='gunzip -v'
 alias gzip='gzip -v'
@@ -321,3 +320,7 @@ then
     GIT_PROMPT_ONLY_IN_REPO=1
     source "${HOME}/.bash-git-prompt/gitprompt.sh"
 fi
+
+# Accept default merge-commit messages.
+# Preferable to using an alias for git merge since it maintains command-line auto-completion.
+export GIT_MERGE_AUTOEDIT="no"
