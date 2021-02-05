@@ -103,6 +103,7 @@ else
   sudo cp --verbose -- "${NEW_CODE_CONFIG}" "${EXISTING_CODE_CONFIG}" || exit $?
 fi
 
+sudo snap refresh || exit $?
 sudo apt update || exit $?
 sudo apt full-upgrade || exit $?
 
