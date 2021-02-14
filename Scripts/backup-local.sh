@@ -39,6 +39,7 @@ rsync \
     --exclude "/Temp/" \
     --exclude "/Videos/Temp/" \
     --exclude ".git/" \
+    --exclude "bazel-*" \
     --exclude "bin/" \
     --exclude "int/" \
     --exclude "thirdparty/" \
