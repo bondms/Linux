@@ -10,7 +10,7 @@ TARGET_DIR="${TARGET_LINK}/${USER}"
 LOGFILE="${SOURCE}/BackupLogs/rsync-${TARGET}.log"
 
 find "${SOURCE}" \! -path "${SOURCE}/BackupTargets/*" -xtype l || exit $?
-[[ -z "$(find "${SOURCE}" \! -path "${SOURCE}/BackupTargets/*" -xtype l)" ]] || exit $?
+[[ -z "$(find "${SOURCE}" \! -path "${SOURCE}/BackupTargets/*" -xtype l \! -name "bazel-*" )" ]] || exit $?
 
 TARGET_DIR="${TARGET_DIR}/latest"
 
