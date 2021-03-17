@@ -5,5 +5,14 @@
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,
     "files.trimTrailingWhitespace": true,
-    "window.restoreWindows": "none"
+    "window.restoreWindows": "none",
+    "files.exclude": {
+        "**/bazel-*/**": true
+    },
+    "files.watcherExclude": {
+        "**/bazel-*/**": true
+    },
+    "search.exclude": {
+        "**/bazel-*/**": true
+    }
 }
