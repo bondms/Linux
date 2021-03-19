@@ -11,7 +11,7 @@ LOGFILE="${SOURCE}/BackupLogs/rsync-${TARGET}.log"
 TIMESTAMP_PATH="${TARGET_DIR}/timestamp.txt"
 
 find "${SOURCE}" \! -path "${SOURCE}/BackupTargets/*" -xtype l || exit $?
-[[ -z "$(find "${SOURCE}" \! -path "${SOURCE}/BackupTargets/*" -xtype l \! -name "bazel-*" )" ]] || exit $?
+[[ -z "$(find "${SOURCE}" \! -path "${SOURCE}/BackupTargets/*" -xtype l \! -name "bazel-*" \! -name "jsoncpp.cpp")" ]] || exit $?
 
 [[ -h "${TARGET_LINK}" ]] || exit $?
 [[ -d "${TARGET_DIR}" ]] || exit $?
