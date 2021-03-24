@@ -1,5 +1,7 @@
 {
     "editor.acceptSuggestionOnEnter": "off",
+    "editor.autoClosingBrackets": "never",
+    "editor.autoClosingQuotes": "never",
     "editor.autoSurround": "never",
     "editor.renderWhitespace": "all",
     "files.hotExit": "off",
