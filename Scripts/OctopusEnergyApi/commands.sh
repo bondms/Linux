@@ -17,12 +17,22 @@ ELECTRICITY_PRODUCT=$(gpg --decrypt "${HERE}/electricity_product.txt.gpg")
 GAS_MPRN=$(gpg --decrypt "${HERE}/gas_mprn.txt.gpg")
 GAS_SERIAL_NUMBER=$(gpg --decrypt "${HERE}/gas_serial_number.txt.gpg")
 
-curl -u "${API_KEY}:" "https://api.octopus.energy/v1/electricity-meter-points/${ELECTRICITY_MPAN}/meters/${ELECTRICITY_SERIAL_NUMBER}/consumption/" > electricity.json || exit $?
-curl -u "${API_KEY}:" "https://api.octopus.energy/v1/electricity-meter-points/${ELECTRICITY_MPAN}/meters/${ELECTRICITY_SERIAL_NUMBER}/consumption/?page=2" > electricity_prev1.json || exit $?
-curl -u "${API_KEY}:" "https://api.octopus.energy/v1/gas-meter-points/${GAS_MPRN}/meters/${GAS_SERIAL_NUMBER}/consumption/" > gas.json || exit $?
-curl -u "${API_KEY}:" "https://api.octopus.energy/v1/products/" > products.json || exit $?
-curl -u "${API_KEY}:" "https://api.octopus.energy/v1/products/${ELECTRICITY_PRODUCT}/" > electricity_rates.json || exit $?
-curl -u "${API_KEY}:" "https://api.octopus.energy/v1/industry/grid-supply-points/" > gsps.json || exit $?
-curl -u "${API_KEY}:" "https://api.octopus.energy/v1/industry/grid-supply-points/?postcode=${POSTCODE}" > gsp.json || exit $?
-curl -u "${API_KEY}:" "https://api.octopus.energy/v1/products/${ELECTRICITY_PRODUCT}/electricity-tariffs/E-1R-${ELECTRICITY_PRODUCT}-H/standing-charges/" > go_standing_charges.json || exit $?
-curl -u "${API_KEY}:" "https://api.octopus.energy/v1/products/${ELECTRICITY_PRODUCT}/electricity-tariffs/E-1R-${ELECTRICITY_PRODUCT}-H/standard-unit-rates/" > go_standard_unit_rates.json || exit $?
+DATE_STR=$(date +%Y-%m-%d)
+DATA_DIR_PATH="${HERE}/data/${DATE_STR}"
+mkdir -- "${DATA_DIR_PATH}" || exit $?
+
+curl -u "${API_KEY}:" "https://api.octopus.energy/v1/products/" > "${DATA_DIR_PATH}/products.json" || exit $?
+curl -u "${API_KEY}:" "https://api.octopus.energy/v1/products/${ELECTRICITY_PRODUCT}/" > "${DATA_DIR_PATH}/electricity_rates.json" || exit $?
+curl -u "${API_KEY}:" "https://api.octopus.energy/v1/industry/grid-supply-points/" > "${DATA_DIR_PATH}/gsps.json" || exit $?
+curl -u "${API_KEY}:" "https://api.octopus.energy/v1/industry/grid-supply-points/?postcode=${POSTCODE}" > "${DATA_DIR_PATH}/gsp.json" || exit $?
+curl -u "${API_KEY}:" "https://api.octopus.energy/v1/products/${ELECTRICITY_PRODUCT}/electricity-tariffs/E-1R-${ELECTRICITY_PRODUCT}-H/standing-charges/" > "${DATA_DIR_PATH}/go_standing_charges.json" || exit $?
+curl -u "${API_KEY}:" "https://api.octopus.energy/v1/products/${ELECTRICITY_PRODUCT}/electricity-tariffs/E-1R-${ELECTRICITY_PRODUCT}-H/standard-unit-rates/" > "${DATA_DIR_PATH}/go_standard_unit_rates.json" || exit $?
+
+curl -u "${API_KEY}:" "https://api.octopus.energy/v1/electricity-meter-points/${ELECTRICITY_MPAN}/meters/${ELECTRICITY_SERIAL_NUMBER}/consumption/" > "${DATA_DIR_PATH}/electricity_001.json" || exit $?
+curl -u "${API_KEY}:" "https://api.octopus.energy/v1/gas-meter-points/${GAS_MPRN}/meters/${GAS_SERIAL_NUMBER}/consumption/" > "${DATA_DIR_PATH}/gas_001.json" || exit $?
+
+for PAGE in {002..999}
+do
+    curl -u "${API_KEY}:" "https://api.octopus.energy/v1/electricity-meter-points/${ELECTRICITY_MPAN}/meters/${ELECTRICITY_SERIAL_NUMBER}/consumption/?page=${PAGE}" > "${DATA_DIR_PATH}/electricity_${PAGE}.json" || exit $?
+    curl -u "${API_KEY}:" "https://api.octopus.energy/v1/gas-meter-points/${GAS_MPRN}/meters/${GAS_SERIAL_NUMBER}/consumption/?page=${PAGE}" > "${DATA_DIR_PATH}/gas_${PAGE}.json" || exit $?
+done
