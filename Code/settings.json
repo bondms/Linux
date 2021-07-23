@@ -4,6 +4,7 @@
     "editor.autoClosingQuotes": "never",
     "editor.autoSurround": "never",
     "editor.renderWhitespace": "all",
+    "editor.rulers": [80],
     "files.hotExit": "off",
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,
