@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# API documentation: https://developer.octopus.energy/docs/api/
+
 set -x
 
 set -e
