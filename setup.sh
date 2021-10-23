@@ -108,7 +108,8 @@ sudo apt update || exit $?
 sudo apt full-upgrade || exit $?
 
 sudo apt install --assume-yes synaptic || exit $?
-sudo apt install --assume-yes chromium-browser || exit $?
+# Use Google's Chrome browser rather than Chromium in order to sync with Android Chrome.
+# sudo apt install --assume-yes chromium-browser || exit $?
 sudo apt install --assume-yes git || exit $?
 sudo apt install --assume-yes meld || exit $?
 sudo apt install --assume-yes grisbi || exit $?
