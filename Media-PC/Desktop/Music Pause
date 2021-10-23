@@ -1,0 +1,3 @@
+#!/bin/bash
+
+"${HOME}/Linux-master/Scripts/music-pause.sh" "/media/${USER}/."
