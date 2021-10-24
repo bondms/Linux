@@ -51,6 +51,7 @@ rsync \
     --human-readable \
     --progress \
     --itemize-changes \
+    -- \
     "${PODCASTS_SOURCE_DIR}/." \
     "${MOUNT_DIR}/${PODCASTS_SUBDIR_NAME}/." ||
         exit "$?"
@@ -71,6 +72,7 @@ rsync \
     --human-readable \
     --progress \
     --itemize-changes \
+    -- \
     "${MUSIC_SOURCE_DIR}/." \
     "${MOUNT_DIR}/${MUSIC_SUBDIR_NAME}/." ||
         exit "$?"
@@ -125,6 +127,7 @@ rsync \
     --human-readable \
     --progress \
     --itemize-changes \
+    -- \
     "${PLAYLIST_STAGE_DIR}/." \
     "${PLAYLIST_TARGET_DIR}/." ||
         exit "$?"
@@ -133,5 +136,5 @@ echo The remainder of this script is not intended to be executed automatically b
 exit 0
 
 sudo mkfs.vfat -n "${NAME}-nnn" /dev/sdb1 || exit "$?"
-rsync-vfat-{quick,verify} --delete "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit "$?"
+rsync-vfat-{quick,verify} --delete -- "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit "$?"
 sudo umount "${MOUNT_DIR}/"

@@ -43,4 +43,5 @@ rsync \
     --exclude "bin/" \
     --exclude "int/" \
     --exclude "thirdparty/" \
+    -- \
     "${SOURCE}/" "${TARGET_DIR}/" | tee "${LOGFILE}" || exit $?

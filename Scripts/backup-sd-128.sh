@@ -23,6 +23,7 @@ rsync \
     --checksum \
     --sparse \
     --delete --delete-excluded \
+    -- \
     "${SOURCE}/" "${TARGET_DIR}/" | tee "${LOGFILE}" || exit $?
 
 date +%Y%m%d-%H%M%S > "${TIMESTAMP_PATH}" || exit $?

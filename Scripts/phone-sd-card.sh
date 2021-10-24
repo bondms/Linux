@@ -55,6 +55,7 @@ rsync \
     --exclude "/Montage/Joli/source/" \
     --exclude "/profile.jpg" \
     --exclude "/Wallpaper/" \
+    -- \
     "${PICTURES_SOURCE_DIR}/." \
     "${MOUNT_DIR}/${PICTURES_SUBDIR_NAME}/." ||
         exit $?
@@ -75,6 +76,7 @@ rsync \
     --human-readable \
     --progress \
     --itemize-changes \
+    -- \
     "${PODCASTS_SOURCE_DIR}/." \
     "${MOUNT_DIR}/${PODCASTS_SUBDIR_NAME}/." ||
         exit $?
@@ -95,6 +97,7 @@ rsync \
     --human-readable \
     --progress \
     --itemize-changes \
+    -- \
     "${MUSIC_SOURCE_DIR}/." \
     "${MOUNT_DIR}/${MUSIC_SUBDIR_NAME}/." ||
         exit $?
@@ -149,6 +152,7 @@ rsync \
     --human-readable \
     --progress \
     --itemize-changes \
+    -- \
     "${PLAYLIST_STAGE_DIR}/." \
     "${PLAYLIST_TARGET_DIR}/." ||
         exit $?
@@ -159,17 +163,19 @@ exit 0
 # Preferred option: Remove the SD card from the phone and place directly in the laptop.
 sudo fdisk /dev/mmcblk0  # Create exfat partition (type 7).
 sudo mkfs.exfat -n "${NAME}-nnn" /dev/mmcblk0p1 || exit $?
-rsync-vfat-{quick,verify} --delete "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit $?
+rsync-vfat-{quick,verify} --delete -- "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit $?
 sudo umount "${MOUNT_DIR}/"
 
 # Alternative option: Mount the SD card while it's in the phone.
 # Enable "Use USB to" "Transfer files" option on the phone after connecting USB.
 # Eject the phone from File Manager (otherwise jmtpfs will core dump).
 jmtpfs "${HOME}/Phone/" || exit $?
-rsync-vfat-{quick,verify} --delete "${MOUNT_DIR}/." "${HOME}/Phone/SanDisk SD card/." \
+rsync-vfat-{quick,verify} --delete \
     --exclude "/Android/" \
     --exclude "/.android_secure/" \
-    --exclude "/DCIM/" ||
+    --exclude "/DCIM/" \
+    -- \
+    "${MOUNT_DIR}/." "${HOME}/Phone/SanDisk SD card/." ||
         exit $?
 sudo umount "${MOUNT_DIR}/"
 umount "${HOME}/Phone/"

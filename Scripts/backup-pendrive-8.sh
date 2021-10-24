@@ -47,6 +47,7 @@ rsync \
     --exclude "bin/" \
     --exclude "int/" \
     --exclude "thirdparty/" \
+    -- \
     "${SOURCE}/" "${TARGET_DIR}/" | tee "${LOGFILE}" || exit $?
 
 date +%Y%m%d-%H%M%S > "${TIMESTAMP_PATH}" || exit $?
