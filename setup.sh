@@ -9,7 +9,7 @@ HERE="$(readlink -e "$(dirname "$0")")"
 BACKUP="$(readlink -e "${HERE}/Backup")"
 [[ -d "${BACKUP}" ]] || exit $?
 
-for NAME in Documents Downloads Images Music Pictures Playlists Videos VirtualMachines
+for NAME in Documents Downloads Images Music Pictures Playlists Podcasts Videos VirtualMachines
 do
     [[ -d "${BACKUP}/${NAME}" ]] || exit $?
 
