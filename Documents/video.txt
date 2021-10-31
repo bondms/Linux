@@ -19,6 +19,9 @@ To view a video with Bulgarian subtitles:
 - As above, but also rotating (e.g. for a video filmed with a portrait orientation):
   # mencoder -vf rotate=1 -ovc lavc -oac mp3lame ./P1000765.MOV -o ./P1000765-rotated.avi
 
+- Instead of rotation, eliminating the audio track:
+  # mencoder -ovc lavc -nosound ./source.mov -o ./target.avi
+
 - Convert to a format that Windows Media Player can cope with :-)
 mencoder -vf rotate=1 -ovc lavc -lavcopts vcodec=wmv2 -af resample=44100 -oac pcm ./P1000765.MOV -o ./P1000765-rotated-recoded.avi
 
@@ -100,4 +103,3 @@ The VOB files aren't fully suitable for DVDAuthor. In order to get the right fil
 mencoder -oac copy -ovc copy -of mpeg -mpegopts format=dvd:tsaf -o output.mpg input.vob
 
 Being input.vob the path to the input file, and output.mpg the path for the output file. Now you can add output.mpg marking the option "This is already a DVD/xCD-suitable MPEG file".
-
