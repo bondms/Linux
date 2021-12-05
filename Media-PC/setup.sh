@@ -60,7 +60,7 @@ fi
 mkdir --verbose --parents -- "${HOME}/Recordings" || exit $?
 crontab - << EOF
 # Record Radio Varna from 10:20 to 13:00 (2h40m) on Sundays.
-20 10 * * sun sox --clobber --type mp3 http://broadcast.masters.bg:8000/live "${HOME}\Recordings\radio-varna.mp3" trim 0 2:40:00"
+20 10 * * sun sox --clobber --type mp3 http://broadcast.masters.bg:8000/live "${HOME}/Recordings/radio-varna.mp3" trim 0 2:40:00"
 EOF
 
 echo "*** SUCCESS ***"
