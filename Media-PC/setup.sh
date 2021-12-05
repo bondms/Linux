@@ -56,4 +56,6 @@ fi
 [[ -h "${HERE}/../../rgain/scripts/rgain3" ]] ||
     ln --symbolic --verbose -- "../rgain3" "${HERE}/../../rgain/scripts/." || exit $?
 
+mkdir --verbose --parents -- "${HOME}/Recordings" || exit $?
+
 echo "*** SUCCESS ***"
