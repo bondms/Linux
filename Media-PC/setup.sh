@@ -13,6 +13,7 @@ sudo apt install --assume-yes rpi-eeprom || exit $?
 sudo apt install --assume-yes feh || exit $?
 sudo apt install --assume-yes sox libsox-fmt-all || exit $?
 sudo apt install --assume-yes xscreensaver || exit $?
+sudo apt install --assume-yes at || exit $?
 
 # rgain dependencies
 sudo apt install --assume-yes gstreamer1.0-python3-plugin-loader python3-mutagen || exit $?
