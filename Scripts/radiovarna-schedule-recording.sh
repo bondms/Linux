@@ -27,7 +27,6 @@ ROUNDED_START_TIME=$(date --date="${START_TIME}" +"%F %R")
 ROUNDED_END_TIME=$(date --date="${END_TIME}" +"%F %R")
 
 AT_START_TIME=$(date --date="${ROUNDED_START_TIME}" +"%R %F")
-AT_END_TIME=$(date --date="${ROUNDED_END_TIME}" +"%R %F")
 
 START_EPOCH=$(date --date="${ROUNDED_START_TIME}" +"%s")
 END_EPOCH=$(date --date="${ROUNDED_END_TIME}" +"%s")
@@ -35,7 +34,8 @@ END_EPOCH=$(date --date="${ROUNDED_END_TIME}" +"%s")
 TARGET_DATE=$(date --date="${ROUNDED_START_TIME}" --iso-8601=date)
 [[ -n "${TARGET_DATE}" ]] || exit $?
 
-DURATION_MINUTES=$(( (END_EPOCH - START_EPOCH) / 60 ))
+DURATION_SECONDS=$(( END_EPOCH - START_EPOCH ))
+DURATION_MINUTES=$(( DURATION_SECONDS / 60 ))
 [[ "${DURATION_MINUTES}" -ge 1 ]] || exit $?
 [[ "${DURATION_MINUTES}" -le 1440 ]] || exit $?
 
@@ -45,16 +45,12 @@ TARGET_DIR="/home/${USER}-unencrypted/Recordings"
 TARGET="${TARGET_DIR}/radio-varna-${TARGET_DATE}.mp3"
 [[ ! -e "${TARGET}" ]] || exit $?
 
-RECORD_CMD="sox --type mp3 http://broadcast.masters.bg:8000/live \"${TARGET}\""
+RECORD_CMD="sox --type mp3 http://broadcast.masters.bg:8000/live \"${TARGET}\" trim 0 ${DURATION_SECONDS}"
 
 pushd "${TARGET_DIR}" || exit $?
 
 at -M "${AT_START_TIME}" << EOF || exit $?
 ${RECORD_CMD}
-EOF
-
-at -M "${AT_END_TIME}" << EOF || exit $?
-pkill --exact --full "${RECORD_CMD}"
 EOF
 
 if [[ -n "${POWER_OFF:-}" ]]
