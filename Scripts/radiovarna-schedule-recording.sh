@@ -18,6 +18,7 @@ do
     case "${1}" in
         "power-on") POWER_ON=1 ;;
         "power-off" ) POWER_OFF=1 ;;
+        "overwrite" ) OVERWRITE=1 ;;
         * ) echo "Unknown argument: $1" >&2 ; exit 1 ;;
     esac
     shift
@@ -27,34 +28,43 @@ ROUNDED_START_TIME=$(date --date="${START_TIME}" +"%F %R")
 ROUNDED_END_TIME=$(date --date="${END_TIME}" +"%F %R")
 
 AT_START_TIME=$(date --date="${ROUNDED_START_TIME}" +"%R %F")
-AT_END_TIME=$(date --date="${ROUNDED_END_TIME}" +"%R %F")
 
 START_EPOCH=$(date --date="${ROUNDED_START_TIME}" +"%s")
 END_EPOCH=$(date --date="${ROUNDED_END_TIME}" +"%s")
 
-TARGET_DATE=$(date --date="${ROUNDED_START_TIME}" --iso-8601=date)
-[[ -n "${TARGET_DATE}" ]] || exit $?
-
-DURATION_MINUTES=$(( (END_EPOCH - START_EPOCH) / 60 ))
+DURATION_SECONDS=$(( END_EPOCH - START_EPOCH ))
+DURATION_MINUTES=$(( DURATION_SECONDS / 60 ))
 [[ "${DURATION_MINUTES}" -ge 1 ]] || exit $?
 [[ "${DURATION_MINUTES}" -le 1440 ]] || exit $?
 
-TARGET_DIR="/home/${USER}-unencrypted/Recordings"
+if [[ -d "/home/${USER}-unencrypted/Recordings" ]]
+then
+    # Use unencrypted folder for cases where use may not have logged on to decrypt home folder.
+    TARGET_DIR="/home/${USER}-unencrypted/Recordings"
+else
+    # Media PC is always on and logged in, so home folder should always be accessible
+    TARGET_DIR="${HOME}/Recordings"
+fi
 [[ -d "${TARGET_DIR}" ]] || exit $?
 
-TARGET="${TARGET_DIR}/radio-varna-${TARGET_DATE}.mp3"
-[[ ! -e "${TARGET}" ]] || exit $?
+if [[ -n "${OVERWRITE:-}" ]]
+then
+    TARGET="${TARGET_DIR}/radio-varna.mp3"
+    CLOBBER="--clobber"
+else
+    TARGET_DATE=$(date --date="${ROUNDED_START_TIME}" --iso-8601=date)
+    [[ -n "${TARGET_DATE}" ]] || exit $?
+    TARGET="${TARGET_DIR}/radio-varna-${TARGET_DATE}.mp3"
+    [[ ! -e "${TARGET}" ]] || exit $?
+    CLOBBER="--no-clobber"
+fi
 
-RECORD_CMD="sox --type mp3 http://broadcast.masters.bg:8000/live \"${TARGET}\""
+RECORD_CMD="sox ${CLOBBER} --type mp3 http://broadcast.masters.bg:8000/live \"${TARGET}\" trim 0 ${DURATION_SECONDS}"
 
 pushd "${TARGET_DIR}" || exit $?
 
 at -M "${AT_START_TIME}" << EOF || exit $?
 ${RECORD_CMD}
-EOF
-
-at -M "${AT_END_TIME}" << EOF || exit $?
-pkill --exact --full "${RECORD_CMD}"
 EOF
 
 if [[ -n "${POWER_OFF:-}" ]]

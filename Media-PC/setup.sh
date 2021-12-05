@@ -13,6 +13,7 @@ sudo apt install --assume-yes rpi-eeprom || exit $?
 sudo apt install --assume-yes feh || exit $?
 sudo apt install --assume-yes sox libsox-fmt-all || exit $?
 sudo apt install --assume-yes xscreensaver || exit $?
+sudo apt install --assume-yes at || exit $?
 
 # rgain dependencies
 sudo apt install --assume-yes gstreamer1.0-python3-plugin-loader python3-mutagen || exit $?
@@ -54,5 +55,12 @@ fi
     git clone --depth 1 --branch 1.0.0 --verbose -- https://github.com/chaudum/rgain.git "${HERE}/../../rgain" || exit $?
 [[ -h "${HERE}/../../rgain/scripts/rgain3" ]] ||
     ln --symbolic --verbose -- "../rgain3" "${HERE}/../../rgain/scripts/." || exit $?
+
+# Configure recording for time-shifted playback of Radio Varna
+mkdir --verbose --parents -- "${HOME}/Recordings" || exit $?
+crontab - << EOF
+# Record Radio Varna from 10:20 to 13:00 (2h40m) on Sundays.
+20 10 * * sun sox --clobber --type mp3 http://broadcast.masters.bg:8000/live "${HOME}/Recordings/radio-varna.mp3" trim 0 2:40:00
+EOF
 
 echo "*** SUCCESS ***"
