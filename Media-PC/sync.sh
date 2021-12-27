@@ -8,6 +8,7 @@ HERE="$(readlink -e "$(dirname "$0")")"
 
 for subdir in "Music" "Pictures" "Playlists" "Podcasts"
 do
+    mkdir --parents -- "/media/bondms/rootfs/home/pi/${subdir}" || exit $?
     rsync --archive --human-readable --itemize-changes --checksum -- "${HOME}/${subdir}/." "/media/bondms/rootfs/home/pi/${subdir}/." || exit $?
 done
 
