@@ -13,5 +13,5 @@ Install Raspberry PI OS (previously Raspbian) as per [Raspberry Pi Documentation
 1. Main PC: Use `sync.sh` to synchronise Music, Pictures, Playlists, Podcasts, etc. to the Media PC's disk.
 
 TODO:
-* Enable auto-updates including the firmware/boot-loader (from https://www.raspberrypi.org/documentation/hardware/raspberrypi/booteeprom.md):
+* Enable auto-updates including the firmware/boot-loader as per [Raspberry Pi Documentation](https://www.raspberrypi.org/documentation/hardware/raspberrypi/booteeprom.md).
 * Picture orientation and audio levelling for external and when copying new files to internal storage.
