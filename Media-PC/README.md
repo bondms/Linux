@@ -9,6 +9,7 @@ Install Raspberry PI OS (previously Raspbian) as per [Raspberry Pi Documentation
 1. Media PC: Configure networking.
 1. Media PC: Download Linux-master.zip from GitHub and expand to home folder (i.e. to create ~/Linux-master/...
 1. Media PC: Install disable screensaver (from xscreensaver) to turn-off screen blanking.
+1. Media PC: Pair Bluetooth device(s).
 1. Main PC: Use `sync.sh` to synchronise Music, Pictures, Playlists, Podcasts, etc. to the Media PC's disk.
 
 TODO:
