@@ -6,6 +6,19 @@ set -o pipefail
 HERE="$(readlink -e "$(dirname "$0")")"
 [[ -d "${HERE}" ]] || exit $?
 
+for NAME in Desktop
+do
+    [[ -d "${HERE}/${NAME}" ]] || exit $?
+
+    if [[ -d "${HOME}/${NAME}" && ! -h "${HOME}/${NAME}" ]]
+    then
+        rmdir --verbose "${HOME}/${NAME}" || exit $?
+    fi
+
+    [[ -h "${HOME}/${NAME}" ]] ||
+        ln --symbolic --verbose -- "${HERE}/${NAME}" "${HOME}/." || exit $?
+done
+
 sudo apt update || exit $?
 sudo apt full-upgrade || exit $?
 
