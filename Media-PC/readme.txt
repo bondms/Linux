@@ -4,8 +4,7 @@ Installing Raspbian (as per https://www.raspberrypi.org/documentation/installati
 * Don't confirm the black border, else it will remove it and then the desktop edges will be off the TV screen.
 * Configure networking.
 * Download Linux-master.zip from Github and expand to home folder (i.e. to create ~/Linux-master/...
-* Copy Desktop shortcut files.
-* Copy Music, Pictures, Playlists, Podcasts, ...
+* Use sync.sh to synchronise Desktop, Music, Pictures, Playlists, Podcasts, etc.
 * Install disable screensaver (from xscreensaver) to turn-off screen blanking.
 
 TODO:
