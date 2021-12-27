@@ -39,6 +39,17 @@ sudo apt-get autoclean || exit $?
 [[ -h "${HOME}/.bash_aliases" ]] ||
     ln --symbolic --verbose -- "${HERE}/Shell/.bash_aliases" "${HOME}/." || exit $?
 
+# Old versions of Raspbian used ALSA:
+# if [[ ! -h /etc/asound.conf ]]
+# then
+#     # Downmix all audio output from stereo to mono.
+#     # https://www.tinkerboy.xyz/raspberry-pi-downmixing-from-stereo-to-mono-sound-output/
+#     # The device number in `hw:N` is determined from the output of `cat /proc/asound/modules`.
+#     sudo ln --symbolic --verbose -- "${HERE}/MonoAudio/asound.conf" /etc/. || exit $?
+#     echo "*** Reboot for mono audio downmix to take effect ***"
+# fi
+
+# New version of Raspbian use Pulse audio:
 if [[ ! -e /etc/pulse/default.pa.orig ]]
 then
     # Downmix all audio output from stereo to mono.
