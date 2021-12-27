@@ -52,16 +52,19 @@ sudo apt-get autoclean || exit $?
 # New version of Raspbian use Pulse audio:
 if [[ ! -e /etc/pulse/default.pa.orig ]]
 then
-    # Downmix all audio output from stereo to mono.
+    # Downmix audio output from stereo to mono for HDMI.
     # https://askubuntu.com/questions/17791/can-i-downmix-stereo-audio-to-mono
     # The device name (master) is determined from the output of `pacmd list-sinks`.
     # Test with `speaker-test -c 2 -t sine` and/or https://www.youtube.com/watch?v=6TWJaFD6R2s
+    # Play sound through multiple output devices.
+    # https://askubuntu.com/questions/78174/play-sound-through-two-or-more-outputs-devices
     grep -Fv "sink_name=mono" /etc/pulse/default.pa || exit $?
-    grep -Fv "set-default-sink mono" /etc/pulse/default.pa || exit $?
+    grep -Fv "set-default-sink combined" /etc/pulse/default.pa || exit $?
     sudo cp --archive --interactive --verbose /etc/pulse/default.pa{,.orig} || exit $?
     echo "load-module module-remap-sink sink_name=mono master=alsa_output.platform-fef00700.hdmi.hdmi-stereo channels=2 channel_map=mono,mono" | sudo tee --append /etc/pulse/default.pa || exit $?
-    echo "set-default-sink mono" | sudo tee --append /etc/pulse/default.pa || exit $?
-    echo "*** Reboot for stereo-to-mono audio downmix to take effect ***"
+    echo "load-module module-combine-sink" | sudo tee --append /etc/pulse/default.pa || exit $?
+    echo "set-default-sink combined" | sudo tee --append /etc/pulse/default.pa || exit $?
+    echo "*** Reboot for audio configuration to take effect ***"
 fi
 
 [[ -d "${HERE}/../../rgain" ]] ||
