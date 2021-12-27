@@ -64,7 +64,7 @@ then
     grep -Fv "set-default-sink combined" /etc/pulse/default.pa || exit $?
     sudo cp --archive --interactive --verbose /etc/pulse/default.pa{,.orig} || exit $?
     echo "load-module module-remap-sink sink_name=mono master=alsa_output.platform-fef00700.hdmi.hdmi-stereo channels=2 channel_map=mono,mono" | sudo tee --append /etc/pulse/default.pa || exit $?
-    echo "load-module module-combine-sink" | sudo tee --append /etc/pulse/default.pa || exit $?
+    echo "load-module module-combine-sink slaves=mono" | sudo tee --append /etc/pulse/default.pa || exit $?
     echo "set-default-sink combined" | sudo tee --append /etc/pulse/default.pa || exit $?
     echo "*** Reboot for audio configuration to take effect ***"
 fi
