@@ -59,9 +59,10 @@ then
     grep -Fv "sink_name=mono" /etc/pulse/default.pa || exit $?
     grep -Fv "set-default-sink mono" /etc/pulse/default.pa || exit $?
     sudo cp --archive --interactive --verbose /etc/pulse/default.pa{,.orig} || exit $?
-    echo "load-module module-remap-sink sink_name=mono master=alsa_output.platform-bcm2835_audio.digital-stereo channels=2 channel_map=mono,mono" | sudo tee --append /etc/pulse/default.pa || exit $?
+    # echo "load-module module-remap-sink sink_name=mono master=alsa_output.platform-bcm2835_audio.digital-stereo channels=2 channel_map=mono,mono" | sudo tee --append /etc/pulse/default.pa || exit $?
+    echo "load-module module-remap-sink sink_name=mono master=alsa_output.platform-fef00700.hdmi.hdmi-stereo channels=2 channel_map=mono,mono" | sudo tee --append /etc/pulse/default.pa || exit $?
     echo "set-default-sink mono" | sudo tee --append /etc/pulse/default.pa || exit $?
-    echo "*** Reboot for mono audio downmix to take effect ***"
+    echo "*** Reboot for stereo-to-mono audio downmix to take effect ***"
 fi
 
 [[ -d "${HERE}/../../rgain" ]] ||
