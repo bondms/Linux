@@ -54,10 +54,12 @@ if [[ ! -e /etc/pulse/default.pa.orig ]]
 then
     # Downmix audio output from stereo to mono for HDMI.
     # https://askubuntu.com/questions/17791/can-i-downmix-stereo-audio-to-mono
+    # https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/Modules/#module-remap-sink
     # The device name (master) is determined from the output of `pacmd list-sinks`.
     # Test with `speaker-test -c 2 -t sine` and/or https://www.youtube.com/watch?v=6TWJaFD6R2s
     # Play sound through multiple output devices.
     # https://askubuntu.com/questions/78174/play-sound-through-two-or-more-outputs-devices
+    # https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/Modules/#module-combine-sink
     grep -Fv "sink_name=mono" /etc/pulse/default.pa || exit $?
     grep -Fv "set-default-sink combined" /etc/pulse/default.pa || exit $?
     sudo cp --archive --interactive --verbose /etc/pulse/default.pa{,.orig} || exit $?
