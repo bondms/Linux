@@ -1,4 +1,5 @@
 {
+    "C_Cpp.clang_format_fallbackStyle": "LLVM",
     "editor.acceptSuggestionOnCommitCharacter": false,
     "editor.acceptSuggestionOnEnter": "off",
     "editor.autoClosingBrackets": "never",
@@ -6,6 +7,7 @@
     "editor.autoSurround": "never",
     "editor.renderWhitespace": "all",
     "editor.rulers": [80],
+    "editor.tabSize": 2,
     "files.hotExit": "off",
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,
