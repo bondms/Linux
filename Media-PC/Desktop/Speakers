@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -eux
+set -o pipefail
+
+# If slaves argument is omitted, it combines the audio devices (not the hdmi_mono sink).
+# Therefore the slaves need to be specified explicitly.
+# TODO: Trigger automatically with a udev rule when Bluetooth connects.
+# TODO: What happens when Bluetooth disconnects?
+
+pactl unload-module module-combine-sink || true
+pactl load-module module-combine-sink slaves=hdmi_mono,bluez_sink.D8_45_A3_EE_07_96.a2dp_sink || exit $?
+pactl set-default-sink combined || exit $?

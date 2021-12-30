@@ -55,16 +55,11 @@ then
     # Play sound through multiple output devices.
     # https://askubuntu.com/questions/78174/play-sound-through-two-or-more-outputs-devices
     # https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/Modules/#module-combine-sink
-    grep -Fv "sink_name=mono" /etc/pulse/default.pa || exit $?
-    grep -Fv "set-default-sink combined" /etc/pulse/default.pa || exit $?
+    grep -Fv "sink_name=hdmi_mono" /etc/pulse/default.pa || exit $?
+    grep -Fv "set-default-sink hdmi_mono" /etc/pulse/default.pa || exit $?
     sudo cp --archive --interactive --verbose /etc/pulse/default.pa{,.orig} || exit $?
-    echo "load-module module-remap-sink sink_name=mono master=alsa_output.platform-fef00700.hdmi.hdmi-stereo channels=2 channel_map=mono,mono" | sudo tee --append /etc/pulse/default.pa || exit $?
-    # If slaves argument is omitted, it combines the audio devices (not the mono sink).
-    # Therefore the slave need to be specified explicitly.
-    # TODO: Add device name for Bluetooth speakers to list of slaves (comma-separated list).
-    # TODO: Perhaps need to trigger pacmd/pactl when Bluetooth connects.
-    echo "load-module module-combine-sink slaves=mono" | sudo tee --append /etc/pulse/default.pa || exit $?
-    echo "set-default-sink combined" | sudo tee --append /etc/pulse/default.pa || exit $?
+    echo "load-module module-remap-sink sink_name=hdmi_mono master=alsa_output.platform-fef00700.hdmi.hdmi-stereo channels=2 channel_map=mono,mono" | sudo tee --append /etc/pulse/default.pa || exit $?
+    echo "set-default-sink hdmi_mono" | sudo tee --append /etc/pulse/default.pa || exit $?
     echo "*** Reboot for audio configuration to take effect ***"
 fi
 
