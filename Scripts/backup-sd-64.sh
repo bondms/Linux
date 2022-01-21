@@ -35,6 +35,7 @@ rsync \
     --sparse \
     --delete --delete-excluded \
     --exclude "/BackupLogs/" \
+    --exclude "/Documents/Archive/Programming/Git/Linux/Scripts/OctopusEnergyApi/data/" \
     --exclude "/Images/*ubuntu-*.iso" \
     --exclude "/Images/RaspberryPi/" \
     --exclude "/Temp/" \
