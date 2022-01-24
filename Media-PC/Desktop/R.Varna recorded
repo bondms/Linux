@@ -1,4 +1,0 @@
-#!/bin/bash
-
-# Ignore the length in case recording is still in progress.
-play --ignore-length "${HOME}/Recordings/radio-varna.mp3"
