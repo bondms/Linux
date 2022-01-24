@@ -13,7 +13,8 @@ then
 fi
 [[ -h "${HOME}/Desktop" ]] ||
     ln --symbolic --verbose -- "${HERE}/Desktop" "${HOME}/." || exit $?
-ln --symbolic --verbose -- "${HOME}/Recordings/radio-varna.mp3" "${HOME}/Desktop/R.Varna recorded" || exit $?
+[[ -h "${HOME}/Desktop/R.Varna recorded" ]] ||
+    ln --symbolic --verbose -- "${HOME}/Recordings/radio-varna.mp3" "${HOME}/Desktop/R.Varna recorded" || exit $?
 
 sudo apt update || exit $?
 sudo apt full-upgrade || exit $?
