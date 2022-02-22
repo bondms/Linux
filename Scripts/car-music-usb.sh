@@ -3,7 +3,7 @@
 set -eux
 set -o pipefail
 
-[[ $# -eq 0 ]]
+[[ $# -eq 0 ]] || exit $?
 
 # Use uppercase and limit to 11 characters (including the "-nnn" suffix).
 NAME="CAR-USB"
@@ -19,7 +19,7 @@ if [[ ! -e "${IMAGE_PATH}" ]]
 then
     # Make the image file a little smaller than the real disk so there's no chance
     # of trying to overfill the real disk.
-    truncate -s 30GB "${IMAGE_PATH}" || exit "$?"
+    truncate -s 60GB "${IMAGE_PATH}" || exit "$?"
     mkfs.vfat -n "${NAME}" "${IMAGE_PATH}" || exit "$?"
 fi
 [[ -f "${IMAGE_PATH}" ]] || exit "$?"
