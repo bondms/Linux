@@ -137,4 +137,6 @@ exit 0
 
 sudo mkfs.vfat -n "${NAME}-nnn" /dev/sdb1 || exit "$?"
 rsync-vfat-{quick,verify} --delete -- "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit "$?"
-sudo umount "${MOUNT_DIR}/"
+sync --file-system "/media/${USER}/${NAME}/." || exit $?
+sudo umount "${MOUNT_DIR}/" || exit $?
+umount "/media/${USER}/${NAME}/" || exit $?

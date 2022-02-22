@@ -164,7 +164,9 @@ exit 0
 sudo fdisk /dev/mmcblk0  # Create exfat partition (type 7).
 sudo mkfs.exfat -n "${NAME}-nnn" /dev/mmcblk0p1 || exit $?
 rsync-vfat-{quick,verify} --delete -- "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit $?
-sudo umount "${MOUNT_DIR}/"
+sync --file-system "/media/${USER}/${NAME}/." || exit $?
+sudo umount "${MOUNT_DIR}/" || exit $?
+umount "/media/${USER}/${NAME}/" || exit $?
 
 # Alternative option: Mount the SD card while it's in the phone.
 # Enable "Use USB to" "Transfer files" option on the phone after connecting USB.
@@ -177,6 +179,7 @@ rsync-vfat-{quick,verify} --delete \
     -- \
     "${MOUNT_DIR}/." "${HOME}/Phone/SanDisk SD card/." ||
         exit $?
-sudo umount "${MOUNT_DIR}/"
-umount "${HOME}/Phone/"
+sync --file-system "${HOME}/Phone/SanDisk SD card/." || exit $?
+sudo umount "${MOUNT_DIR}/" || exit $?
+umount "${HOME}/Phone/" || exit $?
 # Disable "Use USB to" "Transfer files" option on the phone.
