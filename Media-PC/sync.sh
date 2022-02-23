@@ -12,4 +12,6 @@ do
     rsync --archive --human-readable --itemize-changes --checksum -- "${HOME}/${subdir}/." "/media/bondms/rootfs/home/pi/${subdir}/." || exit $?
 done
 
+sync --file-system "/media/bondms/rootfs/home/pi/." || exit $?
+
 echo "*** SUCCESS ***"
