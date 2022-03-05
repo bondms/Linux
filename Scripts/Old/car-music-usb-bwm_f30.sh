@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Supports BWM F30 with 32 Gb storage device.
+
 set -eux
 set -o pipefail
 
@@ -19,7 +21,7 @@ if [[ ! -e "${IMAGE_PATH}" ]]
 then
     # Make the image file a little smaller than the real disk so there's no chance
     # of trying to overfill the real disk.
-    truncate -s 60GB "${IMAGE_PATH}" || exit "$?"
+    truncate -s 30GB "${IMAGE_PATH}" || exit "$?"
     mkfs.vfat -n "${NAME}" "${IMAGE_PATH}" || exit "$?"
 fi
 [[ -f "${IMAGE_PATH}" ]] || exit "$?"
@@ -108,7 +110,7 @@ import os.path
 import sys
 for i in iter(sys.stdin):
     i = i.rstrip('\n')
-    print(os.path.relpath(i, sys.argv[1]))
+    print(os.path.relpath(i, start=sys.argv[1]))
 \" \"${PLAYLIST_SOURCE_DIR_SANITIZED}\" |
             sort --numeric-sort |
             uniq |
