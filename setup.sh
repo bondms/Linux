@@ -137,6 +137,7 @@ sudo apt install --assume-yes python-pytest || exit $?
 # sudo apt install --assume-yes python3-dev python3-bluez || exit $?
 sudo apt install --assume-yes npm || exit $?
 sudo apt install --assume-yes at || exit $?
+sudo apt install --assume-yes audacity || exit $?
 
 sudo npm install -g @bazel/bazelisk || exit $?
 
