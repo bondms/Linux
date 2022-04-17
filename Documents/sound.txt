@@ -4,7 +4,7 @@ Cropping:
 # ffmpeg -ss 15 -t 30 -i i.mp3 o.mp3
 
 # The "-acodec copy" options should eliminate decoding and re-encoding, but may give an error.
-# ffmpeg -acodec copy -ss 15 -t 30 -i i.mp3 o.mp3
+# ffmpeg -i i.mp3 -acodec copy -ss 15 -t 30 o.mp3
 
 Use the System/Preferences/Sound to enable digital output for music and videos.
 
