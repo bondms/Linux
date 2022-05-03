@@ -101,6 +101,7 @@ then
   diff -- "${EXISTING_CODE_CONFIG}" "${NEW_CODE_CONFIG}" || exit $?
 else
   sudo cp --verbose -- "${NEW_CODE_CONFIG}" "${EXISTING_CODE_CONFIG}" || exit $?
+  sudo chown --verbose bondms.bondms -- "${EXISTING_CODE_CONFIG}" || exit $?
 fi
 
 sudo snap refresh || exit $?
@@ -109,6 +110,7 @@ sudo apt full-upgrade || exit $?
 
 sudo apt install --assume-yes synaptic || exit $?
 # Use Google's Chrome browser rather than Chromium in order to sync with Android Chrome.
+# Download Google Chrome .deb file and install via right-click.
 # sudo apt install --assume-yes chromium-browser || exit $?
 sudo apt install --assume-yes git || exit $?
 sudo apt install --assume-yes meld || exit $?
@@ -119,11 +121,11 @@ sudo apt install --assume-yes python-is-python3 || exit $?
 sudo snap install --classic code || exit $?
 sudo apt install --assume-yes feh || exit $?
 sudo apt install --assume-yes sox libsox-fmt-all || exit $?
-sudo apt install --assume-yes jmtpfs || exit $?
-sudo apt install --assume-yes exfat-utils || exit $?
+# sudo apt install --assume-yes jmtpfs || exit $?
+# sudo apt install --assume-yes exfat-utils || exit $?
 sudo apt install --assume-yes tofrodos || exit $?
 sudo snap install skype --classic || exit $?
-sudo apt install --assume-yes 2to3 || exit $?
+# sudo apt install --assume-yes 2to3 || exit $?
 sudo apt install --assume-yes python3-mutagen || exit $?
 sudo apt install --assume-yes symlinks || exit $?
 sudo apt install --assume-yes jhead || exit $?
@@ -133,7 +135,7 @@ sudo apt install --assume-yes clang clang-format clang-tidy || exit $?
 sudo apt install --assume-yes imagemagick || exit $?
 sudo apt install --assume-yes curl || exit $?
 sudo apt install --assume-yes latexdraw || exit $?
-sudo apt install --assume-yes python-pytest || exit $?
+# sudo apt install --assume-yes python-pytest || exit $?
 # sudo apt install --assume-yes python3-dev python3-bluez || exit $?
 sudo apt install --assume-yes npm || exit $?
 sudo apt install --assume-yes at || exit $?
@@ -145,10 +147,8 @@ sudo npm install -g @bazel/bazelisk || exit $?
 sudo apt autoremove || exit $?
 sudo apt-get autoclean || exit $?
 
-if [[ ! -d "${HOME}/.bash-git-prompt" ]]
-then
+[[ -d "${HOME}/.bash-git-prompt" ]] ||
     git clone https://github.com/magicmonty/bash-git-prompt.git "${HOME}/.bash-git-prompt" --depth=1 || exit $?
-fi
 
 git config --global core.editor "code --wait --new-window" || exit $?
 git config --global core.pager "less -iM" || exit $?
@@ -159,25 +159,25 @@ git config --global user.email "34947848+bondms@users.noreply.github.com" || exi
 [[ -h "${HERE}/../rgain/scripts/rgain3" ]] ||
     ln --symbolic --verbose -- "../rgain3" "${HERE}/../rgain/scripts/." || exit $?
 
-sudo apt install --assume-yes dnsmasq resolvconf || exit $?
-sudo systemctl stop systemd-resolved || exit $?
-sudo systemctl disable systemd-resolved || exit $?
-sudo systemctl enable resolvconf.service || exit $?
-sudo systemctl start resolvconf.service || exit $?
-if [[ ! -e /etc/resolvconf/resolv.conf.d/head.orig ]]
-then
-    sudo cp --archive --no-clobber /etc/resolvconf/resolv.conf.d/head /etc/resolvconf/resolv.conf.d/head.orig || exit $?
-fi
-for ns in "8.8.8.8" "8.8.4.4" "1.1.1.1"
-do
-    grep "^nameserver ${ns}\$" /etc/resolvconf/resolv.conf.d/head && result=$? || result=$?
-    case $result in
-    0 ) ;;
-    1 ) echo "nameserver ${ns}" | sudo tee --append /etc/resolvconf/resolv.conf.d/head || exit $? ;;
-    * ) exit $? ;;
-    esac
-done
-sudo resolvconf --enable-updates || exit $?
-sudo resolvconf -u || exit $?
+# sudo apt install --assume-yes dnsmasq resolvconf || exit $?
+# sudo systemctl stop systemd-resolved || exit $?
+# sudo systemctl disable systemd-resolved || exit $?
+# sudo systemctl enable resolvconf.service || exit $?
+# sudo systemctl start resolvconf.service || exit $?
+# if [[ ! -e /etc/resolvconf/resolv.conf.d/head.orig ]]
+# then
+#     sudo cp --archive --no-clobber /etc/resolvconf/resolv.conf.d/head /etc/resolvconf/resolv.conf.d/head.orig || exit $?
+# fi
+# for ns in "8.8.8.8" "8.8.4.4" "1.1.1.1"
+# do
+#     grep "^nameserver ${ns}\$" /etc/resolvconf/resolv.conf.d/head && result=$? || result=$?
+#     case $result in
+#     0 ) ;;
+#     1 ) echo "nameserver ${ns}" | sudo tee --append /etc/resolvconf/resolv.conf.d/head || exit $? ;;
+#     * ) exit $? ;;
+#     esac
+# done
+# sudo resolvconf --enable-updates || exit $?
+# sudo resolvconf -u || exit $?
 
 echo "*** SUCCESS ***"

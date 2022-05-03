@@ -6,7 +6,7 @@ set -o pipefail
 SOURCE="${HOME}/Archive/bondms"
 TARGET="sd-128"
 TARGET_LINK="${HOME}/Backup/BackupTargets/${TARGET}"
-TARGET_DIR="${TARGET_LINK}/backup"
+TARGET_DIR="${TARGET_LINK}/Backup"
 LOGFILE="${HOME}/Backup/BackupLogs/rsync-${TARGET}.log"
 TIMESTAMP_PATH="${TARGET_DIR}/timestamp.txt"
 

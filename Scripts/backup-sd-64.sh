@@ -6,7 +6,7 @@ set -o pipefail
 SOURCE="${HOME}/Backup"
 TARGET="sd-64"
 TARGET_LINK="${SOURCE}/BackupTargets/${TARGET}"
-TARGET_DIR="${TARGET_LINK}/backup"
+TARGET_DIR="${TARGET_LINK}/Backup"
 LOGFILE="${SOURCE}/BackupLogs/rsync-${TARGET}.log"
 TIMESTAMP_PATH="${TARGET_DIR}/timestamp.txt"
 
@@ -36,6 +36,7 @@ rsync \
     --delete --delete-excluded \
     --exclude "/BackupLogs/" \
     --exclude "/Documents/Archive/Programming/Git/Linux/Scripts/OctopusEnergyApi/data/" \
+    --exclude "/Downloads/" \
     --exclude "/Images/*ubuntu-*.iso" \
     --exclude "/Images/RaspberryPi/" \
     --exclude "/Temp/" \

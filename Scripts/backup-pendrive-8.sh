@@ -6,7 +6,7 @@ set -o pipefail
 SOURCE="${HOME}/Backup"
 TARGET="pendrive-8"
 TARGET_LINK="${SOURCE}/BackupTargets/${TARGET}"
-TARGET_DIR="${TARGET_LINK}/backup"
+TARGET_DIR="${TARGET_LINK}/Backup"
 LOGFILE="${SOURCE}/BackupLogs/rsync-${TARGET}.log"
 TIMESTAMP_PATH="${TARGET_DIR}/timestamp.txt"
 
@@ -37,6 +37,7 @@ rsync \
     --exclude "/BackupLogs/" \
     --exclude "/Documents/Archive/Motoring/Ursula/200801 Polestar 2 press kit UK.zip" \
     --exclude "/Documents/Archive/Programming/Git/Linux/Scripts/OctopusEnergyApi/data/" \
+    --exclude "/Downloads/" \
     --exclude "/Images/" \
     --exclude "/Music/AudioCDs/" \
     --exclude "/Music/Other/" \
