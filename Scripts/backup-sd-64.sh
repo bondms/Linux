@@ -46,6 +46,7 @@ rsync \
     --exclude "bin/" \
     --exclude "int/" \
     --exclude "thirdparty/" \
+    --exclude "*.pyc" \
     -- \
     "${SOURCE}/" "${TARGET_DIR}/" | tee "${LOGFILE}" || exit $?
 
