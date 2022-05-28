@@ -1,10 +1,10 @@
 The ffmpeg video editor can also be used for editing sound files, e.g. mp3.
 
-Cropping:
+Cropping with start and length or start and finish.
+The `acodec copy` option eliminates decoding and re-encoding.
+Audacity is good for finding the timepoints, but use ffmped to edit in order to avoid re-encoding.
 # ffmpeg -ss 15 -t 30 -i i.mp3 o.mp3
-
-# The "-acodec copy" options should eliminate decoding and re-encoding, but may give an error.
-# ffmpeg -i i.mp3 -acodec copy -ss 15 -t 30 o.mp3
+# ffmpeg -ss 0:01:23.456 -to 4:05:06.789 -i i.mp3 -acodec copy o.mp3
 
 Use the System/Preferences/Sound to enable digital output for music and videos.
 
