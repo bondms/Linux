@@ -8,7 +8,11 @@ TARGET="sd-128"
 TARGET_LINK="${HOME}/Backup/BackupTargets/${TARGET}"
 TARGET_DIR="${TARGET_LINK}/Backup"
 LOGFILE="${HOME}/Backup/BackupLogs/rsync-${TARGET}.log"
-TIMESTAMP_PATH="${TARGET_DIR}/timestamp.txt"
+TIMESTAMP_NAME="timestamp.txt"
+TIMESTAMP_PATH="${TARGET_DIR}/${TIMESTAMP_NAME}"
+
+# Remove any timestamp file that's been restored from a backup.
+rm --force --verbose "${SOURCE}/${TIMESTAMP_NAME}" || exit $?
 
 [[ -h "${TARGET_LINK}" ]] || exit $?
 [[ -d "${TARGET_DIR}" ]] || exit $?

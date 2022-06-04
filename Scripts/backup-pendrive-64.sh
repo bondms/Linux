@@ -8,7 +8,11 @@ TARGET="pendrive-64"
 TARGET_LINK="${SOURCE}/BackupTargets/${TARGET}"
 TARGET_DIR="${TARGET_LINK}/Backup"
 LOGFILE="${SOURCE}/BackupLogs/rsync-${TARGET}.log"
-TIMESTAMP_PATH="${TARGET_DIR}/timestamp.txt"
+TIMESTAMP_NAME="timestamp.txt"
+TIMESTAMP_PATH="${TARGET_DIR}/${TIMESTAMP_NAME}"
+
+# Remove any timestamp file that's been restored from a backup.
+rm --force --verbose "${SOURCE}/${TIMESTAMP_NAME}" || exit $?
 
 find "${SOURCE}" \! -path "${SOURCE}/BackupTargets/*" -xtype l || exit $?
 [[ -z "$(find "${SOURCE}" \! -path "${SOURCE}/BackupTargets/*" -xtype l \! -name "bazel-*" \! -name "jsoncpp.cpp")" ]] || exit $?
