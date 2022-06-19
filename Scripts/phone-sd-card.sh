@@ -51,6 +51,8 @@ rsync \
     --human-readable \
     --progress \
     --itemize-changes \
+    --times \
+    --modify-window=3601 \
     --exclude "/Favorites/" \
     --exclude "/Montage/Joli/source/" \
     --exclude "/profile.jpg" \
@@ -76,6 +78,8 @@ rsync \
     --human-readable \
     --progress \
     --itemize-changes \
+    --times \
+    --modify-window=3601 \
     -- \
     "${PODCASTS_SOURCE_DIR}/." \
     "${MOUNT_DIR}/${PODCASTS_SUBDIR_NAME}/." ||
@@ -97,6 +101,8 @@ rsync \
     --human-readable \
     --progress \
     --itemize-changes \
+    --times \
+    --modify-window=3601 \
     -- \
     "${MUSIC_SOURCE_DIR}/." \
     "${MOUNT_DIR}/${MUSIC_SUBDIR_NAME}/." ||
@@ -152,6 +158,8 @@ rsync \
     --human-readable \
     --progress \
     --itemize-changes \
+    --times \
+    --modify-window=3601 \
     -- \
     "${PLAYLIST_STAGE_DIR}/." \
     "${PLAYLIST_TARGET_DIR}/." ||

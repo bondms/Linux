@@ -45,13 +45,13 @@ alias rmdir-and-content='find "$(readlink -f .)" -delete'
 alias rmdir-content='find -mindepth 1 -delete'
 alias ro-files='find -type f -print0 |
     xargs --null --no-run-if-empty chmod --verbose a-w'
-alias rsync-quick='rsync -ahi'
-alias rsync-verify='rsync -ahic'
+alias rsync-quick='rsync --archive --human-readable --itemize-changes'
+alias rsync-verify='rsync --archive --human-readable --itemize-changes --checksum'
 
 # Modify window allows for both precision and daylight saving time issues.
 # But it's recommend to use checksum and avoid even copying timestamps to completely avoid these issues.
-alias rsync-vfat-quick='rsync -rhit --modify-window=3601'
-alias rsync-vfat-verify='rsync -rhitc --modify-window=3601'
+alias rsync-vfat-quick='rsync --recursive --human-readable --itemize-changes --times --modify-window=3601'
+alias rsync-vfat-verify='rsync --recursive --human-readable --itemize-changes --times --checksum --modify-window=3601'
 
 alias slideshow-all-monitor='feh --auto-zoom --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --fullscreen ~/Pictures/.'
 alias slideshow-all-tv='feh --auto-zoom --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --borderless --image-bg=black --geometry=1200x670+1960+25 ~/Pictures/.'
