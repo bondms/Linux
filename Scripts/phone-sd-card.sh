@@ -160,7 +160,7 @@ rsync \
 echo The remainder of this script is not intended to be executed automatically but rather to serve as documentation. || exit $?
 exit 0
 
-# Preferred option: Remove the SD card from the phone and place directly in the laptop.
+# Option 1: Remove the SD card from the phone and place directly in the laptop.
 sudo fdisk /dev/mmcblk0  # Create exfat partition (type 7).
 sudo mkfs.exfat -n "${NAME}-nnn" /dev/mmcblk0p1 || exit $?
 rsync-vfat-{quick,verify} --delete -- "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit $?
@@ -168,10 +168,11 @@ sync --file-system "/media/${USER}/${NAME}/." || exit $?
 sudo umount "${MOUNT_DIR}/" || exit $?
 umount "/media/${USER}/${NAME}/" || exit $?
 
-# Alternative option: Mount the SD card while it's in the phone.
+# Option 2: Mount the SD card while it's in the phone.
 # Enable "Use USB to" "Transfer files" option on the phone after connecting USB.
 # Eject the phone from File Manager (otherwise jmtpfs will core dump).
 jmtpfs "${HOME}/Phone/" || exit $?
+# Ensure there are no non-excluded system folders on the SD card.
 rsync-vfat-{quick,verify} \
     --delete \
     --exclude "/Android/" \
