@@ -197,6 +197,6 @@ rsync \
     "${MOUNT_DIR}/." "${HOME}/Phone/SanDisk SD card/." ||
         exit $?
 sync --file-system "${HOME}/Phone/SanDisk SD card/." || exit $?
-fusermount -u "${MOUNT_DIR}/" || exit $?
-umount "${HOME}/Phone/" || exit $?
+sudo umount "${MOUNT_DIR}/" || exit $?
+fusermount -u "${HOME}/Phone/" || exit $?
 # Disable "Use USB to" "Transfer files" option on the phone.
