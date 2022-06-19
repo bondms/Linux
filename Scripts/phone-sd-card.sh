@@ -172,7 +172,8 @@ umount "/media/${USER}/${NAME}/" || exit $?
 # Enable "Use USB to" "Transfer files" option on the phone after connecting USB.
 # Eject the phone from File Manager (otherwise jmtpfs will core dump).
 jmtpfs "${HOME}/Phone/" || exit $?
-rsync-vfat-{quick,verify} --delete \
+rsync-vfat-{quick,verify} \
+    --delete \
     --exclude "/Android/" \
     --exclude "/.android_secure/" \
     --exclude "/DCIM/" \
@@ -180,6 +181,6 @@ rsync-vfat-{quick,verify} --delete \
     "${MOUNT_DIR}/." "${HOME}/Phone/SanDisk SD card/." ||
         exit $?
 sync --file-system "${HOME}/Phone/SanDisk SD card/." || exit $?
-sudo umount "${MOUNT_DIR}/" || exit $?
+fusermount -u "${MOUNT_DIR}/" || exit $?
 umount "${HOME}/Phone/" || exit $?
 # Disable "Use USB to" "Transfer files" option on the phone.
