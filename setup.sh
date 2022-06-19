@@ -122,7 +122,7 @@ sudo snap install --classic code || exit $?
 sudo apt install --assume-yes feh || exit $?
 sudo apt install --assume-yes sox libsox-fmt-all || exit $?
 sudo apt install --assume-yes jmtpfs || exit $?
-# sudo apt install --assume-yes exfat-utils || exit $?
+sudo apt install --assume-yes exfatprogs || exit $?
 sudo apt install --assume-yes tofrodos || exit $?
 sudo snap install skype --classic || exit $?
 # sudo apt install --assume-yes 2to3 || exit $?
