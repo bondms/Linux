@@ -158,8 +158,7 @@ rsync \
     --human-readable \
     --progress \
     --itemize-changes \
-    --times \
-    --modify-window=3601 \
+    --ignore-times \
     -- \
     "${PLAYLIST_STAGE_DIR}/." \
     "${PLAYLIST_TARGET_DIR}/." ||
@@ -181,8 +180,15 @@ umount "/media/${USER}/${NAME}/" || exit $?
 # Eject the phone from File Manager (otherwise jmtpfs will core dump).
 jmtpfs "${HOME}/Phone/" || exit $?
 # Ensure there are no non-excluded system folders on the SD card.
-rsync-vfat-{quick,verify} \
+rsync \
+    --recursive \
+    --checksum \
+    --verbose \
     --delete \
+    --human-readable \
+    --progress \
+    --itemize-changes \
+    --ignore-times \
     --exclude "/Android/" \
     --exclude "/.android_secure/" \
     --exclude "/DCIM/" \
