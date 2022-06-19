@@ -181,6 +181,7 @@ umount "/media/${USER}/${NAME}/" || exit $?
 jmtpfs "${HOME}/Phone/" || exit $?
 # Ensure there are no non-excluded system folders on the SD card.
 rsync \
+    --inplace \
     --recursive \
     --checksum \
     --verbose \
