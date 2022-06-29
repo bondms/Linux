@@ -131,6 +131,7 @@ rsync \
     --human-readable \
     --progress \
     --itemize-changes \
+    --ignore-times \
     -- \
     "${PLAYLIST_STAGE_DIR}/." \
     "${PLAYLIST_TARGET_DIR}/." ||
@@ -141,7 +142,18 @@ exit 0
 
 sudo fdisk /dev/sdb # Create partition table table with a single primary "W95 FAT32" (type 'c') partition.
 sudo mkfs.vfat -n "${NAME}-nnn" /dev/sdb1 || exit "$?"
-rsync-vfat-{quick,verify} --delete -- "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit "$?"
+rsync \
+    --recursive \
+    --checksum \
+    --verbose \
+    --delete \
+    --human-readable \
+    --progress \
+    --itemize-changes \
+    --ignore-times \
+    -- \
+    "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." ||
+        exit "$?"
 sync --file-system "/media/${USER}/${NAME}/." || exit $?
 sudo umount "${MOUNT_DIR}/" || exit $?
 umount "/media/${USER}/${NAME}/" || exit $?
