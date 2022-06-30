@@ -180,16 +180,8 @@ umount "/media/${USER}/${NAME}/" || exit $?
 # Eject the phone from File Manager (otherwise jmtpfs will core dump).
 jmtpfs "${HOME}/Phone/" || exit $?
 # Ensure there are no non-excluded system folders on the SD card.
-rsync \
-    --inplace \
-    --recursive \
-    --checksum \
-    --verbose \
+rsync-jmtpfs-verify \
     --delete \
-    --human-readable \
-    --progress \
-    --itemize-changes \
-    --ignore-times \
     --exclude "/Android/" \
     --exclude "/.android_secure/" \
     --exclude "/DCIM/" \

@@ -57,6 +57,8 @@ rsync \
     --human-readable \
     --progress \
     --itemize-changes \
+    --times \
+    --modify-window=3601 \
     -- \
     "${PODCASTS_SOURCE_DIR}/." \
     "${MOUNT_DIR}/${PODCASTS_SUBDIR_NAME}/." ||
@@ -78,6 +80,8 @@ rsync \
     --human-readable \
     --progress \
     --itemize-changes \
+    --times \
+    --modify-window=3601 \
     -- \
     "${MUSIC_SOURCE_DIR}/." \
     "${MOUNT_DIR}/${MUSIC_SUBDIR_NAME}/." ||
@@ -142,15 +146,8 @@ exit 0
 
 sudo fdisk /dev/sdb # Create partition table table with a single primary "W95 FAT32" (type 'c') partition.
 sudo mkfs.vfat -n "${NAME}-nnn" /dev/sdb1 || exit "$?"
-rsync \
-    --recursive \
-    --checksum \
-    --verbose \
+rsync-vfat-verify \
     --delete \
-    --human-readable \
-    --progress \
-    --itemize-changes \
-    --ignore-times \
     -- \
     "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." ||
         exit "$?"
