@@ -154,10 +154,10 @@ git config --global core.editor "code --wait --new-window" || exit $?
 git config --global core.pager "less -iM" || exit $?
 git config --global user.email "34947848+bondms@users.noreply.github.com" || exit $?
 
-[[ -d "${HERE}/../rgain" ]] ||
-    git clone --depth 1 --branch 1.0.0 --verbose -- https://github.com/chaudum/rgain.git "${HERE}/../rgain" || exit $?
-[[ -h "${HERE}/../rgain/scripts/rgain3" ]] ||
-    ln --symbolic --verbose -- "../rgain3" "${HERE}/../rgain/scripts/." || exit $?
+[[ -d "${HERE}/../rgain3" ]] ||
+    git clone --depth 1 --branch 1.0.0 --verbose -- https://github.com/chaudum/rgain3.git "${HERE}/../rgain3" || exit $?
+[[ -h "${HERE}/../rgain3/scripts/rgain3" ]] ||
+    ln --symbolic --verbose -- "../rgain3" "${HERE}/../rgain3/scripts/." || exit $?
 
 # sudo apt install --assume-yes dnsmasq resolvconf || exit $?
 # sudo systemctl stop systemd-resolved || exit $?
