@@ -37,10 +37,10 @@ sudo mount -o uid=${UID} "${IMAGE_PATH}" "${MOUNT_DIR}" || exit $?
 
 ###
 
-PICTURES_PARENT_DIR="${HOME}"
 PICTURES_SUBDIR_NAME="Pictures"
-PICTURES_SOURCE_DIR="${PICTURES_PARENT_DIR}/${PICTURES_SUBDIR_NAME}"
+PICTURES_SOURCE_DIR="${HOME}/${PICTURES_SUBDIR_NAME}"
 [[ -d "${PICTURES_SOURCE_DIR}" ]] || exit $?
+PICTURES_TARGET_DIR="${MOUNT_DIR}/${PICTURES_SUBDIR_NAME}"
 
 mkdir --parents --verbose -- "${MOUNT_DIR}/${PICTURES_SUBDIR_NAME}" || exit $?
 rsync \
@@ -59,17 +59,17 @@ rsync \
     --exclude "/Wallpaper/" \
     -- \
     "${PICTURES_SOURCE_DIR}/." \
-    "${MOUNT_DIR}/${PICTURES_SUBDIR_NAME}/." ||
+    "${PICTURES_TARGET_DIR}/." ||
         exit $?
 
 ###
 
-PODCASTS_PARENT_DIR="${HOME}/Backup"
 PODCASTS_SUBDIR_NAME="Podcasts"
-PODCASTS_SOURCE_DIR="${PODCASTS_PARENT_DIR}/${PODCASTS_SUBDIR_NAME}"
+PODCASTS_SOURCE_DIR="${HOME}/${PODCASTS_SUBDIR_NAME}"
 [[ -d "${PODCASTS_SOURCE_DIR}" ]] || exit $?
+PODCASTS_TARGET_DIR="${MOUNT_DIR}/Audio/${PODCASTS_SUBDIR_NAME}"
 
-mkdir --parents --verbose -- "${MOUNT_DIR}/${PODCASTS_SUBDIR_NAME}" || exit $?
+mkdir --parents --verbose -- "${PODCASTS_TARGET_DIR}" || exit $?
 rsync \
     --recursive \
     --checksum \
@@ -82,19 +82,17 @@ rsync \
     --modify-window=3601 \
     -- \
     "${PODCASTS_SOURCE_DIR}/." \
-    "${MOUNT_DIR}/${PODCASTS_SUBDIR_NAME}/." ||
+    "${PODCASTS_TARGET_DIR}/." ||
         exit $?
 
 ###
 
-MUSIC_PARENT_DIR="${HOME}"
 MUSIC_SUBDIR_NAME="Music"
-MUSIC_SOURCE_DIR="${MUSIC_PARENT_DIR}/${MUSIC_SUBDIR_NAME}"
+MUSIC_SOURCE_DIR="${HOME}/${MUSIC_SUBDIR_NAME}"
 [[ -d "${MUSIC_SOURCE_DIR}" ]] || exit $?
+MUSIC_TARGET_DIR="${MOUNT_DIR}/Audio/${MUSIC_SUBDIR_NAME}"
 
-MUSIC_TARGET_DIR="${MOUNT_DIR}/${MUSIC_SUBDIR_NAME}"
-
-mkdir --parents --verbose -- "${MOUNT_DIR}/${MUSIC_SUBDIR_NAME}" || exit $?
+mkdir --parents --verbose -- "${MUSIC_TARGET_DIR}" || exit $?
 rsync \
     --recursive \
     --checksum \
@@ -112,15 +110,15 @@ rsync \
 
 ###
 
-PLAYLIST_SOURCE_DIR="${HOME}/Playlists"
+PLAYLISTS_SUBDIR_NAME="Playlists"
+PLAYLIST_SOURCE_DIR="${HOME}/${PLAYLISTS_SUBDIR_NAME}"
 [[ -d "${PLAYLIST_SOURCE_DIR}" ]] || exit $?
-
-PLAYLIST_SOURCE_DIR_SANITIZED="$(readlink -e "${PLAYLIST_SOURCE_DIR}")"
-[[ -d "${PLAYLIST_SOURCE_DIR_SANITIZED}" ]] || exit $?
+REAL_PLAYLIST_SOURCE_DIR="$(realpath "${PLAYLIST_SOURCE_DIR}")"
+PLAYLIST_PARENT_DIR="$(dirname ${REAL_PLAYLIST_SOURCE_DIR})"
 
 mkdir --verbose -- "${PLAYLIST_STAGE_DIR}" || exit $?
 
-PLAYLIST_TARGET_DIR="${MOUNT_DIR}/Playlists"
+PLAYLIST_TARGET_DIR="${MOUNT_DIR}/Audio"
 mkdir --parents --verbose -- "${PLAYLIST_TARGET_DIR}" || exit $?
 
 find "${PLAYLIST_SOURCE_DIR}/." \
@@ -149,7 +147,7 @@ import sys
 for i in iter(sys.stdin):
     i = i.rstrip('\n')
     print(os.path.relpath(i, sys.argv[1]))
-\" \"${PLAYLIST_SOURCE_DIR_SANITIZED}\" |
+\" \"${PLAYLIST_PARENT_DIR}\" |
             sort --numeric-sort |
             uniq |
             tr '/' '\\\\' |
@@ -166,6 +164,8 @@ rsync \
     --progress \
     --itemize-changes \
     --ignore-times \
+    --exclude "/Music/" \
+    --exclude "/Podcasts/" \
     -- \
     "${PLAYLIST_STAGE_DIR}/." \
     "${PLAYLIST_TARGET_DIR}/." ||
