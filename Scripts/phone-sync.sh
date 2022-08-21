@@ -92,6 +92,8 @@ MUSIC_SUBDIR_NAME="Music"
 MUSIC_SOURCE_DIR="${MUSIC_PARENT_DIR}/${MUSIC_SUBDIR_NAME}"
 [[ -d "${MUSIC_SOURCE_DIR}" ]] || exit $?
 
+MUSIC_TARGET_DIR="${MOUNT_DIR}/${MUSIC_SUBDIR_NAME}"
+
 mkdir --parents --verbose -- "${MOUNT_DIR}/${MUSIC_SUBDIR_NAME}" || exit $?
 rsync \
     --recursive \
@@ -105,7 +107,7 @@ rsync \
     --modify-window=3601 \
     -- \
     "${MUSIC_SOURCE_DIR}/." \
-    "${MOUNT_DIR}/${MUSIC_SUBDIR_NAME}/." ||
+    "${MUSIC_TARGET_DIR}/." ||
         exit $?
 
 ###
@@ -117,6 +119,9 @@ PLAYLIST_SOURCE_DIR_SANITIZED="$(readlink -e "${PLAYLIST_SOURCE_DIR}")"
 [[ -d "${PLAYLIST_SOURCE_DIR_SANITIZED}" ]] || exit $?
 
 mkdir --verbose -- "${PLAYLIST_STAGE_DIR}" || exit $?
+
+PLAYLIST_TARGET_DIR="${MOUNT_DIR}/Playlists"
+mkdir --parents --verbose -- "${PLAYLIST_TARGET_DIR}" || exit $?
 
 find "${PLAYLIST_SOURCE_DIR}/." \
     -mindepth 1 -maxdepth 1 \
@@ -130,11 +135,15 @@ find "${PLAYLIST_SOURCE_DIR}/." \
             PLAYLIST_NAME=\"\$(basename \"\$F\")\"
             [[ -n \"\${PLAYLIST_NAME}\" ]] || exit \$?
             TARGET_PLAYLIST=\"${PLAYLIST_STAGE_DIR}/\${PLAYLIST_NAME}.m3u\"
+            realpath --relative-to \"${PLAYLIST_TARGET_DIR}\" \"${MUSIC_TARGET_DIR}/Other/silence.mp3\" |
+                tr '/' '\\\\' |
+                todos |
+                tee \"\${TARGET_PLAYLIST}\" || exit \$?
             find -L \"\$F\" \
-            -type f \
-            -print0 |
-            xargs --null --max-args=1 --no-run-if-empty readlink -e |
-            python -c \"
+                -type f \
+                -print0 |
+                    xargs --null --max-args=1 --no-run-if-empty readlink -e |
+                    python -c \"
 import os.path
 import sys
 for i in iter(sys.stdin):
@@ -145,11 +154,9 @@ for i in iter(sys.stdin):
             uniq |
             tr '/' '\\\\' |
             todos |
-            tee \"\${TARGET_PLAYLIST}\" || exit \$?
+            tee --append \"\${TARGET_PLAYLIST}\" || exit \$?
         done" || exit $?
 
-PLAYLIST_TARGET_DIR="${MOUNT_DIR}/Playlists"
-mkdir --parents --verbose -- "${PLAYLIST_TARGET_DIR}" || exit $?
 rsync \
     --recursive \
     --checksum \

@@ -4,7 +4,6 @@
 # Changes from BMW F30 support:
 # * Playlist files have Linux-style (LF) instead of Windows-style (CR-LF) line endings.
 # * Playlist entries use Linux-style (/) instead of Windows-style (\) path separators.
-# * Playlist entries are absolute. Required for AudioWagon for now.
 
 set -eux
 set -o pipefail
@@ -110,15 +109,15 @@ find "${PLAYLIST_SOURCE_DIR}/." \
             [[ -n \"\${PLAYLIST_NAME}\" ]] || exit \$?
             TARGET_PLAYLIST=\"${PLAYLIST_STAGE_DIR}/\${PLAYLIST_NAME}.m3u\"
             find -L \"\$F\" \
-            -type f \
-            -print0 |
-            xargs --null --max-args=1 --no-run-if-empty readlink -e |
-            python -c \"
+                -type f \
+                -print0 |
+                    xargs --null --max-args=1 --no-run-if-empty readlink -e |
+                    python -c \"
 import os.path
 import sys
 for i in iter(sys.stdin):
     i = i.rstrip('\n')
-    print(f'/{os.path.relpath(i, start=os.path.dirname(sys.argv[1]))}')
+    print(os.path.relpath(i, start=sys.argv[1]))
 \" \"${PLAYLIST_SOURCE_DIR_SANITIZED}\" |
             sort --numeric-sort |
             uniq |
