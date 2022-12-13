@@ -16,6 +16,7 @@ do
         --itemize-changes \
         --checksum \
         --delete \
+        --exclude "/Screenshots/" \
         -- \
         "${HOME}/${subdir}/." "/media/bondms/rootfs/home/pi/${subdir}/." || exit $?
 done
