@@ -141,6 +141,7 @@ sudo apt install --assume-yes npm || exit $?
 sudo apt install --assume-yes at || exit $?
 sudo apt install --assume-yes audacity || exit $?
 sudo apt install --assume-yes ffmpeg || exit $?
+sudo apt install --assume-yes rpi-imager || exit $?
 
 sudo npm install -g @bazel/bazelisk || exit $?
 
