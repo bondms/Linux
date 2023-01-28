@@ -190,6 +190,18 @@ generate-replay-gain-track-tags()
     find -type f -print0 | xargs --null -I{} replaygain --no-album -- {}
 }
 
+git-worktree-add()
+{
+    [[ -d '.git' ]] || return $?
+    git worktree add -- "../$(basename -- "$(pwd)")-alt" || return $?
+}
+
+git-worktree-remove()
+{
+    [[ -d '.git' ]] || return $?
+    git worktree remove -- "../$(basename -- "$(pwd)")-alt" || return $?
+}
+
 mount-iso()
 {
     [[ $# -eq 1 ]] || return $?
