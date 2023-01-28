@@ -172,21 +172,20 @@ rsync \
         exit $?
 
 echo The remainder of this script is not intended to be executed automatically but rather to serve as documentation. || exit $?
-exit 0
-
-# Enable "Use USB to" "Transfer files" option on the phone after connecting USB.
-# Eject the phone from File Manager (otherwise jmtpfs will core dump).
-jmtpfs "${HOME}/Phone/" || exit $?
-for TARGET in Pictures Podcasts Music Playlists
-do
-    mkdir --parents --verbose -- "${HOME}/Phone/xxx/${TARGET}" || exit $?
-    rsync-jmtpfs-verify \
-        --delete \
-        -- \
-        "${MOUNT_DIR}/${TARGET}/." "${HOME}/Phone/xxx/${TARGET}/." ||
-            exit $?
-done
-sync --file-system "${HOME}/Phone/xxx/." || exit $?
-sudo umount "${MOUNT_DIR}/" || exit $?
-fusermount -u "${HOME}/Phone/" || exit $?
-# Disable "Use USB to" "Transfer files" option on the phone.
+#
+# # Enable "Use USB to" "Transfer files" option on the phone after connecting USB.
+# # Eject the phone from File Manager (otherwise jmtpfs will core dump).
+# jmtpfs "${HOME}/Phone/" || exit $?
+# for TARGET in Pictures Podcasts Music Playlists
+# do
+#     mkdir --parents --verbose -- "${HOME}/Phone/xxx/${TARGET}" || exit $?
+#     rsync-jmtpfs-verify \
+#         --delete \
+#         -- \
+#         "${MOUNT_DIR}/${TARGET}/." "${HOME}/Phone/xxx/${TARGET}/." ||
+#             exit $?
+# done
+# sync --file-system "${HOME}/Phone/xxx/." || exit $?
+# sudo umount "${MOUNT_DIR}/" || exit $?
+# fusermount -u "${HOME}/Phone/" || exit $?
+# # Disable "Use USB to" "Transfer files" option on the phone.

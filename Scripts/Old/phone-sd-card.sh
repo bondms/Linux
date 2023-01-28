@@ -165,30 +165,29 @@ rsync \
         exit $?
 
 echo The remainder of this script is not intended to be executed automatically but rather to serve as documentation. || exit $?
-exit 0
-
-# Option 1: Remove the SD card from the phone and place directly in the laptop.
-sudo fdisk /dev/mmcblk0  # Create exfat partition (type 7).
-sudo mkfs.exfat -n "${NAME}-nnn" /dev/mmcblk0p1 || exit $?
-rsync-vfat-{quick,verify} --delete -- "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit $?
-sync --file-system "/media/${USER}/${NAME}/." || exit $?
-sudo umount "${MOUNT_DIR}/" || exit $?
-umount "/media/${USER}/${NAME}/" || exit $?
-
-# Option 2: Mount the SD card while it's in the phone.
-# Enable "Use USB to" "Transfer files" option on the phone after connecting USB.
-# Eject the phone from File Manager (otherwise jmtpfs will core dump).
-jmtpfs "${HOME}/Phone/" || exit $?
-# Ensure there are no non-excluded system folders on the SD card.
-rsync-jmtpfs-verify \
-    --delete \
-    --exclude "/Android/" \
-    --exclude "/.android_secure/" \
-    --exclude "/DCIM/" \
-    -- \
-    "${MOUNT_DIR}/." "${HOME}/Phone/SanDisk SD card/." ||
-        exit $?
-sync --file-system "${HOME}/Phone/SanDisk SD card/." || exit $?
-sudo umount "${MOUNT_DIR}/" || exit $?
-fusermount -u "${HOME}/Phone/" || exit $?
-# Disable "Use USB to" "Transfer files" option on the phone.
+#
+# # Option 1: Remove the SD card from the phone and place directly in the laptop.
+# sudo fdisk /dev/mmcblk0  # Create exfat partition (type 7).
+# sudo mkfs.exfat -n "${NAME}-nnn" /dev/mmcblk0p1 || exit $?
+# rsync-vfat-{quick,verify} --delete -- "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit $?
+# sync --file-system "/media/${USER}/${NAME}/." || exit $?
+# sudo umount "${MOUNT_DIR}/" || exit $?
+# umount "/media/${USER}/${NAME}/" || exit $?
+#
+# # Option 2: Mount the SD card while it's in the phone.
+# # Enable "Use USB to" "Transfer files" option on the phone after connecting USB.
+# # Eject the phone from File Manager (otherwise jmtpfs will core dump).
+# jmtpfs "${HOME}/Phone/" || exit $?
+# # Ensure there are no non-excluded system folders on the SD card.
+# rsync-jmtpfs-verify \
+#     --delete \
+#     --exclude "/Android/" \
+#     --exclude "/.android_secure/" \
+#     --exclude "/DCIM/" \
+#     -- \
+#     "${MOUNT_DIR}/." "${HOME}/Phone/SanDisk SD card/." ||
+#         exit $?
+# sync --file-system "${HOME}/Phone/SanDisk SD card/." || exit $?
+# sudo umount "${MOUNT_DIR}/" || exit $?
+# fusermount -u "${HOME}/Phone/" || exit $?
+# # Disable "Use USB to" "Transfer files" option on the phone.
