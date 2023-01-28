@@ -3,10 +3,10 @@
 set -eux
 set -o pipefail
 
-[[ $# -eq 1 ]] || exit $?
+[[ $# -eq 1 ]] || exit 1
 
 ROOT_DIR="$1"
-[[ -d "${ROOT_DIR}" ]] || exit $?
+[[ -d "${ROOT_DIR}" ]] || exit 1
 
 find "${ROOT_DIR}" -depth -mindepth 1 -print0 | bash -c "
     set -eux

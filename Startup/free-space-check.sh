@@ -10,9 +10,9 @@ MAX_SPACE_USAGE=$(command df |
     sort --numeric-sort |
     tail --lines=1)
 MAX_SPACE_USAGE="${MAX_SPACE_USAGE%\%}"
-[[ -n "${MAX_SPACE_USAGE}" ]] || exit $?
+[[ -n "${MAX_SPACE_USAGE}" ]] || exit 1
 
-[[ "${MAX_SPACE_USAGE}" -le 80 ]] || exit $?
+[[ "${MAX_SPACE_USAGE}" -le 80 ]] || exit 1
 
 MAX_INODE_USAGE=$(command df --inodes |
     tail --lines=+2 |
@@ -21,7 +21,6 @@ MAX_INODE_USAGE=$(command df --inodes |
     sort --numeric-sort |
     tail --lines=1)
 MAX_INODE_USAGE="${MAX_INODE_USAGE%\%}"
-[[ -n "${MAX_INODE_USAGE}" ]] || exit $?
+[[ -n "${MAX_INODE_USAGE}" ]] || exit 1
 
-[[ "${MAX_INODE_USAGE}" -le 80 ]] || exit $?
-
+[[ "${MAX_INODE_USAGE}" -le 80 ]] || exit 1

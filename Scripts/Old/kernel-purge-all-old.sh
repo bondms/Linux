@@ -4,7 +4,7 @@ set -eux
 set -o pipefail
 
 HERE="$(readlink -e "$(dirname "$0")")"
-[[ -d "$HERE" ]] || exit $?
+[[ -d "$HERE" ]] || exit 1
 
 VERSIONRE="[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+-[[:digit:]]+"
 PREFIX="vmlinuz-"

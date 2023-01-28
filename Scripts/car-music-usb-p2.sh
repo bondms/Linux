@@ -8,46 +8,46 @@
 set -eux
 set -o pipefail
 
-[[ $# -eq 0 ]] || exit $?
+[[ $# -eq 0 ]] || exit 1
 
 # Use uppercase and limit to 11 characters (including the "-nnn" suffix).
 NAME="CAR-USB"
 
 IMAGES_DIR="/home/bondms-unencrypted/SparseImages"
-[[ -d "${IMAGES_DIR}" ]] || exit "$?"
+[[ -d "${IMAGES_DIR}" ]] || exit 1
 
 PLAYLIST_STAGE_DIR="${HOME}/RamDisk/Playlists"
-[[ ! -e "${PLAYLIST_STAGE_DIR}" ]] || exit "$?"
+[[ ! -e "${PLAYLIST_STAGE_DIR}" ]] || exit 1
 
 IMAGE_PATH="${IMAGES_DIR}/${NAME}.img"
 if [[ ! -e "${IMAGE_PATH}" ]]
 then
     # Make the image file a little smaller than the real disk so there's no chance
     # of trying to overfill the real disk.
-    truncate -s 60GB "${IMAGE_PATH}" || exit "$?"
-    mkfs.vfat -n "${NAME}" "${IMAGE_PATH}" || exit "$?"
+    truncate -s 60GB "${IMAGE_PATH}" || exit 1
+    mkfs.vfat -n "${NAME}" "${IMAGE_PATH}" || exit 1
 fi
-[[ -f "${IMAGE_PATH}" ]] || exit "$?"
+[[ -f "${IMAGE_PATH}" ]] || exit 1
 
 MOUNT_DIR="${HOME}/Mount"
-[[ -d "${MOUNT_DIR}" ]] || exit "$?"
+[[ -d "${MOUNT_DIR}" ]] || exit 1
 
 if mountpoint "${MOUNT_DIR}"
 then
-    echo "Directory \"${MOUNT_DIR}\" is already a mountpoint." >&2 || exit "$?"
+    echo "Directory \"${MOUNT_DIR}\" is already a mountpoint." >&2 || exit 1
     exit 1
 fi
 
-sudo mount -o uid=${UID} "${IMAGE_PATH}" "${MOUNT_DIR}" || exit "$?"
+sudo mount -o uid=${UID} "${IMAGE_PATH}" "${MOUNT_DIR}" || exit 1
 
 ###
 
 PODCASTS_SUBDIR_NAME="Podcasts"
 PODCASTS_SOURCE_DIR="${HOME}/${PODCASTS_SUBDIR_NAME}"
-[[ -d "${PODCASTS_SOURCE_DIR}" ]] || exit "$?"
+[[ -d "${PODCASTS_SOURCE_DIR}" ]] || exit 1
 PODCASTS_TARGET_DIR="${MOUNT_DIR}/Audio/${PODCASTS_SUBDIR_NAME}"
 
-mkdir --parents --verbose -- "${PODCASTS_TARGET_DIR}" || exit "$?"
+mkdir --parents --verbose -- "${PODCASTS_TARGET_DIR}" || exit 1
 rsync \
     --recursive \
     --checksum \
@@ -61,16 +61,16 @@ rsync \
     -- \
     "${PODCASTS_SOURCE_DIR}/." \
     "${PODCASTS_TARGET_DIR}/." ||
-        exit "$?"
+        exit 1
 
 ###
 
 MUSIC_SUBDIR_NAME="Music"
 MUSIC_SOURCE_DIR="${HOME}/${MUSIC_SUBDIR_NAME}"
-[[ -d "${MUSIC_SOURCE_DIR}" ]] || exit "$?"
+[[ -d "${MUSIC_SOURCE_DIR}" ]] || exit 1
 MUSIC_TARGET_DIR="${MOUNT_DIR}/Audio/${MUSIC_SUBDIR_NAME}"
 
-mkdir --parents --verbose -- "${MUSIC_TARGET_DIR}" || exit "$?"
+mkdir --parents --verbose -- "${MUSIC_TARGET_DIR}" || exit 1
 rsync \
     --recursive \
     --checksum \
@@ -84,20 +84,20 @@ rsync \
     -- \
     "${MUSIC_SOURCE_DIR}/." \
     "${MUSIC_TARGET_DIR}/." ||
-        exit "$?"
+        exit 1
 
 ###
 
 PLAYLISTS_SUBDIR_NAME="Playlists"
 PLAYLIST_SOURCE_DIR="${HOME}/${PLAYLISTS_SUBDIR_NAME}"
-[[ -d "${PLAYLIST_SOURCE_DIR}" ]] || exit $?
+[[ -d "${PLAYLIST_SOURCE_DIR}" ]] || exit 1
 REAL_PLAYLIST_SOURCE_DIR="$(realpath "${PLAYLIST_SOURCE_DIR}")"
 PLAYLIST_PARENT_DIR="$(dirname "${REAL_PLAYLIST_SOURCE_DIR}")"
 
-mkdir --verbose -- "${PLAYLIST_STAGE_DIR}" || exit "$?"
+mkdir --verbose -- "${PLAYLIST_STAGE_DIR}" || exit 1
 
 PLAYLIST_TARGET_DIR="${MOUNT_DIR}/Audio"
-mkdir --parents --verbose -- "${PLAYLIST_TARGET_DIR}" || exit "$?"
+mkdir --parents --verbose -- "${PLAYLIST_TARGET_DIR}" || exit 1
 
 find "${PLAYLIST_SOURCE_DIR}/." \
     -mindepth 1 -maxdepth 1 \
@@ -127,7 +127,7 @@ for i in iter(sys.stdin):
             sort --numeric-sort |
             uniq |
             tee --append \"\${TARGET_PLAYLIST}\" || exit \$?
-        done" || exit "$?"
+        done" || exit 1
 
 rsync \
     --recursive \
@@ -143,18 +143,13 @@ rsync \
     -- \
     "${PLAYLIST_STAGE_DIR}/." \
     "${PLAYLIST_TARGET_DIR}/." ||
-        exit "$?"
+        exit 1
 
-echo The remainder of this script is not intended to be executed automatically but rather to serve as documentation. || exit "$?"
-exit 0
-
-sudo fdisk /dev/sdb # Create partition table table with a single primary "W95 FAT32" (type 'c') partition.
-sudo mkfs.vfat -n "${NAME}-nnn" /dev/sdb1 || exit "$?"
-rsync-vfat-verify \
-    --delete \
-    -- \
-    "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." ||
-        exit "$?"
-sync --file-system "/media/${USER}/${NAME}/." || exit $?
-sudo umount "${MOUNT_DIR}/" || exit $?
-umount "/media/${USER}/${NAME}/" || exit $?
+echo The remainder of this script is not intended to be executed automatically but rather to serve as documentation. || exit 1
+#
+# sudo fdisk /dev/sdb # Create partition table table with a single primary "W95 FAT32" (type 'c') partition.
+# sudo mkfs.vfat -n "${NAME}-nnn" /dev/sdb1 || exit 1
+# rsync-vfat-verify --delete -- "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit 1
+# sync --file-system "/media/${USER}/${NAME}/." || exit 1
+# sudo umount "${MOUNT_DIR}/" || exit 1
+# umount "/media/${USER}/${NAME}/" || exit 1

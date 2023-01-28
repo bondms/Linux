@@ -3,13 +3,13 @@
 set -eux
 set -o pipefail
 
-[[ $# -eq 1 ]] || exit $?
-[[ -d "$1" ]] || exit $?
+[[ $# -eq 1 ]] || exit 1
+[[ -d "$1" ]] || exit 1
 
 HERE=$(readlink -e "$(dirname "$0")")
-[[ -d "${HERE}" ]] || exit $?
+[[ -d "${HERE}" ]] || exit 1
 
-trap '' INT || exit $?
+trap '' INT || exit 1
 
 find -L "$1" -type f -iname "*.mp3" -print0 |
     sort --zero-terminated --random-sort |

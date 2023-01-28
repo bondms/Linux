@@ -1,7 +1,7 @@
 #!/bin/bash
 
-[[ $# -eq 2 ]] || exit $?
-[[ -h "$1" ]] || exit $?
-[[ -d "$2" ]] || exit $?
-ln -v -sv "$(readlink -f "$1")" "$2/." || exit $?
-symlinks -c "$2/." || exit $?
+[[ $# -eq 2 ]] || exit 1
+[[ -h "$1" ]] || exit 1
+[[ -d "$2" ]] || exit 1
+ln -v -sv "$(readlink -f "$1")" "$2/." || exit 1
+symlinks -c "$2/." || exit 1

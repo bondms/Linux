@@ -4,11 +4,11 @@ set -eux
 set -o pipefail
 
 HERE="$(readlink -e "$(dirname "$0")")"
-[[ -d "${HERE}" ]] || exit $?
+[[ -d "${HERE}" ]] || exit 1
 
 for subdir in "Music" "Pictures" "Playlists" "Podcasts"
 do
-    mkdir --parents -- "/media/bondms/rootfs/home/pi/${subdir}" || exit $?
+    mkdir --parents -- "/media/bondms/rootfs/home/pi/${subdir}" || exit 1
     rsync \
         --archive \
         --verbose \
@@ -18,9 +18,9 @@ do
         --delete \
         --exclude "/Screenshots/" \
         -- \
-        "${HOME}/${subdir}/." "/media/bondms/rootfs/home/pi/${subdir}/." || exit $?
+        "${HOME}/${subdir}/." "/media/bondms/rootfs/home/pi/${subdir}/." || exit 1
 done
 
-sync --file-system "/media/bondms/rootfs/home/pi/." || exit $?
+sync --file-system "/media/bondms/rootfs/home/pi/." || exit 1
 
 echo "*** SUCCESS ***"

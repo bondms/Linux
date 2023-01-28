@@ -12,12 +12,12 @@ TIMESTAMP_NAME="timestamp.txt"
 TIMESTAMP_PATH="${TARGET_DIR}/${TIMESTAMP_NAME}"
 
 # Remove any timestamp file that's been restored from a backup.
-rm --force --verbose "${SOURCE}/${TIMESTAMP_NAME}" || exit $?
+rm --force --verbose "${SOURCE}/${TIMESTAMP_NAME}" || exit 1
 
-[[ -h "${TARGET_LINK}" ]] || exit $?
-[[ -d "${TARGET_DIR}" ]] || exit $?
+[[ -h "${TARGET_LINK}" ]] || exit 1
+[[ -d "${TARGET_DIR}" ]] || exit 1
 
-rm --force --verbose "${TIMESTAMP_PATH}" || exit $?
+rm --force --verbose "${TIMESTAMP_PATH}" || exit 1
 rsync \
     --archive \
     --hard-links \
@@ -28,7 +28,7 @@ rsync \
     --sparse \
     --delete --delete-excluded \
     -- \
-    "${SOURCE}/" "${TARGET_DIR}/" | tee "${LOGFILE}" || exit $?
+    "${SOURCE}/" "${TARGET_DIR}/" | tee "${LOGFILE}" || exit 1
 
-date +%Y%m%d-%H%M%S > "${TIMESTAMP_PATH}" || exit $?
-sync --file-system "${TIMESTAMP_PATH}" || exit $?
+date +%Y%m%d-%H%M%S > "${TIMESTAMP_PATH}" || exit 1
+sync --file-system "${TIMESTAMP_PATH}" || exit 1
