@@ -11,40 +11,40 @@ set -o pipefail
 NAME="CAR-USB"
 
 IMAGES_DIR="/home/bondms-unencrypted/SparseImages"
-[[ -d "${IMAGES_DIR}" ]] || exit "$?"
+[[ -d "${IMAGES_DIR}" ]] || exit 1
 
 PLAYLIST_STAGE_DIR="${HOME}/RamDisk/Playlists"
-[[ ! -e "${PLAYLIST_STAGE_DIR}" ]] || exit "$?"
+[[ ! -e "${PLAYLIST_STAGE_DIR}" ]] || exit 1
 
 IMAGE_PATH="${IMAGES_DIR}/${NAME}.img"
 if [[ ! -e "${IMAGE_PATH}" ]]
 then
     # Make the image file a little smaller than the real disk so there's no chance
     # of trying to overfill the real disk.
-    truncate -s 30GB "${IMAGE_PATH}" || exit "$?"
-    mkfs.vfat -n "${NAME}" "${IMAGE_PATH}" || exit "$?"
+    truncate -s 30GB "${IMAGE_PATH}" || exit 1
+    mkfs.vfat -n "${NAME}" "${IMAGE_PATH}" || exit 1
 fi
-[[ -f "${IMAGE_PATH}" ]] || exit "$?"
+[[ -f "${IMAGE_PATH}" ]] || exit 1
 
 MOUNT_DIR="${HOME}/Mount"
-[[ -d "${MOUNT_DIR}" ]] || exit "$?"
+[[ -d "${MOUNT_DIR}" ]] || exit 1
 
 if mountpoint "${MOUNT_DIR}"
 then
-    echo "Directory \"${MOUNT_DIR}\" is already a mountpoint." >&2 || exit "$?"
+    echo "Directory \"${MOUNT_DIR}\" is already a mountpoint." >&2 || exit 1
     exit 1
 fi
 
-sudo mount -o uid=${UID} "${IMAGE_PATH}" "${MOUNT_DIR}" || exit "$?"
+sudo mount -o uid=${UID} "${IMAGE_PATH}" "${MOUNT_DIR}" || exit 1
 
 ###
 
 PODCASTS_PARENT_DIR="${HOME}/Backup"
 PODCASTS_SUBDIR_NAME="Podcasts"
 PODCASTS_SOURCE_DIR="${PODCASTS_PARENT_DIR}/${PODCASTS_SUBDIR_NAME}"
-[[ -d "${PODCASTS_SOURCE_DIR}" ]] || exit "$?"
+[[ -d "${PODCASTS_SOURCE_DIR}" ]] || exit 1
 
-mkdir --parents --verbose -- "${MOUNT_DIR}/${PODCASTS_SUBDIR_NAME}" || exit "$?"
+mkdir --parents --verbose -- "${MOUNT_DIR}/${PODCASTS_SUBDIR_NAME}" || exit 1
 rsync \
     --recursive \
     --checksum \
@@ -56,16 +56,16 @@ rsync \
     -- \
     "${PODCASTS_SOURCE_DIR}/." \
     "${MOUNT_DIR}/${PODCASTS_SUBDIR_NAME}/." ||
-        exit "$?"
+        exit 1
 
 ###
 
 MUSIC_PARENT_DIR="${HOME}"
 MUSIC_SUBDIR_NAME="Music"
 MUSIC_SOURCE_DIR="${MUSIC_PARENT_DIR}/${MUSIC_SUBDIR_NAME}"
-[[ -d "${MUSIC_SOURCE_DIR}" ]] || exit "$?"
+[[ -d "${MUSIC_SOURCE_DIR}" ]] || exit 1
 
-mkdir --parents --verbose -- "${MOUNT_DIR}/${MUSIC_SUBDIR_NAME}" || exit "$?"
+mkdir --parents --verbose -- "${MOUNT_DIR}/${MUSIC_SUBDIR_NAME}" || exit 1
 rsync \
     --recursive \
     --checksum \
@@ -77,17 +77,17 @@ rsync \
     -- \
     "${MUSIC_SOURCE_DIR}/." \
     "${MOUNT_DIR}/${MUSIC_SUBDIR_NAME}/." ||
-        exit "$?"
+        exit 1
 
 ###
 
 PLAYLIST_SOURCE_DIR="${HOME}/Playlists"
-[[ -d "${PLAYLIST_SOURCE_DIR}" ]] || exit "$?"
+[[ -d "${PLAYLIST_SOURCE_DIR}" ]] || exit 1
 
 PLAYLIST_SOURCE_DIR_SANITIZED="$(readlink -e "${PLAYLIST_SOURCE_DIR}")"
-[[ -d "${PLAYLIST_SOURCE_DIR_SANITIZED}" ]] || exit "$?"
+[[ -d "${PLAYLIST_SOURCE_DIR_SANITIZED}" ]] || exit 1
 
-mkdir --verbose -- "${PLAYLIST_STAGE_DIR}" || exit "$?"
+mkdir --verbose -- "${PLAYLIST_STAGE_DIR}" || exit 1
 
 find "${PLAYLIST_SOURCE_DIR}/." \
     -mindepth 1 -maxdepth 1 \
@@ -117,10 +117,10 @@ for i in iter(sys.stdin):
             tr '/' '\\\\' |
             todos |
             tee \"\${TARGET_PLAYLIST}\" || exit \$?
-        done" || exit "$?"
+        done" || exit 1
 
 PLAYLIST_TARGET_DIR="${MOUNT_DIR}/Playlists"
-mkdir --parents --verbose -- "${PLAYLIST_TARGET_DIR}" || exit "$?"
+mkdir --parents --verbose -- "${PLAYLIST_TARGET_DIR}" || exit 1
 rsync \
     --recursive \
     --checksum \
@@ -132,13 +132,13 @@ rsync \
     -- \
     "${PLAYLIST_STAGE_DIR}/." \
     "${PLAYLIST_TARGET_DIR}/." ||
-        exit "$?"
+        exit 1
 
-echo The remainder of this script is not intended to be executed automatically but rather to serve as documentation. || exit "$?"
+echo The remainder of this script is not intended to be executed automatically but rather to serve as documentation. || exit 1
 #
 # sudo fdisk /dev/sdb # Create partition table table with a single primary "W95 FAT32" (type 'c') partition.
-# sudo mkfs.vfat -n "${NAME}-nnn" /dev/sdb1 || exit "$?"
-# rsync-vfat-{quick,verify} --delete -- "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit "$?"
+# sudo mkfs.vfat -n "${NAME}-nnn" /dev/sdb1 || exit 1
+# rsync-vfat-{quick,verify} --delete -- "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit 1
 # sync --file-system "/media/${USER}/${NAME}/." || exit 1
 # sudo umount "${MOUNT_DIR}/" || exit 1
 # umount "/media/${USER}/${NAME}/" || exit 1
