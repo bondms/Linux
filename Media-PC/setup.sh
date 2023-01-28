@@ -4,37 +4,37 @@ set -eux
 set -o pipefail
 
 HERE="$(readlink -e "$(dirname "$0")")"
-[[ -d "${HERE}" ]] || exit $?
+[[ -d "${HERE}" ]] || exit 1
 
-[[ -d "${HERE}/Desktop" ]] || exit $?
+[[ -d "${HERE}/Desktop" ]] || exit 1
 if [[ -d "${HOME}/Desktop" && ! -h "${HOME}/Desktop" ]]
 then
-    rmdir --verbose "${HOME}/Desktop" || exit $?
+    rmdir --verbose "${HOME}/Desktop" || exit 1
 fi
 [[ -h "${HOME}/Desktop" ]] ||
-    ln --symbolic --verbose -- "${HERE}/Desktop" "${HOME}/." || exit $?
+    ln --symbolic --verbose -- "${HERE}/Desktop" "${HOME}/." || exit 1
 [[ -h "${HOME}/Desktop/R.Varna recorded" ]] ||
-    ln --symbolic --verbose -- "${HOME}/Recordings/radio-varna.mp3" "${HOME}/Desktop/R.Varna recorded" || exit $?
+    ln --symbolic --verbose -- "${HOME}/Recordings/radio-varna.mp3" "${HOME}/Desktop/R.Varna recorded" || exit 1
 
-sudo apt update || exit $?
-sudo apt full-upgrade || exit $?
+sudo apt update || exit 1
+sudo apt full-upgrade || exit 1
 
-sudo apt install --assume-yes rpi-eeprom || exit $?
-sudo apt install --assume-yes feh || exit $?
-sudo apt install --assume-yes sox libsox-fmt-all || exit $?
-sudo apt install --assume-yes xscreensaver || exit $?
-sudo apt install --assume-yes at || exit $?
+sudo apt install --assume-yes rpi-eeprom || exit 1
+sudo apt install --assume-yes feh || exit 1
+sudo apt install --assume-yes sox libsox-fmt-all || exit 1
+sudo apt install --assume-yes xscreensaver || exit 1
+sudo apt install --assume-yes at || exit 1
 
 # rgain dependencies
-sudo apt install --assume-yes gstreamer1.0-python3-plugin-loader python3-mutagen || exit $?
+sudo apt install --assume-yes gstreamer1.0-python3-plugin-loader python3-mutagen || exit 1
 
-sudo rpi-eeprom-update || exit $?
+sudo rpi-eeprom-update || exit 1
 
-sudo apt autoremove || exit $?
-sudo apt-get autoclean || exit $?
+sudo apt autoremove || exit 1
+sudo apt-get autoclean || exit 1
 
 [[ -h "${HOME}/.bash_aliases" ]] ||
-    ln --symbolic --verbose -- "${HERE}/Shell/.bash_aliases" "${HOME}/." || exit $?
+    ln --symbolic --verbose -- "${HERE}/Shell/.bash_aliases" "${HOME}/." || exit 1
 
 # Old versions of Raspbian used ALSA:
 # if [[ ! -h /etc/asound.conf ]]
@@ -42,7 +42,7 @@ sudo apt-get autoclean || exit $?
 #     # Downmix all audio output from stereo to mono.
 #     # https://www.tinkerboy.xyz/raspberry-pi-downmixing-from-stereo-to-mono-sound-output/
 #     # The device number in `hw:N` is determined from the output of `cat /proc/asound/modules`.
-#     sudo ln --symbolic --verbose -- "${HERE}/MonoAudio/asound.conf" /etc/. || exit $?
+#     sudo ln --symbolic --verbose -- "${HERE}/MonoAudio/asound.conf" /etc/. || exit 1
 #     echo "*** Reboot for mono audio downmix to take effect ***"
 # fi
 
@@ -57,22 +57,22 @@ then
     # Play sound through multiple output devices.
     # https://askubuntu.com/questions/78174/play-sound-through-two-or-more-outputs-devices
     # https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/Modules/#module-combine-sink
-    grep -Fv "sink_name=hdmi_mono" /etc/pulse/default.pa || exit $?
-    grep -Fv "set-default-sink hdmi_mono" /etc/pulse/default.pa || exit $?
-    sudo cp --archive --interactive --verbose /etc/pulse/default.pa{,.orig} || exit $?
-    echo "load-module module-remap-sink sink_name=hdmi_mono master=alsa_output.platform-fef00700.hdmi.hdmi-stereo channels=2 channel_map=mono,mono" | sudo tee --append /etc/pulse/default.pa || exit $?
-    echo "set-default-sink hdmi_mono" | sudo tee --append /etc/pulse/default.pa || exit $?
+    grep -Fv "sink_name=hdmi_mono" /etc/pulse/default.pa || exit 1
+    grep -Fv "set-default-sink hdmi_mono" /etc/pulse/default.pa || exit 1
+    sudo cp --archive --interactive --verbose /etc/pulse/default.pa{,.orig} || exit 1
+    echo "load-module module-remap-sink sink_name=hdmi_mono master=alsa_output.platform-fef00700.hdmi.hdmi-stereo channels=2 channel_map=mono,mono" | sudo tee --append /etc/pulse/default.pa || exit 1
+    echo "set-default-sink hdmi_mono" | sudo tee --append /etc/pulse/default.pa || exit 1
     echo "*** Reboot for audio configuration to take effect ***"
 fi
 
 [[ -d "${HERE}/../../rgain" ]] ||
-    git clone --depth 1 --branch 1.0.0 --verbose -- https://github.com/chaudum/rgain.git "${HERE}/../../rgain" || exit $?
+    git clone --depth 1 --branch 1.0.0 --verbose -- https://github.com/chaudum/rgain.git "${HERE}/../../rgain" || exit 1
 [[ -h "${HERE}/../../rgain/scripts/rgain3" ]] ||
-    ln --symbolic --verbose -- "../rgain3" "${HERE}/../../rgain/scripts/." || exit $?
+    ln --symbolic --verbose -- "../rgain3" "${HERE}/../../rgain/scripts/." || exit 1
 
 # Configure recording for time-shifted playback of Radio Varna
-mkdir --verbose --parents -- "${HOME}/Recordings" || exit $?
-crontab - << EOF || exit $?
+mkdir --verbose --parents -- "${HOME}/Recordings" || exit 1
+crontab - << EOF || exit 1
 # Record Radio Varna from 10:20 to 13:00 (2h40m) on Sundays.
 20 10 * * sun sox --clobber --type mp3 http://broadcast.masters.bg:8000/live "${HOME}/Recordings/radio-varna.mp3" trim 0 2:40:00
 EOF

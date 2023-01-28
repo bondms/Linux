@@ -9,40 +9,40 @@ set -o pipefail
 NAME="PHONE-SD"
 
 IMAGES_DIR="/home/bondms-unencrypted/SparseImages"
-[[ -d "${IMAGES_DIR}" ]] || exit $?
+[[ -d "${IMAGES_DIR}" ]] || exit 1
 
 PLAYLIST_STAGE_DIR="${HOME}/RamDisk/Playlists"
-[[ ! -e "${PLAYLIST_STAGE_DIR}" ]] || exit $?
+[[ ! -e "${PLAYLIST_STAGE_DIR}" ]] || exit 1
 
 IMAGE_PATH="${IMAGES_DIR}/${NAME}.img"
 if [[ ! -e "${IMAGE_PATH}" ]]
 then
     # Make the image file a little smaller than the real disk so there's no chance
     # of trying to overfill the real disk.
-    truncate -s 60GB "${IMAGE_PATH}" || exit $?
-    mkfs.exfat -n "${NAME}" "${IMAGE_PATH}" || exit $?
+    truncate -s 60GB "${IMAGE_PATH}" || exit 1
+    mkfs.exfat -n "${NAME}" "${IMAGE_PATH}" || exit 1
 fi
-[[ -f "${IMAGE_PATH}" ]] || exit $?
+[[ -f "${IMAGE_PATH}" ]] || exit 1
 
 MOUNT_DIR="${HOME}/Mount"
-[[ -d "${MOUNT_DIR}" ]] || exit $?
+[[ -d "${MOUNT_DIR}" ]] || exit 1
 
 if mountpoint "${MOUNT_DIR}"
 then
-    echo "Directory \"${MOUNT_DIR}\" is already a mountpoint." >&2 || exit $?
+    echo "Directory \"${MOUNT_DIR}\" is already a mountpoint." >&2 || exit 1
     exit 1
 fi
 
-sudo mount -o uid=${UID} "${IMAGE_PATH}" "${MOUNT_DIR}" || exit $?
+sudo mount -o uid=${UID} "${IMAGE_PATH}" "${MOUNT_DIR}" || exit 1
 
 ###
 
 PICTURES_PARENT_DIR="${HOME}"
 PICTURES_SUBDIR_NAME="Pictures"
 PICTURES_SOURCE_DIR="${PICTURES_PARENT_DIR}/${PICTURES_SUBDIR_NAME}"
-[[ -d "${PICTURES_SOURCE_DIR}" ]] || exit $?
+[[ -d "${PICTURES_SOURCE_DIR}" ]] || exit 1
 
-mkdir --parents --verbose -- "${MOUNT_DIR}/${PICTURES_SUBDIR_NAME}" || exit $?
+mkdir --parents --verbose -- "${MOUNT_DIR}/${PICTURES_SUBDIR_NAME}" || exit 1
 rsync \
     --recursive \
     --checksum \
@@ -67,9 +67,9 @@ rsync \
 PODCASTS_PARENT_DIR="${HOME}/Backup"
 PODCASTS_SUBDIR_NAME="Podcasts"
 PODCASTS_SOURCE_DIR="${PODCASTS_PARENT_DIR}/${PODCASTS_SUBDIR_NAME}"
-[[ -d "${PODCASTS_SOURCE_DIR}" ]] || exit $?
+[[ -d "${PODCASTS_SOURCE_DIR}" ]] || exit 1
 
-mkdir --parents --verbose -- "${MOUNT_DIR}/${PODCASTS_SUBDIR_NAME}" || exit $?
+mkdir --parents --verbose -- "${MOUNT_DIR}/${PODCASTS_SUBDIR_NAME}" || exit 1
 rsync \
     --recursive \
     --checksum \
@@ -90,9 +90,9 @@ rsync \
 MUSIC_PARENT_DIR="${HOME}"
 MUSIC_SUBDIR_NAME="Music"
 MUSIC_SOURCE_DIR="${MUSIC_PARENT_DIR}/${MUSIC_SUBDIR_NAME}"
-[[ -d "${MUSIC_SOURCE_DIR}" ]] || exit $?
+[[ -d "${MUSIC_SOURCE_DIR}" ]] || exit 1
 
-mkdir --parents --verbose -- "${MOUNT_DIR}/${MUSIC_SUBDIR_NAME}" || exit $?
+mkdir --parents --verbose -- "${MOUNT_DIR}/${MUSIC_SUBDIR_NAME}" || exit 1
 rsync \
     --recursive \
     --checksum \
@@ -111,12 +111,12 @@ rsync \
 ###
 
 PLAYLIST_SOURCE_DIR="${HOME}/Playlists"
-[[ -d "${PLAYLIST_SOURCE_DIR}" ]] || exit $?
+[[ -d "${PLAYLIST_SOURCE_DIR}" ]] || exit 1
 
 PLAYLIST_SOURCE_DIR_SANITIZED="$(readlink -e "${PLAYLIST_SOURCE_DIR}")"
-[[ -d "${PLAYLIST_SOURCE_DIR_SANITIZED}" ]] || exit $?
+[[ -d "${PLAYLIST_SOURCE_DIR_SANITIZED}" ]] || exit 1
 
-mkdir --verbose -- "${PLAYLIST_STAGE_DIR}" || exit $?
+mkdir --verbose -- "${PLAYLIST_STAGE_DIR}" || exit 1
 
 find "${PLAYLIST_SOURCE_DIR}/." \
     -mindepth 1 -maxdepth 1 \
@@ -146,10 +146,10 @@ for i in iter(sys.stdin):
             tr '/' '\\\\' |
             todos |
             tee \"\${TARGET_PLAYLIST}\" || exit \$?
-        done" || exit $?
+        done" || exit 1
 
 PLAYLIST_TARGET_DIR="${MOUNT_DIR}/Playlists"
-mkdir --parents --verbose -- "${PLAYLIST_TARGET_DIR}" || exit $?
+mkdir --parents --verbose -- "${PLAYLIST_TARGET_DIR}" || exit 1
 rsync \
     --recursive \
     --checksum \
@@ -164,20 +164,20 @@ rsync \
     "${PLAYLIST_TARGET_DIR}/." ||
         exit $?
 
-echo The remainder of this script is not intended to be executed automatically but rather to serve as documentation. || exit $?
+echo The remainder of this script is not intended to be executed automatically but rather to serve as documentation. || exit 1
 #
 # # Option 1: Remove the SD card from the phone and place directly in the laptop.
 # sudo fdisk /dev/mmcblk0  # Create exfat partition (type 7).
-# sudo mkfs.exfat -n "${NAME}-nnn" /dev/mmcblk0p1 || exit $?
-# rsync-vfat-{quick,verify} --delete -- "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit $?
-# sync --file-system "/media/${USER}/${NAME}/." || exit $?
-# sudo umount "${MOUNT_DIR}/" || exit $?
-# umount "/media/${USER}/${NAME}/" || exit $?
+# sudo mkfs.exfat -n "${NAME}-nnn" /dev/mmcblk0p1 || exit 1
+# rsync-vfat-{quick,verify} --delete -- "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit 1
+# sync --file-system "/media/${USER}/${NAME}/." || exit 1
+# sudo umount "${MOUNT_DIR}/" || exit 1
+# umount "/media/${USER}/${NAME}/" || exit 1
 #
 # # Option 2: Mount the SD card while it's in the phone.
 # # Enable "Use USB to" "Transfer files" option on the phone after connecting USB.
 # # Eject the phone from File Manager (otherwise jmtpfs will core dump).
-# jmtpfs "${HOME}/Phone/" || exit $?
+# jmtpfs "${HOME}/Phone/" || exit 1
 # # Ensure there are no non-excluded system folders on the SD card.
 # rsync-jmtpfs-verify \
 #     --delete \
@@ -187,7 +187,7 @@ echo The remainder of this script is not intended to be executed automatically b
 #     -- \
 #     "${MOUNT_DIR}/." "${HOME}/Phone/SanDisk SD card/." ||
 #         exit $?
-# sync --file-system "${HOME}/Phone/SanDisk SD card/." || exit $?
-# sudo umount "${MOUNT_DIR}/" || exit $?
-# fusermount -u "${HOME}/Phone/" || exit $?
+# sync --file-system "${HOME}/Phone/SanDisk SD card/." || exit 1
+# sudo umount "${MOUNT_DIR}/" || exit 1
+# fusermount -u "${HOME}/Phone/" || exit 1
 # # Disable "Use USB to" "Transfer files" option on the phone.

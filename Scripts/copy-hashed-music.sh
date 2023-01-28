@@ -15,13 +15,13 @@ set -eux
 set -o pipefail
 
 HERE="$(readlink -e "$(dirname "$0")")"
-[[ -d "$HERE" ]] || exit $?
+[[ -d "$HERE" ]] || exit 1
 
-[[ $# -eq 2 ]] || exit $?
+[[ $# -eq 2 ]] || exit 1
 SOURCE=$1
 TARGET=$2
-[[ -d $SOURCE ]] || exit $?
-[[ -d $TARGET ]] || exit $?
+[[ -d $SOURCE ]] || exit 1
+[[ -d $TARGET ]] || exit 1
 
 find -L "$SOURCE" \
     -type f \
@@ -41,4 +41,4 @@ find -L "$SOURCE" \
                     exit 255
                 }
         done
-        " || exit $?
+        " || exit 1

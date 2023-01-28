@@ -6,29 +6,29 @@
 # - Replay gain is applied.
 # - Stops on first error and cleans up potentially partially copied file (e.g. when target becomes full).
 
-set -eux || exit $?
-set -o pipefail || exit $?
+set -eux || exit 1
+set -o pipefail || exit 1
 
-[[ $# -eq 2 ]] || exit $?
+[[ $# -eq 2 ]] || exit 1
 SOURCE=$1
-[[ -d "${SOURCE}" ]] || exit $?
+[[ -d "${SOURCE}" ]] || exit 1
 TARGET=$2
-[[ -d "${TARGET}" ]] || exit $?
+[[ -d "${TARGET}" ]] || exit 1
 
 HERE="$(readlink -e "$(dirname "${0}")")"
-[[ -d "${HERE}" ]] || exit $?
+[[ -d "${HERE}" ]] || exit 1
 
 find -L "${SOURCE}" -type f -iname "*.mp3" -print0 |
     sort --random-sort --zero-terminated |
     bash -c "
         while read -r -d $'\0' F
         do
-            (( ++COUNT )) || exit $?
-            printf -v BASE \"%08d\" \"\${COUNT}\" || exit $?
+            (( ++COUNT )) || exit 1
+            printf -v BASE \"%08d\" \"\${COUNT}\" || exit 1
             \"${HERE}/replay-gain-copy.sh\" \"\${F}\" \"${TARGET}/\${BASE}.mp3\" ||
                 {
                     rm --force --verbose \"${TARGET}/\${BASE}.mp3\"
                     exit 255
                 }
         done
-        " || exit $?
+        " || exit 1

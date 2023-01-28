@@ -8,7 +8,7 @@
 set -eux
 set -o pipefail
 
-[[ $# -eq 0 ]] || exit $?
+[[ $# -eq 0 ]] || exit 1
 
 # Use uppercase and limit to 11 characters (including the "-nnn" suffix).
 NAME="CAR-USB"
@@ -90,7 +90,7 @@ rsync \
 
 PLAYLISTS_SUBDIR_NAME="Playlists"
 PLAYLIST_SOURCE_DIR="${HOME}/${PLAYLISTS_SUBDIR_NAME}"
-[[ -d "${PLAYLIST_SOURCE_DIR}" ]] || exit $?
+[[ -d "${PLAYLIST_SOURCE_DIR}" ]] || exit 1
 REAL_PLAYLIST_SOURCE_DIR="$(realpath "${PLAYLIST_SOURCE_DIR}")"
 PLAYLIST_PARENT_DIR="$(dirname "${REAL_PLAYLIST_SOURCE_DIR}")"
 
@@ -150,6 +150,6 @@ echo The remainder of this script is not intended to be executed automatically b
 # sudo fdisk /dev/sdb # Create partition table table with a single primary "W95 FAT32" (type 'c') partition.
 # sudo mkfs.vfat -n "${NAME}-nnn" /dev/sdb1 || exit "$?"
 # rsync-vfat-verify --delete -- "${MOUNT_DIR}/." "/media/${USER}/${NAME}/." || exit "$?"
-# sync --file-system "/media/${USER}/${NAME}/." || exit $?
-# sudo umount "${MOUNT_DIR}/" || exit $?
-# umount "/media/${USER}/${NAME}/" || exit $?
+# sync --file-system "/media/${USER}/${NAME}/." || exit 1
+# sudo umount "${MOUNT_DIR}/" || exit 1
+# umount "/media/${USER}/${NAME}/" || exit 1
