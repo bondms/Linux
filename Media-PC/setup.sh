@@ -6,6 +6,8 @@ set -o pipefail
 HERE="$(readlink -e "$(dirname "$0")")"
 [[ -d "${HERE}" ]] || exit 1
 
+grep -F "Raspbian" /etc/os-release || exit 1
+
 [[ -d "${HERE}/Desktop" ]] || exit 1
 if [[ -d "${HOME}/Desktop" && ! -h "${HOME}/Desktop" ]]
 then

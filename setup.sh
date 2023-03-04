@@ -9,6 +9,8 @@ HERE="$(readlink -e "$(dirname "$0")")"
 BACKUP="$(readlink -e "${HERE}/Backup")"
 [[ -d "${BACKUP}" ]] || exit 1
 
+grep -F "Ubuntu" /etc/lsb-release || exit 1
+
 for NAME in Documents Downloads Images Music Pictures Playlists Podcasts Videos VirtualMachines
 do
     [[ -d "${BACKUP}/${NAME}" ]] || exit 1
