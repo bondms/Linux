@@ -24,7 +24,6 @@ rsync \
     --verbose \
     --human-readable \
     --itemize-changes \
-    --checksum \
     --sparse \
     --delete --delete-excluded \
     -- \
