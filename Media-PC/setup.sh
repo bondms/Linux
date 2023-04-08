@@ -6,7 +6,7 @@ set -o pipefail
 HERE="$(readlink -e "$(dirname "$0")")"
 [[ -d "${HERE}" ]] || exit 1
 
-grep -F "Raspbian" /etc/os-release || exit 1
+[[ -d "/home/pi" ]] || exit 1
 
 [[ -d "${HERE}/Desktop" ]] || exit 1
 if [[ -d "${HOME}/Desktop" && ! -h "${HOME}/Desktop" ]]
@@ -38,17 +38,6 @@ sudo apt-get autoclean || exit 1
 [[ -h "${HOME}/.bash_aliases" ]] ||
     ln --symbolic --verbose -- "${HERE}/Shell/.bash_aliases" "${HOME}/." || exit 1
 
-# Old versions of Raspbian used ALSA:
-# if [[ ! -h /etc/asound.conf ]]
-# then
-#     # Downmix all audio output from stereo to mono.
-#     # https://www.tinkerboy.xyz/raspberry-pi-downmixing-from-stereo-to-mono-sound-output/
-#     # The device number in `hw:N` is determined from the output of `cat /proc/asound/modules`.
-#     sudo ln --symbolic --verbose -- "${HERE}/MonoAudio/asound.conf" /etc/. || exit 1
-#     echo "*** Reboot for mono audio downmix to take effect ***"
-# fi
-
-# New version of Raspbian use Pulse audio:
 if [[ ! -e /etc/pulse/default.pa.orig ]]
 then
     # Downmix audio output from stereo to mono for HDMI.
