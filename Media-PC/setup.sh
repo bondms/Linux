@@ -56,10 +56,10 @@ then
     echo "*** Reboot for audio configuration to take effect ***"
 fi
 
-[[ -d "${HERE}/../../rgain" ]] ||
-    git clone --depth 1 --branch 1.0.0 --verbose -- https://github.com/chaudum/rgain.git "${HERE}/../../rgain" || exit 1
-[[ -h "${HERE}/../../rgain/scripts/rgain3" ]] ||
-    ln --symbolic --verbose -- "../rgain3" "${HERE}/../../rgain/scripts/." || exit 1
+[[ -d "${HERE}/../../rgain3" ]] ||
+    git clone --depth 1 --branch 1.0.0 --verbose -- https://github.com/chaudum/rgain3.git "${HERE}/../../rgain3" || exit 1
+[[ -h "${HERE}/../../rgain3/scripts/rgain3" ]] ||
+    ln --symbolic --verbose -- "../rgain3" "${HERE}/../../rgain3/scripts/." || exit 1
 
 # Configure recording for time-shifted playback of Radio Varna
 mkdir --verbose --parents -- "${HOME}/Recordings" || exit 1
