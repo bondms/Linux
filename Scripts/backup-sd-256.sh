@@ -38,7 +38,7 @@ diff \
     --recursive \
     --exclude "BackupTargets" \
     -- \
-    "${SOURCE}/latest/" "${TARGET_DIR}/latest/" | tee "${LOGFILE}" || exit 1
+    "${SOURCE}/latest/" "${TARGET_DIR}/latest/" | tee --append "${LOGFILE}" || exit 1
 
 date +%Y%m%d-%H%M%S > "${TIMESTAMP_PATH}" || exit 1
 sync --file-system "${TIMESTAMP_PATH}" || exit 1
