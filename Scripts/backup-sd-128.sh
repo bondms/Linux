@@ -18,6 +18,10 @@ rm --force --verbose "${SOURCE}/${TIMESTAMP_NAME}" || exit 1
 [[ -d "${TARGET_DIR}" ]] || exit 1
 
 rm --force --verbose "${TIMESTAMP_PATH}" || exit 1
+
+# Sync without checksum.
+# This is much quicker because most of the archive consists of hardlinks which
+# would need to be read repeatedly with checksumming.
 rsync \
     --archive \
     --hard-links \
@@ -28,6 +32,13 @@ rsync \
     --delete --delete-excluded \
     -- \
     "${SOURCE}/" "${TARGET_DIR}/" | tee "${LOGFILE}" || exit 1
+
+# Verify only the latest.
+diff \
+    --recursive \
+    --exclude "BackupTargets" \
+    -- \
+    "${SOURCE}/latest/" "${TARGET_DIR}/latest/" | tee "${LOGFILE}" || exit 1
 
 date +%Y%m%d-%H%M%S > "${TIMESTAMP_PATH}" || exit 1
 sync --file-system "${TIMESTAMP_PATH}" || exit 1

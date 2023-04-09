@@ -18,6 +18,10 @@ rm --force --verbose "${SOURCE}/${TIMESTAMP_NAME}" || exit 1
 [[ -d "${TARGET_DIR}" ]] || exit 1
 
 rm --force --verbose "${TIMESTAMP_PATH}" || exit 1
+
+# Sync without checksum.
+# This is much quicker because most of the archive consists of hardlinks which
+# would need to be read repeatedly with checksumming.
 rsync \
     --archive \
     --hard-links \
@@ -29,15 +33,12 @@ rsync \
     -- \
     "${SOURCE}/" "${TARGET_DIR}/" | tee "${LOGFILE}" || exit 1
 
+# Verify only the latest.
+diff \
+    --recursive \
+    --exclude "BackupTargets" \
+    -- \
+    "${SOURCE}/latest/" "${TARGET_DIR}/latest/" | tee "${LOGFILE}" || exit 1
+
 date +%Y%m%d-%H%M%S > "${TIMESTAMP_PATH}" || exit 1
 sync --file-system "${TIMESTAMP_PATH}" || exit 1
-
-echo The remainder of this script is not intended to be executed automatically but rather to serve as documentation. || exit 1
-#
-# sudo fdisk /dev/mmcblk0
-# * "create a new empty DOS partition table" (option 'o').
-# * "add a new partition" (option 'n').
-# * "write table to disk and exit" (option 'w').
-# sudo mkfs.ext4 -L "BackupSd256" /dev/mmcblk0p1 || exit 1
-# sudo mkdir /media/bondms/BackupSd256/Backup || exit 1
-# sudo chown bondms.bondms /media/bondms/BackupSd256/Backup/ || exit 1
