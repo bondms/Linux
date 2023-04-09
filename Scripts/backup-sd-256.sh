@@ -36,7 +36,7 @@ rsync \
 # Verify only the latest.
 diff \
     --recursive \
-    --exclude "BackupTargets" \
+    --no-dereference \
     -- \
     "${SOURCE}/latest/" "${TARGET_DIR}/latest/" | tee --append "${LOGFILE}" || exit 1
 
