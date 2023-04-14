@@ -38,6 +38,7 @@ rsync \
     --checksum \
     --sparse \
     --delete --delete-excluded \
+    --exclude "Archive/Joli/Elements/" \
     --exclude "/Archive/Motoring/Ursula/200801 Polestar 2 press kit UK.zip" \
     --exclude "/Archive/Programming/Git/Linux/Scripts/OctopusEnergyApi/data/" \
     --exclude ".git/" \
