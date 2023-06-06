@@ -22,5 +22,6 @@
         "**/bazel-*/**": true
     },
     "window.restoreWindows": "none",
-    "workbench.startupEditor": "none"
+    "workbench.startupEditor": "none",
+    "extensions.ignoreRecommendations": true
 }
