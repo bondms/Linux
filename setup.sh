@@ -127,7 +127,6 @@ sudo apt install --assume-yes jmtpfs || exit 1
 sudo apt install --assume-yes exfatprogs || exit 1
 sudo apt install --assume-yes tofrodos || exit 1
 sudo snap install skype --classic || exit 1
-# sudo apt install --assume-yes 2to3 || exit 1
 sudo apt install --assume-yes python3-mutagen || exit 1
 sudo apt install --assume-yes symlinks || exit 1
 sudo apt install --assume-yes jhead || exit 1
@@ -137,8 +136,6 @@ sudo apt install --assume-yes clang clang-format clang-tidy || exit 1
 sudo apt install --assume-yes imagemagick || exit 1
 sudo apt install --assume-yes curl || exit 1
 sudo apt install --assume-yes latexdraw || exit 1
-# sudo apt install --assume-yes python-pytest || exit 1
-# sudo apt install --assume-yes python3-dev python3-bluez || exit 1
 sudo apt install --assume-yes npm || exit 1
 sudo apt install --assume-yes at || exit 1
 sudo apt install --assume-yes audacity || exit 1
@@ -162,26 +159,5 @@ git config --global user.email "34947848+bondms@users.noreply.github.com" || exi
     git clone --depth 1 --branch 1.0.0 --verbose -- https://github.com/chaudum/rgain3.git "${HERE}/../rgain3" || exit 1
 [[ -h "${HERE}/../rgain3/scripts/rgain3" ]] ||
     ln --symbolic --verbose -- "../rgain3" "${HERE}/../rgain3/scripts/." || exit 1
-
-# sudo apt install --assume-yes dnsmasq resolvconf || exit 1
-# sudo systemctl stop systemd-resolved || exit 1
-# sudo systemctl disable systemd-resolved || exit 1
-# sudo systemctl enable resolvconf.service || exit 1
-# sudo systemctl start resolvconf.service || exit 1
-# if [[ ! -e /etc/resolvconf/resolv.conf.d/head.orig ]]
-# then
-#     sudo cp --archive --no-clobber /etc/resolvconf/resolv.conf.d/head /etc/resolvconf/resolv.conf.d/head.orig || exit 1
-# fi
-# for ns in "8.8.8.8" "8.8.4.4" "1.1.1.1"
-# do
-#     grep "^nameserver ${ns}\$" /etc/resolvconf/resolv.conf.d/head && result=$? || result=$?
-#     case $result in
-#     0 ) ;;
-#     1 ) echo "nameserver ${ns}" | sudo tee --append /etc/resolvconf/resolv.conf.d/head || exit 1 ;;
-#     * ) exit $? ;;
-#     esac
-# done
-# sudo resolvconf --enable-updates || exit 1
-# sudo resolvconf -u || exit 1
 
 echo "*** SUCCESS ***"
