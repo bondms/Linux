@@ -142,6 +142,7 @@ sudo apt install --assume-yes audacity || exit 1
 sudo apt install --assume-yes ffmpeg || exit 1
 sudo apt install --assume-yes rpi-imager || exit 1
 sudo apt install --assume-yes black || exit 1
+sudo apt install --assume-yes sqlite3 unixodbc-dev || exit 1
 
 sudo npm install -g @bazel/bazelisk || exit 1
 
