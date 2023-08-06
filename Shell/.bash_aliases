@@ -38,6 +38,7 @@ alias orientate='find -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.
 alias play-hum='play -n synth sine 150'
 alias play-left-right-test='speaker-test -c 2 -t sine'
 alias play-silence='play -n'
+alias play-to-end='play --ignore-length'
 alias pstree='pstree -paul'
 alias qiv='qiv -Rm'
 alias radiofip-play-live='play http://direct.fipradio.fr/live/fip-midfi.mp3'
