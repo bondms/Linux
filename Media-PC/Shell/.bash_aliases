@@ -263,20 +263,6 @@ password-generate-pin()
     password-generate 4 0-9
 }
 
-play-recording-in-progress()
-{
-    [[ $# -eq 1 ]] || {
-        echo >&2 "ERROR: Expected 1 argument(s), received $#."
-        return 1
-    }
-    [[ -f "$1" ]] || {
-        echo >&2 "ERROR: '$1' is not a file."
-        return 1
-    }
-
-    cat "$1" | play -t mp3 - channels 1
-}
-
 show-secrets()
 {
     decrypt-file-to-less "${HOME}/Documents/Secrets.txt.gpg" || return $?
