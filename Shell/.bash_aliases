@@ -333,9 +333,6 @@ case ":${PATH:=${HOME}/Backup/bin}:" in
     *) PATH="${PATH}:${HOME}/Backup/bin" ;;
 esac
 
-mkdir --parents --verbose "/dev/shm/${USER}"
-mkdir --parents --verbose "/tmp/${USER}"
-
 # https://github.com/magicmonty/bash-git-prompt
 if [[ -e "${HOME}/.bash-git-prompt/gitprompt.sh" ]]
 then
@@ -346,3 +343,7 @@ fi
 # Accept default merge-commit messages.
 # Preferable to using an alias for git merge since it maintains command-line auto-completion.
 export GIT_MERGE_AUTOEDIT="no"
+
+# Non Media-PC.
+mkdir --parents --verbose "/dev/shm/${USER}"
+mkdir --parents --verbose "/tmp/${USER}"

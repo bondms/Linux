@@ -1,6 +1,6 @@
 ### Aliases ###
 
-alias broken-links='find -L . -type l'
+alias broken-links='find . -xtype l'
 alias checktime='ntpdate -q uk.pool.ntp.org'
 alias chmod='chmod -v'
 alias chown='chown -v'
@@ -14,6 +14,12 @@ alias follow-from-start='tail -F -n +1'
 alias g++debug='g++ -Wall -Werror -O0 -ggdb'
 alias g++warn='g++ -Wall -Werror'
 alias git-branch='git checkout -b "${USER}-$(date +%Y%m%d-%H%M%S)"'
+alias git-clone-min='git clone --depth 1 --single-branch'
+alias git-commit-reuse='git commit --date="$(date)" -C'
+alias git-commit-reuse-head='git commit --date="$(date)" --reuse-message=HEAD'
+alias git-log='git log --graph'
+alias git-log-diff-from='git log --graph HEAD --not'
+alias git-log-diff-to='git log --graph ^HEAD'
 alias grep-context='grep -C 5'
 alias gunzip='gunzip -v'
 alias gzip='gzip -v'
@@ -29,6 +35,9 @@ alias openssl-view-pub-key='openssl rsa -pubin -text -in'
 alias openssl-view-private-key='openssl rsa -text -in'
 alias orientate='find -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.jpe" -o -iname "*.jif" -o -iname "*.jfif" -o -iname "*.jfi" \) -print0 |
     xargs --null --no-run-if-empty jhead -autorot'
+alias play-hum='play -n synth sine 150'
+alias play-left-right-test='speaker-test -c 2 -t sine'
+alias play-silence='play -n'
 alias pstree='pstree -paul'
 alias qiv='qiv -Rm'
 alias radiofip-play-live='play http://direct.fipradio.fr/live/fip-midfi.mp3'
@@ -39,14 +48,17 @@ alias rmdir-and-content='find "$(readlink -f .)" -delete'
 alias rmdir-content='find -mindepth 1 -delete'
 alias ro-files='find -type f -print0 |
     xargs --null --no-run-if-empty chmod --verbose a-w'
-alias rsync-quick='rsync -ahi'
-alias rsync-verify='rsync -ahic'
+alias rsync-quick='rsync --archive --human-readable --itemize-changes --verbose --progress'
+alias rsync-verify='rsync --archive --human-readable --itemize-changes --verbose --progress --checksum'
 
 # Modify window allows for both precision and daylight saving time issues.
 # But it's recommend to use checksum and avoid even copying timestamps to completely avoid these issues.
-alias rsync-vfat='rsync -rhic'
-alias rsync-vfat-quick='rsync -rhit --modify-window=3601'
-alias rsync-vfat-verify='rsync -rhitc --modify-window=3601'
+alias rsync-vfat-quick='rsync --recursive --human-readable --itemize-changes --verbose --progress --times --modify-window=3601'
+alias rsync-vfat-verify='rsync --recursive --human-readable --itemize-changes --verbose --progress --times --checksum --modify-window=3601'
+
+# jmtpfs is like vfat but doesn't set timestamps and requires --inplace to avoid some errors.
+alias rsync-jmtpfs-quick='rsync --inplace --recursive --human-readable --itemize-changes --verbose --progress --ignore-times'
+alias rsync-jmtpfs-verify='rsync --inplace --recursive --human-readable --itemize-changes --verbose --progress --ignore-times --checksum'
 
 alias slideshow-all-monitor='feh --auto-zoom --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --fullscreen ~/Pictures/.'
 alias slideshow-all-tv='feh --auto-zoom --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --borderless --image-bg=black --geometry=1200x670+1960+25 ~/Pictures/.'
@@ -176,6 +188,18 @@ generate-replay-gain-track-tags()
 {
     find -type f -print0 | xargs --null -I{} id3convert --v1tag -- {}
     find -type f -print0 | xargs --null -I{} replaygain --no-album -- {}
+}
+
+git-worktree-add()
+{
+    [[ -d '.git' ]] || return $?
+    git worktree add -- "../$(basename -- "$(pwd)")-alt" || return $?
+}
+
+git-worktree-remove()
+{
+    [[ -d '.git' ]] || return $?
+    git worktree remove -- "../$(basename -- "$(pwd)")-alt" || return $?
 }
 
 mount-iso()
@@ -309,11 +333,16 @@ case ":${PATH:=${HOME}/Backup/bin}:" in
     *) PATH="${PATH}:${HOME}/Backup/bin" ;;
 esac
 
-PATH="${PATH}:${HOME}/Linux-master/Scripts"
-
 # https://github.com/magicmonty/bash-git-prompt
 if [[ -e "${HOME}/.bash-git-prompt/gitprompt.sh" ]]
 then
     GIT_PROMPT_ONLY_IN_REPO=1
     source "${HOME}/.bash-git-prompt/gitprompt.sh"
 fi
+
+# Accept default merge-commit messages.
+# Preferable to using an alias for git merge since it maintains command-line auto-completion.
+export GIT_MERGE_AUTOEDIT="no"
+
+# Media-PC only.
+PATH="${PATH}:${HOME}/Linux-master/Scripts"
