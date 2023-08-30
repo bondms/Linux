@@ -45,7 +45,7 @@ sudo mount -o uid=${UID} "${IMAGE_PATH}" "${MOUNT_DIR}" || exit 1
 PODCASTS_SUBDIR_NAME="Podcasts"
 PODCASTS_SOURCE_DIR="${HOME}/${PODCASTS_SUBDIR_NAME}"
 [[ -d "${PODCASTS_SOURCE_DIR}" ]] || exit 1
-PODCASTS_TARGET_DIR="${MOUNT_DIR}/Audio/${PODCASTS_SUBDIR_NAME}"
+PODCASTS_TARGET_DIR="${MOUNT_DIR}/${PODCASTS_SUBDIR_NAME}"
 
 mkdir --parents --verbose -- "${PODCASTS_TARGET_DIR}" || exit 1
 rsync \
@@ -68,7 +68,7 @@ rsync \
 MUSIC_SUBDIR_NAME="Music"
 MUSIC_SOURCE_DIR="${HOME}/${MUSIC_SUBDIR_NAME}"
 [[ -d "${MUSIC_SOURCE_DIR}" ]] || exit 1
-MUSIC_TARGET_DIR="${MOUNT_DIR}/Audio/${MUSIC_SUBDIR_NAME}"
+MUSIC_TARGET_DIR="${MOUNT_DIR}/${MUSIC_SUBDIR_NAME}"
 
 mkdir --parents --verbose -- "${MUSIC_TARGET_DIR}" || exit 1
 rsync \
@@ -96,7 +96,7 @@ PLAYLIST_PARENT_DIR="$(dirname "${REAL_PLAYLIST_SOURCE_DIR}")"
 
 mkdir --verbose -- "${PLAYLIST_STAGE_DIR}" || exit 1
 
-PLAYLIST_TARGET_DIR="${MOUNT_DIR}/Audio"
+PLAYLIST_TARGET_DIR="${MOUNT_DIR}"
 mkdir --parents --verbose -- "${PLAYLIST_TARGET_DIR}" || exit 1
 
 find "${PLAYLIST_SOURCE_DIR}/." \
