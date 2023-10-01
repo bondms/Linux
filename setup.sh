@@ -66,20 +66,17 @@ fi
 [[ -h "${HOME}/.bash_aliases" ]] ||
     ln --symbolic --verbose -- "${HERE}/Shell/.bash_aliases" "${HOME}/." || exit 1
 
-if [[ ! -h "${HOME}/.profile" ]]
-then
-    mv --no-clobber -- "${HOME}/.profile" "${HOME}/.profile.orig" || exit 1
-fi
-[[ -h "${HOME}/.profile" ]] ||
-    ln --symbolic --verbose --force -- "${HERE}/Shell/.profile" "${HOME}/." || exit 1
-
 [[ -h "${HOME}/RamDisk" ]] ||
     ln --symbolic --verbose -- "/dev/shm/${USER}" "${HOME}/RamDisk" || exit 1
 
 [[ -h "${HOME}/tmp" ]] ||
     ln --symbolic --verbose -- "/tmp/${USER}" "${HOME}/tmp" || exit 1
 
-sudo cp --force --verbose -- "${HERE}/Startup/free-space-check.sh" /usr/local/bin/. || exit 1
+[[ -h "${HOME}/.Xmodmap" ]] ||
+    ln --symbolic --verbose -- "${HERE}/xmodmap/.Xmodmap" "${HOME}/." || exit 1
+sudo cp --verbose -- "${HERE}/xmodmap/Xmodmap.desktop" /etc/xdg/autostart/. || exit 1
+
+sudo cp --verbose -- "${HERE}/Startup/free-space-check.sh" /usr/local/bin/. || exit 1
 sudo chown --verbose root.root /usr/local/bin/free-space-check.sh || exit 1
 sudo chmod --verbose 755 /usr/local/bin/free-space-check.sh || exit 1
 
