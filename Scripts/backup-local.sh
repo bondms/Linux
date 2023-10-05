@@ -18,7 +18,7 @@ TARGET_DIR="${TARGET_DIR}/latest"
 [[ -d "${TARGET_DIR}" ]] || exit 1
 
 find "${SOURCE}" -type f -name "*~" -printf "Deleting: %p\n" -delete ||
-    exit $?
+    exit 1
 
 find "${SOURCE}" -mount \( -type f -o -type d \) \
 \( \

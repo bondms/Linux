@@ -60,7 +60,7 @@ rsync \
     -- \
     "${PICTURES_SOURCE_DIR}/." \
     "${MOUNT_DIR}/${PICTURES_SUBDIR_NAME}/." ||
-        exit $?
+        exit 1
 
 ###
 
@@ -83,7 +83,7 @@ rsync \
     -- \
     "${PODCASTS_SOURCE_DIR}/." \
     "${MOUNT_DIR}/${PODCASTS_SUBDIR_NAME}/." ||
-        exit $?
+        exit 1
 
 ###
 
@@ -106,7 +106,7 @@ rsync \
     -- \
     "${MUSIC_SOURCE_DIR}/." \
     "${MOUNT_DIR}/${MUSIC_SUBDIR_NAME}/." ||
-        exit $?
+        exit 1
 
 ###
 
@@ -162,7 +162,7 @@ rsync \
     -- \
     "${PLAYLIST_STAGE_DIR}/." \
     "${PLAYLIST_TARGET_DIR}/." ||
-        exit $?
+        exit 1
 
 echo The remainder of this script is not intended to be executed automatically but rather to serve as documentation. || exit 1
 #
@@ -186,7 +186,7 @@ echo The remainder of this script is not intended to be executed automatically b
 #     --exclude "/DCIM/" \
 #     -- \
 #     "${MOUNT_DIR}/." "${HOME}/Phone/SanDisk SD card/." ||
-#         exit $?
+#         exit 1
 # sync --file-system "${HOME}/Phone/SanDisk SD card/." || exit 1
 # sudo umount "${MOUNT_DIR}/" || exit 1
 # fusermount -u "${HOME}/Phone/" || exit 1

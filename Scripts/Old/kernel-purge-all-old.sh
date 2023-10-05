@@ -19,4 +19,4 @@ find "${FOLDER}" -maxdepth 1 -regextype posix-extended -regex "^${FOLDER}${NAMER
     awk -F "\t" '{ printf "%s\n", $2 }' |
     awk '{ if ( NR > 2 ) { print } }' |
     xargs --no-run-if-empty "${HERE}/kernel-purge.sh" ||
-    exit $?
+    exit 1

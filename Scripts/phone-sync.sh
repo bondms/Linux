@@ -60,7 +60,7 @@ rsync \
     -- \
     "${PICTURES_SOURCE_DIR}/." \
     "${PICTURES_TARGET_DIR}/." ||
-        exit $?
+        exit 1
 
 ###
 
@@ -83,7 +83,7 @@ rsync \
     -- \
     "${PODCASTS_SOURCE_DIR}/." \
     "${PODCASTS_TARGET_DIR}/." ||
-        exit $?
+        exit 1
 
 ###
 
@@ -106,7 +106,7 @@ rsync \
     -- \
     "${MUSIC_SOURCE_DIR}/." \
     "${MUSIC_TARGET_DIR}/." ||
-        exit $?
+        exit 1
 
 ###
 
@@ -169,7 +169,7 @@ rsync \
     -- \
     "${PLAYLIST_STAGE_DIR}/." \
     "${PLAYLIST_TARGET_DIR}/." ||
-        exit $?
+        exit 1
 
 echo The remainder of this script is not intended to be executed automatically but rather to serve as documentation. || exit 1
 #
@@ -183,7 +183,7 @@ echo The remainder of this script is not intended to be executed automatically b
 #         --delete \
 #         -- \
 #         "${MOUNT_DIR}/${TARGET}/." "${HOME}/Phone/xxx/${TARGET}/." ||
-#             exit $?
+#             exit 1
 # done
 # sync --file-system "${HOME}/Phone/xxx/." || exit 1
 # sudo umount "${MOUNT_DIR}/" || exit 1
