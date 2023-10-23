@@ -53,7 +53,6 @@ done
 mkdir --verbose --parents -- "${BACKUP}/BackupLogs" || exit 1
 
 mkdir --verbose --parents -- "${HOME}/Mount" || exit 1
-mkdir --verbose --parents -- "${HOME}/Phone" || exit 1
 mkdir --parents --verbose -- "${HOME}/Temp" || exit 1
 
 if [[ ! -h "${HOME}/Git" ]]

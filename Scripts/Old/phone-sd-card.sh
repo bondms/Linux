@@ -174,20 +174,4 @@ echo The remainder of this script is not intended to be executed automatically b
 # sudo umount "${MOUNT_DIR}/" || exit 1
 # umount "/media/${USER}/${NAME}/" || exit 1
 #
-# # Option 2: Mount the SD card while it's in the phone.
-# # Enable "Use USB to" "Transfer files" option on the phone after connecting USB.
-# # Eject the phone from File Manager (otherwise jmtpfs will core dump).
-# jmtpfs "${HOME}/Phone/" || exit 1
-# # Ensure there are no non-excluded system folders on the SD card.
-# rsync-jmtpfs-verify \
-#     --delete \
-#     --exclude "/Android/" \
-#     --exclude "/.android_secure/" \
-#     --exclude "/DCIM/" \
-#     -- \
-#     "${MOUNT_DIR}/." "${HOME}/Phone/SanDisk SD card/." ||
-#         exit 1
-# sync --file-system "${HOME}/Phone/SanDisk SD card/." || exit 1
-# sudo umount "${MOUNT_DIR}/" || exit 1
-# fusermount -u "${HOME}/Phone/" || exit 1
-# # Disable "Use USB to" "Transfer files" option on the phone.
+# # Option 2: Mount the SD card while it's in the phone using gvfs.
