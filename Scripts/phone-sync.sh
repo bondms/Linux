@@ -175,9 +175,10 @@ rsync \
 echo The remainder of this script is not intended to be executed automatically but rather to serve as documentation. || exit 1
 #
 # # Enable "File transfer/Android Auto" option on the phone after connecting USB.
+# # Keep phone unlocked.
 # PHONE_TARGET_SYNC_DIR="/run/user/$(id -u)/gvfs/mtp\:host\=Google_Pixel_6a_26271JEGR10601/Internal\ shared\ storage/Sync"
 # mkdir --parents --verbose -- "${PHONE_TARGET_SYNC_DIR}" || exit 1
-# rsync-jmtpfs-verify \
+# rsync-jmtpfs-quick \
 #     --delete \
 #     -- \
 #     "${SYNC_DIR}/." "${PHONE_TARGET_SYNC_DIR}/." || exit 1

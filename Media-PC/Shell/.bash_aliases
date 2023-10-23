@@ -43,6 +43,7 @@ alias pstree='pstree -paul'
 alias qiv='qiv -Rm'
 alias radiofip-play-live='play http://direct.fipradio.fr/live/fip-midfi.mp3'
 alias radiovarna-play-live='play -t mp3 http://broadcast.masters.bg:8000/live'
+alias reboot-to-bios='sudo systemctl reboot --firmware-setup'
 alias rm='rm -v'
 alias rmdir='rmdir -v'
 alias rmdir-and-content='find "$(readlink -f .)" -delete'
@@ -58,8 +59,8 @@ alias rsync-vfat-quick='rsync --recursive --human-readable --itemize-changes --v
 alias rsync-vfat-verify='rsync --recursive --human-readable --itemize-changes --verbose --progress --times --checksum --modify-window=3601'
 
 # jmtpfs is like vfat but doesn't set timestamps and requires --inplace to avoid some errors.
-alias rsync-jmtpfs-quick='rsync --inplace --recursive --human-readable --itemize-changes --verbose --progress --ignore-times'
-alias rsync-jmtpfs-verify='rsync --inplace --recursive --human-readable --itemize-changes --verbose --progress --ignore-times --checksum'
+alias rsync-jmtpfs-quick='rsync --recursive --human-readable --itemize-changes --verbose --progress --inplace --omit-dir-times --size-only'
+alias rsync-jmtpfs-verify='rsync --recursive --human-readable --itemize-changes --verbose --progress --inplace --omit-dir-times --checksum'
 
 alias slideshow-all-monitor='feh --auto-zoom --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --fullscreen ~/Pictures/.'
 alias slideshow-all-tv='feh --auto-zoom --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --borderless --image-bg=black --geometry=1200x670+1960+25 ~/Pictures/.'
