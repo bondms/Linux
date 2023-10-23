@@ -176,15 +176,11 @@ echo The remainder of this script is not intended to be executed automatically b
 #
 # # Enable "File transfer/Android Auto" option on the phone after connecting USB.
 # PHONE_TARGET_SYNC_DIR="/run/user/$(id -u)/gvfs/mtp\:host\=Google_Pixel_6a_26271JEGR10601/Internal\ shared\ storage/Sync"
-# for TARGET in Audio Pictures
-# do
-#     mkdir --parents --verbose -- "${PHONE_TARGET_SYNC_DIR}/${TARGET}" || exit 1
-#     rsync-jmtpfs-verify \
-#         --delete \
-#         -- \
-#         "${SYNC_DIR}/${TARGET}/." "${PHONE_TARGET_SYNC_DIR}/${TARGET}/." ||
-#             exit 1
-# done
-# sync --file-system "${PHONE_TARGET_SYNC_DIR}/xxx/." || exit 1
+# mkdir --parents --verbose -- "${PHONE_TARGET_SYNC_DIR}" || exit 1
+# rsync-jmtpfs-verify \
+#     --delete \
+#     -- \
+#     "${SYNC_DIR}/." "${PHONE_TARGET_SYNC_DIR}/." || exit 1
+# sync --file-system "${PHONE_TARGET_SYNC_DIR}/." || exit 1
 # # Unmount phone from file manager.
 # # Disable "Use USB to" "Transfer files" option on the phone.
