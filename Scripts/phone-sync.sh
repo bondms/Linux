@@ -182,6 +182,7 @@ echo The remainder of this script is not intended to be executed automatically b
 #     --delete \
 #     -- \
 #     "${SYNC_DIR}/." "${PHONE_TARGET_SYNC_DIR}/." || exit 1
+# # Manually copy the playlists which don't sync over MTP.
 # sync --file-system "${PHONE_TARGET_SYNC_DIR}/." || exit 1
 # # Unmount phone from file manager.
 # # Disable "Use USB to" "Transfer files" option on the phone.
