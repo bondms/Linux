@@ -176,7 +176,7 @@ echo The remainder of this script is not intended to be executed automatically b
 #
 # # Enable "File transfer/Android Auto" option on the phone after connecting USB.
 # PHONE_TARGET_SYNC_DIR="/run/user/$(id -u)/gvfs/mtp\:host\=Google_Pixel_6a_26271JEGR10601/Internal\ shared\ storage/Sync"
-# for TARGET in Pictures Podcasts Music Playlists
+# for TARGET in Audio Pictures
 # do
 #     mkdir --parents --verbose -- "${PHONE_TARGET_SYNC_DIR}/${TARGET}" || exit 1
 #     rsync-jmtpfs-verify \
