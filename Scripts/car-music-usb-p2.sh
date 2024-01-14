@@ -11,7 +11,7 @@ set -o pipefail
 [[ $# -eq 0 ]] || exit 1
 
 # Use uppercase and limit to 11 characters (including the "-nnn" suffix).
-NAME="CAR-USB"
+NAME="POL-USB"
 
 IMAGES_DIR="/home/bondms-unencrypted/SparseImages"
 [[ -d "${IMAGES_DIR}" ]] || exit 1
