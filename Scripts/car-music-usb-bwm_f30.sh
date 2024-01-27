@@ -13,7 +13,7 @@ NAME="BMW-USB"
 IMAGES_DIR="/home/bondms-unencrypted/SparseImages"
 [[ -d "${IMAGES_DIR}" ]] || exit 1
 
-PLAYLIST_STAGE_DIR="${HOME}/RamDisk/Playlists"
+PLAYLIST_STAGE_DIR="${HOME}/RamDisk/${NAME}/Playlists"
 [[ ! -e "${PLAYLIST_STAGE_DIR}" ]] || exit 1
 
 IMAGE_PATH="${IMAGES_DIR}/${NAME}.img"
@@ -87,7 +87,7 @@ PLAYLIST_SOURCE_DIR="${HOME}/Playlists"
 PLAYLIST_SOURCE_DIR_SANITIZED="$(readlink -e "${PLAYLIST_SOURCE_DIR}")"
 [[ -d "${PLAYLIST_SOURCE_DIR_SANITIZED}" ]] || exit 1
 
-mkdir --verbose -- "${PLAYLIST_STAGE_DIR}" || exit 1
+mkdir --verbose --parents -- "${PLAYLIST_STAGE_DIR}" || exit 1
 
 find "${PLAYLIST_SOURCE_DIR}/." \
     -mindepth 1 -maxdepth 1 \

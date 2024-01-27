@@ -16,7 +16,7 @@ NAME="POL-USB"
 IMAGES_DIR="/home/bondms-unencrypted/SparseImages"
 [[ -d "${IMAGES_DIR}" ]] || exit 1
 
-PLAYLIST_STAGE_DIR="${HOME}/RamDisk/Playlists"
+PLAYLIST_STAGE_DIR="${HOME}/RamDisk/${NAME}/Playlists"
 [[ ! -e "${PLAYLIST_STAGE_DIR}" ]] || exit 1
 
 IMAGE_PATH="${IMAGES_DIR}/${NAME}.img"
@@ -94,7 +94,7 @@ PLAYLIST_SOURCE_DIR="${HOME}/${PLAYLISTS_SUBDIR_NAME}"
 REAL_PLAYLIST_SOURCE_DIR="$(realpath "${PLAYLIST_SOURCE_DIR}")"
 PLAYLIST_PARENT_DIR="$(dirname "${REAL_PLAYLIST_SOURCE_DIR}")"
 
-mkdir --verbose -- "${PLAYLIST_STAGE_DIR}" || exit 1
+mkdir --verbose --parents -- "${PLAYLIST_STAGE_DIR}" || exit 1
 
 PLAYLIST_TARGET_DIR="${MOUNT_DIR}"
 mkdir --parents --verbose -- "${PLAYLIST_TARGET_DIR}" || exit 1
