@@ -32,7 +32,7 @@ fi
 MOUNT_ROOT_DIR="${HOME}/Mount"
 [[ -d "${MOUNT_ROOT_DIR}" ]] || exit 1
 
-MOUNT_DIR="${MOUNT_ROOT}/${NAME}"
+MOUNT_DIR="${MOUNT_ROOT_DIR}/${NAME}"
 mkdir --verbose --parents -- "${MOUNT_DIR}" || exit 1
 
 if mountpoint "${MOUNT_DIR}"
