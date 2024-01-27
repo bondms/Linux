@@ -26,8 +26,11 @@ then
 fi
 [[ -f "${IMAGE_PATH}" ]] || exit 1
 
-MOUNT_DIR="${HOME}/Mount"
-[[ -d "${MOUNT_DIR}" ]] || exit 1
+MOUNT_ROOT_DIR="${HOME}/Mount"
+[[ -d "${MOUNT_ROOT_DIR}" ]] || exit 1
+
+MOUNT_DIR="${MOUNT_ROOT}/${NAME}"
+mkdir --verbose --parents -- "${MOUNT_DIR}" || exit 1
 
 if mountpoint "${MOUNT_DIR}"
 then
