@@ -29,9 +29,13 @@ DATA_DIR_PATH="${HERE}/data/${DATE_STR}"
 mkdir --verbose --parents -- "${DATA_DIR_PATH}" || exit 1
 
 curl -u "${API_KEY}:" "https://api.octopus.energy/v1/products/" > "${DATA_DIR_PATH}/products_001.json" || exit 1
-for PAGE in {002..002}
+for PAGE in {002..999}
 do
     curl -u "${API_KEY}:" "https://api.octopus.energy/v1/products/?page=${PAGE}" > "${DATA_DIR_PATH}/products_${PAGE}.json" || exit 1
+    if grep -F '{"detail":"Invalid page."}' "${DATA_DIR_PATH}/products_${PAGE}.json"
+    then
+        break
+    fi
 done
 
 curl -u "${API_KEY}:" "https://api.octopus.energy/v1/products/${ELECTRICITY_PRODUCT}/" > "${DATA_DIR_PATH}/electricity_product.json" || exit 1
