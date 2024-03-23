@@ -48,16 +48,16 @@ curl -u "${API_KEY}:" \
     > "${DATA_DIR_PATH}/electricity_standard_unit_rates.json" || exit 1
 curl -u "${API_KEY}:" \
     "https://api.octopus.energy/v1/products/${ELECTRICITY_PRODUCT}/electricity-tariffs/E-1R-${ELECTRICITY_PRODUCT}-H/day-unit-rates/"
-    > "${DATA_DIR_PATH}/day_standard_unit_rates.json" || exit 1
+    > "${DATA_DIR_PATH}/electricity_day_standard_unit_rates.json" || exit 1
 curl -u "${API_KEY}:" \
     "https://api.octopus.energy/v1/products/${ELECTRICITY_PRODUCT}/electricity-tariffs/E-1R-${ELECTRICITY_PRODUCT}-H/night-unit-rates/"
-    > "${DATA_DIR_PATH}/night_standard_unit_rates.json" || exit 1
+    > "${DATA_DIR_PATH}/electricity_night_standard_unit_rates.json" || exit 1
 
 curl -u "${API_KEY}:" \
-    "https://api.octopus.energy/v1/products/${GAS_PRODUCT}/gas-tariffs/G-1R-${ELECTRICITY_PRODUCT}-H/standing-charges/"
+    "https://api.octopus.energy/v1/products/${GAS_PRODUCT}/gas-tariffs/G-1R-${GAS_PRODUCT}-H/standing-charges/"
     > "${DATA_DIR_PATH}/gas_standing_charges.json" || exit 1
 curl -u "${API_KEY}:" \
-    "https://api.octopus.energy/v1/products/${GAS_PRODUCT}/gas-tariffs/G-1R-${ELECTRICITY_PRODUCT}-H/standard-unit-rates/"
+    "https://api.octopus.energy/v1/products/${GAS_PRODUCT}/gas-tariffs/G-1R-${GAS_PRODUCT}-H/standard-unit-rates/"
     > "${DATA_DIR_PATH}/gas_standard_unit_rates.json" || exit 1
 
 curl -u "${API_KEY}:" "https://api.octopus.energy/v1/electricity-meter-points/${ELECTRICITY_MPAN}/meters/${ELECTRICITY_SERIAL_NUMBER}/consumption/"
