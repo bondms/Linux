@@ -21,7 +21,7 @@ GAS_SERIAL_NUMBER=$(gpg --decrypt "${HERE}/gas_serial_number.txt.gpg")
 
 DATE_STR=$(date +%Y-%m-%d)
 DATA_DIR_PATH="${HERE}/data/${DATE_STR}"
-mkdir -- "${DATA_DIR_PATH}" || exit 1
+mkdir --verbose --parents -- "${DATA_DIR_PATH}" || exit 1
 
 curl -u "${API_KEY}:" "https://api.octopus.energy/v1/products/" > "${DATA_DIR_PATH}/products_001.json" || exit 1
 for PAGE in {002..002}
