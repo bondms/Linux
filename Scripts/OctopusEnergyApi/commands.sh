@@ -32,13 +32,22 @@ done
 curl -u "${API_KEY}:" "https://api.octopus.energy/v1/products/${ELECTRICITY_PRODUCT}/" > "${DATA_DIR_PATH}/electricity_rates.json" || exit 1
 curl -u "${API_KEY}:" "https://api.octopus.energy/v1/industry/grid-supply-points/" > "${DATA_DIR_PATH}/gsps.json" || exit 1
 curl -u "${API_KEY}:" "https://api.octopus.energy/v1/industry/grid-supply-points/?postcode=${POSTCODE}" > "${DATA_DIR_PATH}/gsp.json" || exit 1
-curl -u "${API_KEY}:" "https://api.octopus.energy/v1/products/${ELECTRICITY_PRODUCT}/electricity-tariffs/E-1R-${ELECTRICITY_PRODUCT}-H/standing-charges/" > "${DATA_DIR_PATH}/go_standing_charges.json" || exit 1
-curl -u "${API_KEY}:" "https://api.octopus.energy/v1/products/${ELECTRICITY_PRODUCT}/electricity-tariffs/E-1R-${ELECTRICITY_PRODUCT}-H/standard-unit-rates/" > "${DATA_DIR_PATH}/go_standard_unit_rates.json" || exit 1
+curl -u "${API_KEY}:" \
+    "https://api.octopus.energy/v1/products/${ELECTRICITY_PRODUCT}/electricity-tariffs/E-1R-${ELECTRICITY_PRODUCT}-H/standing-charges/"
+    > "${DATA_DIR_PATH}/go_standing_charges.json" || exit 1
+curl -u "${API_KEY}:" \
+    "https://api.octopus.energy/v1/products/${ELECTRICITY_PRODUCT}/electricity-tariffs/E-1R-${ELECTRICITY_PRODUCT}-H/standard-unit-rates/"
+    > "${DATA_DIR_PATH}/go_standard_unit_rates.json" || exit 1
 
-curl -u "${API_KEY}:" "https://api.octopus.energy/v1/electricity-meter-points/${ELECTRICITY_MPAN}/meters/${ELECTRICITY_SERIAL_NUMBER}/consumption/" > "${DATA_DIR_PATH}/electricity_001.json" || exit 1
-curl -u "${API_KEY}:" "https://api.octopus.energy/v1/gas-meter-points/${GAS_MPRN}/meters/${GAS_SERIAL_NUMBER}/consumption/" > "${DATA_DIR_PATH}/gas_001.json" || exit 1
+curl -u "${API_KEY}:" "https://api.octopus.energy/v1/electricity-meter-points/${ELECTRICITY_MPAN}/meters/${ELECTRICITY_SERIAL_NUMBER}/consumption/"
+    > "${DATA_DIR_PATH}/electricity_001.json" || exit 1
+curl -u "${API_KEY}:" "https://api.octopus.energy/v1/gas-meter-points/${GAS_MPRN}/meters/${GAS_SERIAL_NUMBER}/consumption/"
+    > "${DATA_DIR_PATH}/gas_001.json" || exit 1
 for PAGE in {002..999}
 do
-    curl -u "${API_KEY}:" "https://api.octopus.energy/v1/electricity-meter-points/${ELECTRICITY_MPAN}/meters/${ELECTRICITY_SERIAL_NUMBER}/consumption/?page=${PAGE}" > "${DATA_DIR_PATH}/electricity_${PAGE}.json" || exit 1
-    curl -u "${API_KEY}:" "https://api.octopus.energy/v1/gas-meter-points/${GAS_MPRN}/meters/${GAS_SERIAL_NUMBER}/consumption/?page=${PAGE}" > "${DATA_DIR_PATH}/gas_${PAGE}.json" || exit 1
+    curl -u "${API_KEY}:" \
+        "https://api.octopus.energy/v1/electricity-meter-points/${ELECTRICITY_MPAN}/meters/${ELECTRICITY_SERIAL_NUMBER}/consumption/?page=${PAGE}"
+        > "${DATA_DIR_PATH}/electricity_${PAGE}.json" || exit 1
+    curl -u "${API_KEY}:" "https://api.octopus.energy/v1/gas-meter-points/${GAS_MPRN}/meters/${GAS_SERIAL_NUMBER}/consumption/?page=${PAGE}"
+        > "${DATA_DIR_PATH}/gas_${PAGE}.json" || exit 1
 done
