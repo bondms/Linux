@@ -66,7 +66,7 @@ mkdir --verbose --parents -- "${HOME}/Recordings" || exit 1
 crontab - << EOF || exit 1
 # Record Radio Varna from 10:20 to 13:00 (2h40m) on Sundays.
 # Log both stdout and stderr, and retry on failure.
-20 10 * * sun sox --clobber --type mp3 http://broadcast.masters.bg:8000/live "${HOME}/Recordings/radio-varna.mp3" trim 0 2:40:00 > "${HOME}/Recordings/radio-varna.log" 2>&1 || sox --clobber --type mp3 http://broadcast.masters.bg:8000/live "${HOME}/Recordings/radio-varna.mp3" trim 0 2:40:00 >> "${HOME}/Recordings/radio-varna.log"
+20 10 * * sun sox --clobber --type mp3 http://broadcast.masters.bg:8000/live "${HOME}/Recordings/radio-varna.mp3" trim 0 2:40:00 > "${HOME}/Recordings/radio-varna.log" 2>&1 || sox --clobber --type mp3 http://broadcast.masters.bg:8000/live "${HOME}/Recordings/radio-varna.mp3" trim 0 2:40:00 >> "${HOME}/Recordings/radio-varna.log" 2>&1
 EOF
 
 echo "*** SUCCESS ***"
