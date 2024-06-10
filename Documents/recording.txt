@@ -4,6 +4,7 @@ Cutting songs out of recordings:
 # play radio-varna-2016-06-05.mp3 trim 16:26.5 =20:33.1
 # sox radio-varna-2016-06-05.mp3 summer_wine.mp3 trim 16:26.5 =20:33.1
 # replaygain summer_wine.mp3
+Audacity can be used to help find the start and end/length of the sample to cut.
 
 To record as wav (for later burning onto CD):
 # cdparanoia -B
