@@ -83,7 +83,7 @@ decrypt-file-to-file()
     [[ -f "${1}" ]] || return $?
     [[ ! -e "${2}" ]] || return $?
 
-    gpg --decrypt --output "${2}" "${1}" || return $?
+    gpg --decrypt --output "${2}" -- "${1}" || return $?
 }
 
 decrypt-file-to-file-old()
@@ -114,7 +114,7 @@ decrypt-file-to-stdout()
     [[ $# -eq 1 ]] || return $?
     [[ -f "$1" ]] || return $?
 
-    gpg --decrypt "${1}" || return $?
+    gpg --decrypt -- "${1}" || return $?
 }
 
 decrypt-file-to-less()
@@ -130,14 +130,14 @@ decrypt-and-untar-file-to-ramdisk()
     local ramdisk=~/RamDisk/.
     [[ -d "${ramdisk}" ]] || return $?
 
-    gpg --decrypt "${1}" | tar -C "${ramdisk}" -x --verbose || return $?
+    gpg --decrypt -- "${1}" | tar -C "${ramdisk}" -x --verbose || return $?
 }
 
 decrypt-file-for()
 {
     [[ $# -ge 2 ]] || return $?
     [[ -f "${1}" ]] || return $?
-    # [[ -x "${2}" ]] || return $?
+    type -a "${2}" ]] || return $?
 
     local target_file="${1}"
     shift
@@ -159,12 +159,12 @@ decrypt-file-for()
 
 decrypt-file-for-edit()
 {
-    decrypt-file-for "${1}" code --wait --new-window -- || return $?
+    decrypt-file-for "${1}" code --wait --new-window || return $?
 }
 
 decrypt-file-for-grisbi()
 {
-    decrypt-file-for "${1}" grisbi -- || return $?
+    decrypt-file-for "${1}" grisbi || return $?
 }
 
 decrypt-file-for-office()
