@@ -333,6 +333,10 @@ fi
 # Preferable to using an alias for git merge since it maintains command-line auto-completion.
 export GIT_MERGE_AUTOEDIT="no"
 
+# Keep full bash command-line history.
+export HISTSIZE="-1"
+export HISTFILESIZE="-1"
+
 # Non Media-PC.
 mkdir --parents --verbose "/dev/shm/${USER}"
 mkdir --parents --verbose "/tmp/${USER}"
