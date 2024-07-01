@@ -137,7 +137,7 @@ decrypt-file-for()
 {
     [[ $# -ge 2 ]] || return $?
     [[ -f "${1}" ]] || return $?
-    type -a "${2}" ]] || return $?
+    type -a "${2}" || return $?
 
     local target_file="${1}"
     shift
@@ -332,6 +332,10 @@ fi
 # Accept default merge-commit messages.
 # Preferable to using an alias for git merge since it maintains command-line auto-completion.
 export GIT_MERGE_AUTOEDIT="no"
+
+# Keep full bash command-line history.
+export HISTSIZE="-1"
+export HISTFILESIZE="-1"
 
 # Media-PC only.
 PATH="${PATH}:${HOME}/Linux-master/Scripts"
