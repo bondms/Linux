@@ -137,7 +137,7 @@ decrypt-file-for()
 {
     [[ $# -ge 2 ]] || return $?
     [[ -f "${1}" ]] || return $?
-    type -a "${2}" ]] || return $?
+    type -a "${2}" || return $?
 
     local target_file="${1}"
     shift
