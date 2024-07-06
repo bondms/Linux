@@ -108,7 +108,7 @@ sudo apt full-upgrade || exit 1
 
 sudo apt install --assume-yes synaptic || exit 1
 # Use Google's Chrome browser rather than Chromium in order to sync with Android Chrome.
-# Download Google Chrome .deb file and install via right-click.
+# Download Google Chrome .deb file and install with `sudo apt install ./google-chrome-stable_current_amd64.deb`.
 # sudo apt install --assume-yes chromium-browser || exit 1
 sudo apt install --assume-yes git || exit 1
 sudo apt install --assume-yes meld || exit 1
