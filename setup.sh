@@ -71,10 +71,6 @@ fi
 [[ -h "${HOME}/tmp" ]] ||
     ln --symbolic --verbose -- "/tmp/${USER}" "${HOME}/tmp" || exit 1
 
-[[ -h "${HOME}/.Xmodmap" ]] ||
-    ln --symbolic --verbose -- "${HERE}/xmodmap/.Xmodmap" "${HOME}/." || exit 1
-sudo cp --verbose -- "${HERE}/xmodmap/Xmodmap.desktop" /etc/xdg/autostart/. || exit 1
-
 sudo cp --verbose -- "${HERE}/Startup/free-space-check.sh" /usr/local/bin/. || exit 1
 sudo chown --verbose root.root /usr/local/bin/free-space-check.sh || exit 1
 sudo chmod --verbose 755 /usr/local/bin/free-space-check.sh || exit 1
