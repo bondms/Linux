@@ -43,6 +43,7 @@ rsync \
     --exclude "/Documents/Archive/Programming/Git/Linux/Scripts/OctopusEnergyApi/data/" \
     --exclude "/Downloads/" \
     --exclude "/Images/*ubuntu-*.iso" \
+    --exclude "/Images/debian-*.iso" \
     --exclude "/Images/RaspberryPi/" \
     --exclude "/Temp/" \
     --exclude "/Videos/Pi/" \
