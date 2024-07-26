@@ -165,9 +165,10 @@ git config --global user.email "34947848+bondms@users.noreply.github.com" || exi
 [[ -h "${HERE}/../rgain3/scripts/rgain3" ]] ||
     ln --symbolic --verbose -- "../rgain3" "${HERE}/../rgain3/scripts/." || exit 1
 
-pushd "${HOME}/Downloads/" || exit 1
-wget --no-clobber https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb || exit 1
+pushd "${HOME}/RamDisk/" || exit 1
+wget -- https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb || exit 1
 popd || exit 1
-sudo apt install --assume-yes "${HOME}/Downloads/google-chrome-stable_current_amd64.deb" || exit 1
+sudo apt install --assume-yes "${HOME}/RamDisk/google-chrome-stable_current_amd64.deb" || exit 1
+rm -- "${HOME}/RamDisk/google-chrome-stable_current_amd64.deb" || exit 1
 
 echo "*** SUCCESS ***"
