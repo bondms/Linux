@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# For Debian, enable sudo for user, e.g. for bondms:
+# `su -`
+# `usermod -aG sudo bondms`
+# Confirm: `getent group sudo`
+# `sudo visudo`
+# Add entry for user similar as for root:
+# bondms ALL=(ALL:ALL) ALL
+# Confirm: `su - bondms`
+# Confirm: `sudo whoami`
+
 set -eux
 set -o pipefail
 
@@ -9,7 +19,7 @@ HERE="$(readlink -e "$(dirname "$0")")"
 BACKUP="$(readlink -e "${HERE}/Backup")"
 [[ -d "${BACKUP}" ]] || exit 1
 
-grep -F "Ubuntu" /etc/lsb-release || exit 1
+[[ -f /etc/debian_version ]] || grep -F "Ubuntu" /etc/lsb-release || exit 1
 
 for NAME in Documents Downloads Images Music Pictures Playlists Podcasts Videos VirtualMachines
 do
@@ -98,14 +108,14 @@ else
   sudo chown --verbose bondms.bondms -- "${EXISTING_CODE_CONFIG}" || exit 1
 fi
 
-sudo snap refresh || exit 1
 sudo apt update || exit 1
 sudo apt full-upgrade || exit 1
 
+# For Debian, a log-off and log-on will be required for snaps to show up in the applications.
+sudo apt install --assume-yes snapd || exit 1
+sudo snap refresh || exit 1
+
 sudo apt install --assume-yes synaptic || exit 1
-# Use Google's Chrome browser rather than Chromium in order to sync with Android Chrome.
-# Download Google Chrome .deb file and install with `sudo apt install ./google-chrome-stable_current_amd64.deb`.
-# sudo apt install --assume-yes chromium-browser || exit 1
 sudo apt install --assume-yes git || exit 1
 sudo apt install --assume-yes meld || exit 1
 sudo apt install --assume-yes grisbi || exit 1
@@ -118,7 +128,7 @@ sudo apt install --assume-yes sox libsox-fmt-all || exit 1
 sudo apt install --assume-yes jmtpfs || exit 1
 sudo apt install --assume-yes exfatprogs || exit 1
 sudo apt install --assume-yes tofrodos || exit 1
-sudo snap install skype --classic || exit 1
+sudo snap install --classic skype || exit 1
 sudo apt install --assume-yes python3-mutagen || exit 1
 sudo apt install --assume-yes symlinks || exit 1
 sudo apt install --assume-yes jhead || exit 1
@@ -132,10 +142,10 @@ sudo apt install --assume-yes npm || exit 1
 sudo apt install --assume-yes at || exit 1
 sudo apt install --assume-yes audacity || exit 1
 sudo apt install --assume-yes ffmpeg || exit 1
-sudo apt install --assume-yes rpi-imager || exit 1
+sudo apt install --assume-test rpi-imager || sudo snap install --classic rpi-imager || exit 1
 sudo apt install --assume-yes black || exit 1
 sudo apt install --assume-yes sqlite3 unixodbc-dev || exit 1
-sudo apt install --assume-yes usb-creator-gtk || exit 1
+sudo apt install --assume-yes usb-creator-gtk || sudo apt install --assume-yes gnome-multi-writer || exit 1
 
 sudo npm install -g @bazel/bazelisk || exit 1
 
@@ -153,5 +163,10 @@ git config --global user.email "34947848+bondms@users.noreply.github.com" || exi
     git clone --depth 1 --branch 1.0.0 --verbose -- https://github.com/chaudum/rgain3.git "${HERE}/../rgain3" || exit 1
 [[ -h "${HERE}/../rgain3/scripts/rgain3" ]] ||
     ln --symbolic --verbose -- "../rgain3" "${HERE}/../rgain3/scripts/." || exit 1
+
+pushd "${HOME}/Downloads/" || exit 1
+wget --no-clobber https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb || exit 1
+popd || exit 1
+sudo apt install --assume-yes "${HOME}/Downloads/google-chrome-stable_current_amd64.deb" || exit 1
 
 echo "*** SUCCESS ***"
