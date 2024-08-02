@@ -7,6 +7,7 @@ HERE="$(readlink -e "$(dirname "$0")")"
 [[ -d "${HERE}" ]] || exit 1
 
 [[ -d "/home/pi" ]] || exit 1
+[[ -f /etc/debian_version ]] || exit 1
 
 [[ -d "${HERE}/Desktop" ]] || exit 1
 if [[ -d "${HOME}/Desktop" && ! -h "${HOME}/Desktop" ]]
