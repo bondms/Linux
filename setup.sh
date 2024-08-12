@@ -16,7 +16,7 @@ set -o pipefail
 HERE="$(readlink -e "$(dirname "$0")")"
 [[ -d "${HERE}" ]] || exit 1
 
-[[ -d "/home/pi" ]] || exit 1
+[[ ! -d "/home/pi" ]] || exit 1
 [[ -f /etc/debian_version ]] || grep -F "Ubuntu" /etc/lsb-release || exit 1
 
 BACKUP="$(readlink -e "${HERE}/Backup")"
