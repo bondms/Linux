@@ -143,7 +143,7 @@ sudo apt install --assume-yes npm || exit 1
 sudo apt install --assume-yes at || exit 1
 sudo apt install --assume-yes audacity || exit 1
 sudo apt install --assume-yes ffmpeg || exit 1
-sudo apt install --assume-test rpi-imager || sudo snap install --classic rpi-imager || exit 1
+sudo apt install --assume-yes rpi-imager || sudo snap install --classic rpi-imager || exit 1
 sudo apt install --assume-yes black || exit 1
 sudo apt install --assume-yes sqlite3 unixodbc-dev || exit 1
 sudo apt install --assume-yes usb-creator-gtk || sudo apt install --assume-yes gnome-multi-writer || exit 1
