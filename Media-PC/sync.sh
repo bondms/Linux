@@ -23,17 +23,6 @@ do
         "${HOME}/${subdir}/." "/media/bondms/rootfs/home/pi/${subdir}/." || exit 1
 done
 
-mkdir --parents -- "/media/bondms/rootfs/home/pi/Videos/Salsa/." || exit 1
-rsync \
-    --archive \
-    --verbose \
-    --human-readable \
-    --itemize-changes \
-    --checksum \
-    --delete \
-    -- \
-    "${HOME}/Backup/Documents/Archive/Joli/Elements/_Files/Courses/Salsa/." "/media/bondms/rootfs/home/pi/Videos/Salsa/." || exit 1
-
 mkdir --parents -- "/media/bondms/rootfs/home/pi/Videos/Pi/." || exit 1
 rsync \
     --archive \
