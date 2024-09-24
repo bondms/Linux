@@ -20,7 +20,7 @@ then
     # Make the image file around half the size of the entire phone's storage so
     # there's no chance of trying to overfill the real disk.
     truncate -s 64GB "${IMAGE_PATH}" || exit 1
-    mkfs.exfat -n "${NAME}" "${IMAGE_PATH}" || exit 1
+    /usr/sbin/mkfs.exfat -n "${NAME}" "${IMAGE_PATH}" || exit 1
 fi
 [[ -f "${IMAGE_PATH}" ]] || exit 1
 
