@@ -174,4 +174,12 @@ type -a google-chrome || (
     rm -- "${HOME}/RamDisk/google-chrome-stable_current_amd64.deb" || exit 1
 ) || exit 1
 
+type -a zoom || (
+    pushd "${HOME}/RamDisk/" || exit 1
+    wget -- https://zoom.us/client/6.2.3.2056/zoom_amd64.deb || exit 1
+    popd || exit 1
+    sudo apt install --assume-yes "${HOME}/RamDisk/zoom_amd64.deb" || exit 1
+    rm -- "${HOME}/RamDisk/zoom_amd64.deb" || exit 1
+) || exit 1
+
 echo "*** SUCCESS ***"
