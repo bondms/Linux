@@ -40,6 +40,7 @@ rsync \
     --exclude ".git/" \
     --exclude "bazel-*" \
     --exclude "bin/" \
+    --exclude "decompressed/" \
     --exclude "int/" \
     --exclude "thirdparty/" \
     --exclude "*.pyc" \
