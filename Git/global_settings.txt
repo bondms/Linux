@@ -2,4 +2,4 @@ commit.gpgsign=true
 core.editor=code --wait --new-window
 core.pager=less -iM
 user.email=34947848+bondms@users.noreply.github.com
-user.signingkey=CF32B13425E2CFC8
+user.signingkey=840149965383B44E
