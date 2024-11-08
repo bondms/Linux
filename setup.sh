@@ -161,6 +161,7 @@ sudo apt-get autoclean || exit 1
 git config --global core.editor "code --wait --new-window" || exit 1
 git config --global core.pager "less -iM" || exit 1
 git config --global user.email "34947848+bondms@users.noreply.github.com" || exit 1
+git config --global commit.gpgsign true || exit 1
 
 [[ -d "${HERE}/../rgain3" ]] ||
     git clone --depth 1 --branch 1.0.0 --verbose -- https://github.com/chaudum/rgain3.git "${HERE}/../rgain3" || exit 1

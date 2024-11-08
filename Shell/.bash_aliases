@@ -333,6 +333,9 @@ fi
 # Preferable to using an alias for git merge since it maintains command-line auto-completion.
 export GIT_MERGE_AUTOEDIT="no"
 
+# GPG key for git commit-signing.
+export GPG_TTY=$(tty)
+
 # Keep full bash command-line history.
 export HISTSIZE="-1"
 export HISTFILESIZE="-1"
