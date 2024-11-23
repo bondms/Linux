@@ -1,3 +1,3 @@
 #!/bin/bash
 
-pacmd list-sinks | grep name:
+pactl list sinks | grep Name:

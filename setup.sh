@@ -149,6 +149,7 @@ sudo apt install --assume-yes sqlite3 unixodbc-dev || exit 1
 sudo apt install --assume-yes gnome-multi-writer || exit 1
 sudo apt install --assume-yes rsync || exit 1
 sudo apt install --assume-yes unrar || exit 1
+sudo apt install --assume-yes pulseaudio-utils || exit 1
 
 sudo npm install -g @bazel/bazelisk || exit 1
 
