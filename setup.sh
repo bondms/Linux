@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# For Debian, enable sudo for user, e.g. for bondms:
+# Enable sudo for user, e.g. for bondms:
 # `su -`
 # `usermod -aG sudo bondms`
 # Confirm: `getent group sudo`
@@ -143,10 +143,10 @@ sudo apt install --assume-yes npm || exit 1
 sudo apt install --assume-yes at || exit 1
 sudo apt install --assume-yes audacity || exit 1
 sudo apt install --assume-yes ffmpeg || exit 1
-sudo apt install --assume-yes rpi-imager || sudo snap install --classic rpi-imager || exit 1
+sudo snap install --classic rpi-imager || exit 1
 sudo apt install --assume-yes black || exit 1
 sudo apt install --assume-yes sqlite3 unixodbc-dev || exit 1
-sudo apt install --assume-yes usb-creator-gtk || sudo apt install --assume-yes gnome-multi-writer || exit 1
+sudo apt install --assume-yes gnome-multi-writer || exit 1
 sudo apt install --assume-yes rsync || exit 1
 sudo apt install --assume-yes unrar || exit 1
 
