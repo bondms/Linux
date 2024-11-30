@@ -31,8 +31,6 @@ sudo apt install --assume-yes at || exit 1
 # rgain dependencies
 sudo apt install --assume-yes gstreamer1.0-python3-plugin-loader python3-mutagen || exit 1
 
-# EEPROM updates seem to be broken. rapsi-config only configures the default, not the latest.
-# Consider commenting the following line until there a resolution for that.
 sudo rpi-eeprom-update || exit 1
 
 sudo apt autoremove || exit 1
