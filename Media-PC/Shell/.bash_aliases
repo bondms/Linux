@@ -63,9 +63,9 @@ alias rsync-jmtpfs-quick='rsync --recursive --human-readable --itemize-changes -
 alias rsync-jmtpfs-verify='rsync --recursive --human-readable --itemize-changes --verbose --progress --inplace --omit-dir-times --checksum'
 
 alias slideshow-all-monitor='feh --auto-zoom --auto-rotate --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --fullscreen ~/Pictures/.'
-alias slideshow-all-tv='feh --auto-zoom --auto-rotate --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --borderless --image-bg=black --geometry=1200x670+1960+25 ~/Pictures/.'
+alias slideshow-all-tv='feh --auto-zoom --auto-rotate --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --borderless --image-bg=black --xinerama-index=1 ~/Pictures/.'
 alias slideshow-favorites-monitor='feh --auto-zoom --auto-rotate --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --fullscreen ~/Pictures/Favorites/.'
-alias slideshow-favorites-tv='feh --auto-zoom --auto-rotate --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --borderless --image-bg=black --geometry=1200x670+1960+25 ~/Pictures/Favorites/.'
+alias slideshow-favorites-tv='feh --auto-zoom --auto-rotate --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --borderless --image-bg=black --xinerama-index=1 ~/Pictures/Favorites/.'
 alias smbclient-joli='smbclient -U Mark \\\\192.168.0.4\\shared'
 alias sox='sox -V --no-clobber'
 alias ssh='ssh -Y'
