@@ -21,5 +21,6 @@
     * `sudo rpi-eeprom-update`
     * `~/Linux-main/Media-PC/setup.sh`
 1. Media PC: Once xscreensaver has been installed, disable the screensaver from the screensaver application available on the application menu.
-1. Media PC: Pair Bluetooth device(s).
 1. Main PC: Use `./sync.sh` to synchronise Music, Pictures, Playlists, Podcasts, etc. to the Media PC's disk.
+1. Media PC: Pair Bluetooth device(s).
+1. Media PC: Run `speakers.sh` script after each reboot and after connecting to Bluetooth speaker.

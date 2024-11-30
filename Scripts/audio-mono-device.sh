@@ -1,10 +1,7 @@
 #!/bin/bash
 
-set -x
-
-set -e
+set -eux
 set -o pipefail
-set -u
 
 [[ $# -eq 1 ]] || exit 1
 

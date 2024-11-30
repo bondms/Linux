@@ -7,8 +7,27 @@ set -o pipefail
 # Therefore the slaves need to be specified explicitly.
 # TODO: Trigger automatically with a udev rule when Bluetooth connects.
 
-pactl unload-module module-remap-sink || true
-pactl unload-module module-combine-sink || true
-pactl load-module module-remap-sink sink_name=hdmi_mono master=alsa_output.platform-fef00700.hdmi.hdmi-stereo channels=2 channel_map=mono,mono || exit 1
-pactl load-module module-combine-sink slaves=hdmi_mono,bluez_sink.D8_45_A3_EE_07_96.a2dp_sink || exit 1
-pactl set-default-sink combined || exit 1
+# TODO: Reintroduce the combine bluetooth and HDMI outputs.
+# pactl unload-module module-remap-sink || true
+# pactl unload-module module-combine-sink || true
+# pactl load-module module-remap-sink sink_name=hdmi_mono master=alsa_output.platform-fef00700.hdmi.hdmi-stereo channels=2 channel_map=mono,mono || exit 1
+# pactl load-module module-combine-sink slaves=hdmi_mono,bluez_sink.D8_45_A3_EE_07_96.a2dp_sink || exit 1
+# pactl set-default-sink combined || exit 1
+
+pactl unload-module module-stream-restore || exit 1
+pactl load-module module-stream-restore restore_device=false || exit 1
+
+pactl set-default-sink alsa_output.platform-fef05700.hdmi.hdmi-stereo || exit 1
+
+pactl unload-module module-remap-sink || exit 1
+pactl load-module module-remap-sink sink_name=mono master="alsa_output.platform-fef05700.hdmi.hdmi-stereo" channels=1 master_channel_map=mono channel_map=mono remix=no | exit 1
+
+pactl set-default-sink mono || exit 1
+
+echo "Sinks:"
+pactl list short sinks || exit 1
+
+echo "Sink inputs:"
+pactl list short sink-inputs || exit 1
+
+echo "Test with \`play-left-right-test\` or \"https://www.youtube.com/watch?v=6TWJaFD6R2s\"" || exit 1
