@@ -1,3 +1,3 @@
 #!/bin/bash
 
-pactl list sinks | grep Name:
+pactl list short sinks

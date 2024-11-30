@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # TODO: Trigger automatically at startup and with a udev rule when Bluetooth connects.
+# TODO: Introduce delay so that HDMI and Bluetooth outputs are synchronised.
+
+# Sink names identified with `pactl list short sinks`.
 
 set -eux
 set -o pipefail
