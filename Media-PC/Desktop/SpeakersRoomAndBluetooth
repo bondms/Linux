@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# TODO: Trigger automatically at startup and with a udev rule when Bluetooth connects.
+# TODO: Trigger automatically with a udev rule when Bluetooth connects.
 
 # Sink names identified with `pactl list short sinks`.
 
