@@ -338,4 +338,4 @@ export HISTSIZE="-1"
 export HISTFILESIZE="-1"
 
 # Media-PC only.
-PATH="${PATH}:${HOME}/Linux-master/Scripts"
+PATH="${PATH}:${HOME}/Linux-main/Scripts"
