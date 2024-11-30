@@ -11,11 +11,12 @@
     * `~/Linux-main/Media-PC/setup.sh`.
 1. Perform initial setup:
     * `sudo raspi-config`
+        * Perform update of the raspi-config tool.
         * Enable HDMI output vs. headphones.
         * Enable 4Kp60 HDMI video.
         * Select the latest bootloader version.
         * [Select PipeWire vs. PulseAudio audio.]
-        * Perform update.
+        * Enable PCIe Gen 3.
 1. Check bootloader eeprom update has been applied before re-running setup script:
     * `sudo rpi-eeprom-update`
     * `~/Linux-main/Media-PC/setup.sh`
