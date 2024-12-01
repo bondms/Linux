@@ -16,7 +16,7 @@ pactl unload-module module-null-sink || exit 1
 pactl load-module module-null-sink sink_name=hdmi_delayed sink_properties=device.description=DelayedSpeakers || exit 1
 
 pactl unload-module module-remap-sink || exit 1
-pactl load-module module-remap-sink sink_name=hdmi_mono master="alsa_output.platform-fef05700.hdmi.hdmi-stereo" channels=1 master_channel_map=mono channel_map=mono remix=no || exit 1
+pactl load-module module-remap-sink sink_name=hdmi_mono master="alsa_output.platform-fef05700.hdmi.hdmi-stereo" channels=1 channel_map=mono || exit 1
 
 pactl unload-module module-loopback || exit 1
 pactl load-module module-loopback latency_msec=270 source=hdmi_delayed.monitor sink=hdmi_mono || exit 1
