@@ -1,5 +1,6 @@
 ### Aliases ###
 
+alias audio-list-devices='pactl list short sinks'
 alias broken-links='find . -xtype l'
 alias checktime='ntpdate -q uk.pool.ntp.org'
 alias chmod='chmod -v'
