@@ -3,7 +3,7 @@
 set -eux
 set -o pipefail
 
-HERE="$(readlink -e "$(dirname "$0")")"
+HERE="$(readlink -e "$(dirname "${BASH_SOURCE[0]}")")"
 [[ -d "${HERE}" ]] || exit 1
 
 [[ -d "/media/bondms/rootfs/home/pi" ]] || exit 1

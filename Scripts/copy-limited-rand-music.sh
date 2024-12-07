@@ -21,7 +21,7 @@ else
 fi
 (( LIMIT>0 && LIMIT<=600 )) || exit 1
 
-HERE="$(readlink -e "$(dirname "${0}")")"
+HERE="$(readlink -e "$(dirname "${BASH_SOURCE[0]}")")"
 [[ -d "${HERE}" ]] || exit 1
 
 find -L "${SOURCE}" -type f -iname "*.mp3" -print0 |

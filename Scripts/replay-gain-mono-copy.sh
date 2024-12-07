@@ -9,7 +9,7 @@ SOURCE=$1
 TARGET=$2
 [[ ! -e "${TARGET}" ]] || exit 1
 
-HERE="$(readlink -e "$(dirname "${0}")")"
+HERE="$(readlink -e "$(dirname "${BASH_SOURCE[0]}")")"
 [[ -d "${HERE}" ]] || exit 1
 
 GAIN="$("${HERE}/track-replay-gain.sh" "${SOURCE}")"

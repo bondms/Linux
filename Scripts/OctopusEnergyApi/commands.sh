@@ -8,7 +8,7 @@ set -e
 set -o pipefail
 set -u
 
-HERE="$(readlink -f "$(dirname "$0")")"
+HERE="$(readlink -e "$(dirname "${BASH_SOURCE[0]}")")"
 [[ -d "${HERE}" ]] || exit 1
 
 # If you are an Octopus Energy customer, you can generate an API key from your
