@@ -343,6 +343,4 @@ export GPG_TTY=$(tty)
 export HISTSIZE="-1"
 export HISTFILESIZE="-1"
 
-# Non Media-PC.
-mkdir --parents --verbose "/dev/shm/${USER}"
-mkdir --parents --verbose "/tmp/${USER}"
+source "$(dirname -- "${BASH_SOURCE[0]}")/.bash_aliases_local"

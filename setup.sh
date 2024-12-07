@@ -75,6 +75,8 @@ fi
 
 [[ -h "${HOME}/.bash_aliases" ]] ||
     ln --symbolic --verbose -- "${HERE}/Shell/.bash_aliases" "${HOME}/." || exit 1
+[[ -h "${HOME}/.bash_aliases_local" ]] ||
+    ln --symbolic --verbose -- "${HERE}/Shell/.bash_aliases_local" "${HOME}/." || exit 1
 
 [[ -h "${HOME}/RamDisk" ]] ||
     ln --symbolic --verbose -- "/dev/shm/${USER}" "${HOME}/RamDisk" || exit 1

@@ -38,6 +38,8 @@ sudo apt-get autoclean || exit 1
 
 [[ -h "${HOME}/.bash_aliases" ]] ||
     ln --symbolic --verbose -- "${HERE}/Shell/.bash_aliases" "${HOME}/." || exit 1
+[[ -h "${HOME}/.bash_aliases_local" ]] ||
+    ln --symbolic --verbose -- "${HERE}/Shell/.bash_aliases_local" "${HOME}/." || exit 1
 
 [[ -d "${HERE}/../../rgain3" ]] ||
     git clone --depth 1 --branch 1.0.0 --verbose -- https://github.com/chaudum/rgain3.git "${HERE}/../../rgain3" || exit 1

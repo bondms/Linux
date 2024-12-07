@@ -1,0 +1,2 @@
+# Media-PC only.
+PATH="${PATH}:${HOME}/Linux-main/Scripts"
