@@ -1,5 +1,3 @@
-echo "BASH_SOURCE[0]="${BASH_SOURCE[0]}""
-
 # Non Media-PC.
 mkdir --parents --verbose "/dev/shm/${USER}"
 mkdir --parents --verbose "/tmp/${USER}"
