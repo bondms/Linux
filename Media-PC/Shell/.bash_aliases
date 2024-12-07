@@ -64,9 +64,9 @@ alias rsync-jmtpfs-quick='rsync --recursive --human-readable --itemize-changes -
 alias rsync-jmtpfs-verify='rsync --recursive --human-readable --itemize-changes --verbose --progress --inplace --omit-dir-times --checksum'
 
 alias slideshow-all-monitor='feh --auto-zoom --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --fullscreen ~/Pictures/.'
-alias slideshow-all-tv='feh --auto-zoom --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --borderless --image-bg=black --xinerama-index=1 ~/Pictures/.'
+alias slideshow-all-tv='feh --auto-zoom --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --fullscreen --xinerama-index=1 ~/Pictures/.'
 alias slideshow-favorites-monitor='feh --auto-zoom --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --fullscreen ~/Pictures/Favorites/.'
-alias slideshow-favorites-tv='feh --auto-zoom --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --borderless --image-bg=black --xinerama-index=1 ~/Pictures/Favorites/.'
+alias slideshow-favorites-tv='feh --auto-zoom --hide-pointer --randomize --recursive --slideshow-delay=10 --draw-filename --fullscreen --xinerama-index=1 ~/Pictures/Favorites/.'
 alias smbclient-joli='smbclient -U Mark \\\\192.168.0.4\\shared'
 alias sox='sox -V --no-clobber'
 alias ssh='ssh -Y'
@@ -333,6 +333,9 @@ fi
 # Accept default merge-commit messages.
 # Preferable to using an alias for git merge since it maintains command-line auto-completion.
 export GIT_MERGE_AUTOEDIT="no"
+
+# GPG key for git commit-signing.
+export GPG_TTY=$(tty)
 
 # Keep full bash command-line history.
 export HISTSIZE="-1"
