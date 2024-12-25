@@ -10,7 +10,7 @@ set -o pipefail
 pactl unload-module module-stream-restore || exit 1
 pactl load-module module-stream-restore restore_device=false || exit 1
 
-HDMI_DEVICE="$(pactl list sinks short | cut -f 2 | grep -F hdmi)" || exit 1
+HDMI_DEVICE="$(pactl list sinks short | cut -f 2 | grep -F hdmi-stereo)" || exit 1
 [[ -n "${HDMI_DEVICE}" ]] || exit 1
 
 pactl set-default-sink "${HDMI_DEVICE}" || exit 1
