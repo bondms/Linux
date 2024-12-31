@@ -23,5 +23,6 @@
     },
     "window.restoreWindows": "none",
     "workbench.startupEditor": "none",
-    "extensions.ignoreRecommendations": true
+    "extensions.ignoreRecommendations": true,
+    "update.showReleaseNotes": false
 }
