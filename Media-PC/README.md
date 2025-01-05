@@ -24,3 +24,13 @@
 1. Main PC: Use `./sync.sh` to synchronise Music, Pictures, Playlists, Podcasts, etc. to the Media PC's disk.
 1. Media PC: Pair Bluetooth device(s).
 1. Media PC: Run `speakers.sh` script after each reboot and after connecting to Bluetooth speaker.
+
+## Links
+
+* [GitHub](https://github.com/bondms/Linux)
+* [Stereo test](https://youtu.be/6TWJaFD6R2s?si=SeF6gn_TzVnGVoJe)
+* [FIP](https://www.radiofrance.fr/fip)
+* [Radio Varna](https://binar.bg/radio-varna/)
+* [YouTube](https://www.youtube.com/)
+* [YouTube Music](https://music.youtube.com/)
+* [Playlists](https://music.youtube.com/browse/UCoCiiKnKx09fG6EnurQDy0A)
