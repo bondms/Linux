@@ -1,3 +1,0 @@
-#!/bin/bash
-
-"${HOME}/Linux-main/Scripts/shuffle-play.sh" "${HOME}/Music/Other/Joli/."
