@@ -153,7 +153,7 @@ sudo apt install --assume-yes rsync || exit 1
 sudo apt install --assume-yes unrar || exit 1
 sudo apt install --assume-yes pulseaudio-utils || exit 1
 sudo apt install --assume-yes bazel-bootstrap{,-data,-source} bazel-platforms bazel-rules-cc bazel-skylib || exit 1
-sudo apt install --assume-yes libdvd-pkg mpv regionset || exit 1
+sudo apt install --assume-yes libdvd-pkg libavcodec-extra mpv regionset || exit 1
 sudo dpkg-reconfigure libdvd-pkg || exit 1
 
 sudo apt autoremove || exit 1
