@@ -36,6 +36,7 @@ alias openssl-view-pub-key='openssl rsa -pubin -text -in'
 alias openssl-view-private-key='openssl rsa -text -in'
 alias orientate='find -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.jpe" -o -iname "*.jif" -o -iname "*.jfif" -o -iname "*.jfi" \) -print0 |
     xargs --null --no-run-if-empty jhead -autorot'
+alias play-dvd='mpv dvd://'
 alias play-hum='play -n synth sine 150'
 alias play-left-right-test='speaker-test -c 2 -t sine'
 alias play-silence='play -n'
