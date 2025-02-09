@@ -46,6 +46,7 @@ rsync \
     --exclude "/Images/" \
     --exclude "/Music/AudioCDs/" \
     --exclude "/Music/Other/" \
+    --exclude "/Music/Rhythmbox/" \
     --exclude "/Pictures/" \
     --exclude "/Temp/" \
     --exclude "/Videos/" \
