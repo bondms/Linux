@@ -1,11 +1,34 @@
 {
+    "C_Cpp.clang_format_fallbackStyle": "LLVM",
+    "editor.acceptSuggestionOnCommitCharacter": false,
+    "editor.acceptSuggestionOnEnter": "off",
+    "editor.autoClosingBrackets": "never",
+    "editor.autoClosingQuotes": "never",
+    "editor.autoSurround": "never",
+    "editor.renderWhitespace": "all",
+    "editor.rulers": [80],
+    "editor.tabSize": 2,
+    "files.hotExit": "off",
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
     "files.exclude": {
-        "**/Backup/**": true
+        "**/Backup/**": true,
+        "**/bazel-*/**": true
     },
     "files.watcherExclude": {
-        "**/Backup/**": true
-    },    
+        "**/Backup/**": true,
+        "**/bazel-*/**": true
+    },
     "search.exclude": {
-        "**/Backup/**": true
-    }
+        "**/Backup/**": true,
+        "**/bazel-*/**": true
+    },
+    "window.restoreWindows": "none",
+    "workbench.startupEditor": "none",
+    "extensions.ignoreRecommendations": true,
+    "update.showReleaseNotes": false,
+    "editor.autoClosingComments": "never",
+    "editor.autoClosingDelete": "never",
+    "editor.autoClosingOvertype": "never"
 }
