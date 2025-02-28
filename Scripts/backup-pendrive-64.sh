@@ -45,7 +45,9 @@ rsync \
     --exclude "/Images/*ubuntu-*.iso" \
     --exclude "/Images/debian-*.iso" \
     --exclude "/Images/RaspberryPi/" \
+    --exclude "/Music/Rhythmbox/" \
     --exclude "/Temp/" \
+    --exclude "/Videos/Pi/" \
     --exclude "/Videos/Temp/" \
     --exclude ".git/" \
     --exclude "bazel-*" \
