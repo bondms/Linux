@@ -13,16 +13,22 @@
     "files.trimFinalNewlines": true,
     "files.trimTrailingWhitespace": true,
     "files.exclude": {
+        "**/Backup/**": true,
         "**/bazel-*/**": true
     },
     "files.watcherExclude": {
+        "**/Backup/**": true,
         "**/bazel-*/**": true
     },
     "search.exclude": {
+        "**/Backup/**": true,
         "**/bazel-*/**": true
     },
     "window.restoreWindows": "none",
     "workbench.startupEditor": "none",
     "extensions.ignoreRecommendations": true,
-    "update.showReleaseNotes": false
+    "update.showReleaseNotes": false,
+    "editor.autoClosingComments": "never",
+    "editor.autoClosingDelete": "never",
+    "editor.autoClosingOvertype": "never"
 }
