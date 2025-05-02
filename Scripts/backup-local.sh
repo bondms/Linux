@@ -34,9 +34,10 @@ rsync \
     --sparse \
     --delete --delete-excluded \
     --exclude "/BackupLogs/" \
-    --exclude "/Images/*ubuntu-*.iso" \
-    --exclude "/Images/debian-*.iso" \
+    --exclude "/Images/Debian/" \
+    --exclude "/Images/Ubuntu/" \
     --exclude "/Images/RaspberryPi/" \
+    --exclude "/Images/Windows/" \
     --exclude ".git/" \
     --exclude "bazel-*" \
     --exclude "bin/" \

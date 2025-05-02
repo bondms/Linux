@@ -42,9 +42,10 @@ rsync \
     --exclude "/Documents/Archive/Joli/Elements/" \
     --exclude "/Documents/Archive/Programming/Git/Linux/Scripts/OctopusEnergyApi/data/" \
     --exclude "/Downloads/" \
-    --exclude "/Images/*ubuntu-*.iso" \
-    --exclude "/Images/debian-*.iso" \
+    --exclude "/Images/Debian/" \
+    --exclude "/Images/Ubuntu/" \
     --exclude "/Images/RaspberryPi/" \
+    --exclude "/Images/Windows/" \
     --exclude "/Music/Rhythmbox/" \
     --exclude "/Temp/" \
     --exclude "/Videos/Pi/" \
