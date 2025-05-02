@@ -131,7 +131,8 @@ sudo apt install --assume-yes sox libsox-fmt-all || exit 1
 sudo apt install --assume-yes jmtpfs || exit 1
 sudo apt install --assume-yes exfatprogs || exit 1
 sudo apt install --assume-yes tofrodos || exit 1
-sudo snap install --classic skype || exit 1
+# The Skype application is retiring, but the web console continues to work for now.
+# sudo snap install --classic skype || exit 1
 sudo apt install --assume-yes python3-mutagen || exit 1
 sudo apt install --assume-yes symlinks || exit 1
 sudo apt install --assume-yes jhead || exit 1
