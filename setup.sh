@@ -154,6 +154,7 @@ sudo apt install --assume-yes rsync || exit 1
 sudo apt install --assume-yes unrar || exit 1
 sudo apt install --assume-yes pulseaudio-utils || exit 1
 sudo apt install --assume-yes libdvd-pkg libavcodec-extra mpv regionset vobcopy || exit 1
+sudo apt install --assume-yes adb android-sdk-platform-tools-common || exit 1
 sudo dpkg-reconfigure libdvd-pkg || exit 1
 # sudo apt install --assume-yes podget || exit 1
 
