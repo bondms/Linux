@@ -41,6 +41,7 @@ alias openssl-view-pub-key='openssl rsa -pubin -text -in'
 alias openssl-view-private-key='openssl rsa -text -in'
 alias orientate='find -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.jpe" -o -iname "*.jif" -o -iname "*.jfif" -o -iname "*.jfi" \) -print0 |
     xargs --null --no-run-if-empty jhead -autorot'
+alias phone-battery-cycle-count='adb shell cat /sys/class/power_supply/battery/cycle_count'
 alias play-dvd='mpv dvd://'
 alias play-dvd-folder='play-dvd --dvd-device=.'
 alias play-hum='play -n synth sine 150'
