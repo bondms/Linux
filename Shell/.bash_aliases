@@ -37,6 +37,7 @@ alias mplayer-bg='mplayer -subcp WINDOWS-1251'
 alias mv='mv -iv'
 alias netstat='netstat -aveep'
 alias openssl-view-cert='openssl x509 -noout -text -in'
+alias openssl-view-crl='openssl crl -noout -text -in'
 alias openssl-view-pub-key='openssl rsa -pubin -text -in'
 alias openssl-view-private-key='openssl rsa -text -in'
 alias orientate='find -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.jpe" -o -iname "*.jif" -o -iname "*.jfif" -o -iname "*.jfi" \) -print0 |
