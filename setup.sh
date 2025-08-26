@@ -154,9 +154,10 @@ sudo apt install --assume-yes rsync || exit 1
 sudo apt install --assume-yes unrar || exit 1
 sudo apt install --assume-yes pulseaudio-utils || exit 1
 sudo apt install --assume-yes libdvd-pkg libavcodec-extra mpv regionset vobcopy || exit 1
-sudo apt install --assume-yes adb android-sdk-platform-tools-common || exit 1
 sudo dpkg-reconfigure libdvd-pkg || exit 1
+sudo apt install --assume-yes adb android-sdk-platform-tools-common || exit 1
 # sudo apt install --assume-yes podget || exit 1
+sudo apt install --assume-yes cargo || exit 1
 
 # Install Bazel using bazelisk Debian package from https://github.com/bazelbuild/bazelisk
 # sudo apt install --assume-yes bazel-bootstrap{,-data,-source} bazel-platforms bazel-rules-cc bazel-skylib || exit 1
@@ -171,6 +172,7 @@ git config --global core.editor "code --wait --new-window" || exit 1
 git config --global core.pager "less -iM" || exit 1
 git config --global user.email "34947848+bondms@users.noreply.github.com" || exit 1
 git config --global commit.gpgsign true || exit 1
+git config --global init.defaultBranch "main" || exit 1
 
 [[ -d "${HERE}/../rgain3" ]] ||
     git clone --depth 1 --branch 1.0.0 --verbose -- https://github.com/chaudum/rgain3.git "${HERE}/../rgain3" || exit 1

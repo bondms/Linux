@@ -1,5 +1,6 @@
 commit.gpgsign=true
 core.editor=code --wait --new-window
 core.pager=less -iM
+init.defaultbranch=main
 user.email=34947848+bondms@users.noreply.github.com
 user.signingkey=840149965383B44E
