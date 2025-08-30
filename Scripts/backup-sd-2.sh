@@ -46,6 +46,7 @@ rsync \
     --exclude "bin/" \
     --exclude "decompressed/" \
     --exclude "int/" \
+    --exclude "target/" \
     --exclude "thirdparty/" \
     --exclude "*.pyc" \
     -- \
