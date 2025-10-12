@@ -26,7 +26,7 @@ sudo apt install --assume-yes rpi-eeprom || exit 1
 sudo apt install --assume-yes feh || exit 1
 sudo apt install --assume-yes sox libsox-fmt-all || exit 1
 sudo apt install --assume-yes xscreensaver || exit 1
-sudo apt install --assume-yes at || exit 1
+# sudo apt install --assume-yes at || exit 1
 sudo apt install --assume-yes libdvd-pkg libavcodec-extra mpv || exit 1
 
 # rgain dependencies
