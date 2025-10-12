@@ -15,6 +15,9 @@
     * `sudo raspi-config`
 1. Main PC: Use `./sync.sh` to synchronise Music, Pictures, Playlists, Podcasts, etc. to the Media PC's disk.
 1. Media PC: Pair Bluetooth device(s).
+1. Update clock time display format to show seconds.
+    * Right click the taskbar clock and choose "Configure Plugin...".
+    * From `man date`, change time format from `%R` to `%R:%S`.
 
 ## Links
 
