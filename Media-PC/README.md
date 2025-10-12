@@ -18,6 +18,7 @@
 1. Update clock time display format to show seconds.
     * Right click the taskbar clock and choose "Configure Plugin...".
     * From `man date`, change time format from `%R` to `%R:%S`.
+1. From Control Center, choose "Set Defaults" "For Large Screens" under "Defaults".
 
 ## Links
 
