@@ -33,6 +33,7 @@ sudo apt install --assume-yes libdvd-pkg libavcodec-extra mpv || exit 1
 sudo apt install --assume-yes gstreamer1.0-python3-plugin-loader python3-mutagen || exit 1
 
 sudo rpi-eeprom-update || exit 1
+sudo dpkg-reconfigure libdvd-pkg || exit 1
 
 sudo apt autoremove || exit 1
 sudo apt-get autoclean || exit 1
