@@ -28,6 +28,7 @@ sudo apt install --assume-yes sox libsox-fmt-all || exit 1
 sudo apt install --assume-yes xscreensaver || exit 1
 # sudo apt install --assume-yes at || exit 1
 sudo apt install --assume-yes libdvd-pkg libavcodec-extra mpv || exit 1
+sudo apt install --assume-yes vim || exit 1
 
 # rgain dependencies
 sudo apt install --assume-yes gstreamer1.0-python3-plugin-loader python3-mutagen || exit 1
