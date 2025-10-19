@@ -59,6 +59,6 @@ rsync \
     --exclude "thirdparty/" \
     --exclude "*.pyc" \
     -- \
-    "${SOURCE}/" "${TARGET_DIR}/" | tee "${LOGFILE}" || exit 1
+    "${SOURCE}/" "${TARGET_DIR}/" 2>&1 | tee "${LOGFILE}" || exit 1
 date "+Completed: %Y%m%d-%H%M%S" >> "${TIMESTAMP_PATH}" || exit 1
 sync --file-system "${TIMESTAMP_PATH}" || exit 1

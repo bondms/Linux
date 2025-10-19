@@ -51,5 +51,5 @@ rclone \
     --exclude "thirdparty/" \
     --exclude "*.pyc" \
     sync \
-    "${SOURCE}/" "${TARGET_DIR}/" | tee "${LOGFILE}" || exit 1
+    "${SOURCE}/" "${TARGET_DIR}/" 2>&1 | tee "${LOGFILE}" || exit 1
 date "+Completed: %Y%m%d-%H%M%S%n" | rclone rcat "${TARGET_DIR}/${TIMESTAMP_NAME}" || exit 1
