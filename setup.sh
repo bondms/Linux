@@ -156,6 +156,7 @@ sudo dpkg-reconfigure libdvd-pkg || exit 1
 sudo apt install --assume-yes adb android-sdk-platform-tools-common || exit 1
 sudo apt install --assume-yes cargo rustfmt || exit 1
 sudo apt install --assume-yes vim || exit 1
+sudo apt install --assume-yes rclone rclone-browser || exit 1
 
 # Install Bazel using bazelisk Debian package from https://github.com/bazelbuild/bazelisk
 # sudo apt install --assume-yes bazel-bootstrap{,-data,-source} bazel-platforms bazel-rules-cc bazel-skylib || exit 1
