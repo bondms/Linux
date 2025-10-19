@@ -27,7 +27,7 @@ def read_fd(fd, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
     pos = 0
     while True:
         size_to_read = block_size if limit is None else min(block_size, limit - pos)
-        print(f"Reading ({pos}..{pos + size_to_read})...")
+        print(f"Reading (0x{pos:08X}..0x{pos + size_to_read:08X})...")
         actual = os.read(fd, size_to_read)
         if not actual:
             print("End of read")
@@ -52,7 +52,7 @@ def write_fd(fd, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
         data = random.randbytes(
             block_size if limit is None else min(block_size, limit - pos)
         )
-        print(f"Writing ({pos}..{pos + len(data)})...")
+        print(f"Writing (0x{pos:08X}..0x{pos + len(data):08X})...")
         size_written = os.write(fd, data)
         if size_written == 0:
             print("End of data")
