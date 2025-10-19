@@ -22,7 +22,7 @@ find "${SOURCE}" -mount \( -type f -o -type d \) \
 \) || exit 1
 
 rclone mkdir "${TARGET_DIR}" || exit 1
-date "+Started: %Y%m%d-%H%M%S%n" | rclone rcat "${TARGET_DIR}/${TIMESTAMP_NAME}" || exit 1
+date "+Started: %Y%m%d-%H%M%S%n" | rclone rcat "${TIMESTAMP_PATH}" || exit 1
 rclone \
     --links \
     --verbose \
@@ -51,4 +51,4 @@ rclone \
     --exclude "*.pyc" \
     sync \
     "${SOURCE}/" "${TARGET_DIR}/" 2>&1 | tee "${LOGFILE}" || exit 1
-date "+Completed: %Y%m%d-%H%M%S%n" | rclone rcat "${TARGET_DIR}/${TIMESTAMP_NAME}" || exit 1
+date "+Completed: %Y%m%d-%H%M%S%n" | rclone rcat "${TIMESTAMP_PATH}" || exit 1
