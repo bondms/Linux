@@ -65,7 +65,7 @@ def write_path(file_path, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOC
 
 def parse_args(argv):
     parser = argparse.ArgumentParser(prog="Storage Check")
-    parser.add_argument("--filepath", required=True)
+    parser.add_argument("--file-path", required=True)
     parser.add_argument("--read", action="store_true")
     parser.add_argument("--write", action="store_true")
     parser.add_argument("--seed", type=int, default=0)
@@ -77,24 +77,28 @@ def parse_args(argv):
 def main(argv):
     args = parse_args(argv)
 
+    print(f"File path: {args.file_path}")
     print(f"Seed: {args.seed}")
     print(f"Limit: {args.limit}")
     print(f"Block size: {args.block_size}")
 
     if args.write:
+        print("Writing...")
         write_path(
-            file_path=args.filepath,
+            file_path=args.file_path,
             seed=args.seed,
             limit=args.limit,
             block_size=args.block_size,
         )
     if args.read:
+        print("Reading...")
         read_path(
-            file_path=args.filepath,
+            file_path=args.file_path,
             seed=args.seed,
             limit=args.limit,
             block_size=args.block_size,
         )
+    print("Done.")
 
 
 if __name__ == "__main__":
