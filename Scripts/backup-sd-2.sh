@@ -29,7 +29,7 @@ find "${SOURCE}" -mount \( -type f -o -type d \) \
   \( -perm /go=rwx -execdir chmod -v go-rwx {} + \) \
 \) || exit 1
 
-rm --force --verbose "${TIMESTAMP_PATH}" || exit 1
+date "+Started: %Y%m%d-%H%M%S" > "${TIMESTAMP_PATH}" || exit 1
 rsync \
     --archive \
     --verbose \
@@ -51,6 +51,5 @@ rsync \
     --exclude "*.pyc" \
     -- \
     "${SOURCE}/" "${TARGET_DIR}/" | tee "${LOGFILE}" || exit 1
-
-date +%Y%m%d-%H%M%S > "${TIMESTAMP_PATH}" || exit 1
+date "+Completed: %Y%m%d-%H%M%S" >> "${TIMESTAMP_PATH}" || exit 1
 sync --file-system "${TIMESTAMP_PATH}" || exit 1

@@ -9,7 +9,7 @@ TARGET_DIR="remote:Backup/${TARGET}"
 LOGFILE="${SOURCE}/BackupLogs/rsync-${TARGET}.log"
 TIMESTAMP_NAME="timestamp.txt"
 TIMESTAMP_PATH="${TARGET_DIR}/${TIMESTAMP_NAME}"
-TESTING="--dry-run --interactive"
+TESTING="--interactive"
 
 # Remove any timestamp file that's been restored from a backup.
 rm --force --verbose "${SOURCE}/${TIMESTAMP_NAME}" || exit 1
@@ -23,7 +23,8 @@ find "${SOURCE}" -mount \( -type f -o -type d \) \
   \( -perm /go=rwx -execdir chmod -v go-rwx {} + \) \
 \) || exit 1
 
-rclone delete ${TESTING} "${TIMESTAMP_PATH}" || exit 1
+rclone mkdir ${TESTING} "${TARGET_DIR}" || exit 1
+date "+Started: %Y%m%d-%H%M%S%n" | rclone ${TESTING} rcat "${TARGET_DIR}/${TIMESTAMP_NAME}" || exit 1
 rclone sync ${TESTING} \
     --verbose \
     --human-readable \
@@ -51,5 +52,4 @@ rclone sync ${TESTING} \
     --exclude "*.pyc" \
     sync \
     "${SOURCE}/" "${TARGET_DIR}/" | tee "${LOGFILE}" || exit 1
-
-date +%Y%m%d-%H%M%S | rclone ${TESTING} cat "${TARGET_DIR}/${TIMESTAMP_NAME}" || exit 1
+date "+Completed: %Y%m%d-%H%M%S%n" | rclone ${TESTING} rcat "${TARGET_DIR}/${TIMESTAMP_NAME}" || exit 1
