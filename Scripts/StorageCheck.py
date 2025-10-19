@@ -33,7 +33,7 @@ def read_fd(fd, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
             print("End of read")
             return
         pos += len(actual)
-        print("Checking...")
+        print(f"Reading ({pos})...")
         expected = random.randbytes(len(actual))
         if actual != expected:
             raise Exception("Failed")
@@ -55,7 +55,7 @@ def write_fd(fd, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
         if 0 == os.write(fd, data):
             print("End of data")
             return
-        print("Writing...")
+        print(f"Writing ({pos})...")
 
 
 def write_path(file_path, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
