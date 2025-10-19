@@ -39,7 +39,6 @@ rsync \
     --sparse \
     --delete --delete-excluded \
     --exclude "/BackupLogs/" \
-    --exclude "/Documents/Archive/Joli/Elements/" \
     --exclude "/Documents/Archive/Programming/Git/Linux/Scripts/OctopusEnergyApi/data/" \
     --exclude "/Downloads/" \
     --exclude "/Images/Debian/" \

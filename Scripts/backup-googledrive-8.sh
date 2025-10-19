@@ -30,7 +30,6 @@ rclone \
     --checksum \
     --delete-excluded \
     --exclude "/BackupLogs/" \
-    --exclude "/Documents/Archive/Joli/Elements/" \
     --exclude "/Documents/Archive/Motoring/Ursula/200801 Polestar 2 press kit UK.zip" \
     --exclude "/Documents/Archive/Programming/Git/Linux/Scripts/OctopusEnergyApi/data/" \
     --exclude "/Downloads/" \
