@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import argparse
+import errno
 import os
 import random
 import sys
@@ -53,7 +54,12 @@ def write_fd(fd, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
             block_size if limit is None else min(block_size, limit - pos)
         )
         print(f"Writing (0x{pos:08X}..0x{pos + len(data):08X})...")
-        size_written = os.write(fd, data)
+        try:
+            size_written = os.write(fd, data)
+        except OSError as oserror:
+            if oserror.errno != errno.ENOSPC:
+                raise
+            size_written = os.lseek(fd, 0, os.SEEK_CUR) - pos
         if size_written == 0:
             print("End of data")
             return
