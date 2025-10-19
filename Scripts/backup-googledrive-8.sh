@@ -4,9 +4,8 @@ set -eux
 set -o pipefail
 
 SOURCE="${HOME}/Backup"
-TARGET="Backup"
-TARGET_DIR="remote:${TARGET}"
-LOGFILE="${SOURCE}/BackupLogs/rsync-${TARGET}.log"
+TARGET_DIR="remote:Backup"
+LOGFILE="${SOURCE}/BackupLogs/rsync-googledrive.log"
 TIMESTAMP_NAME="timestamp.txt"
 TIMESTAMP_PATH="${TARGET_DIR}/${TIMESTAMP_NAME}"
 
