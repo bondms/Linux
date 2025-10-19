@@ -21,7 +21,7 @@ def read_fd(fd, seed, limit):
     random.seed(seed)
     pos = 0
     while True:
-        actual = os.read(fd, min(4096, limit-pos))
+        actual = os.read(fd, 4096 if limit is None else min(4096, limit-pos))
         if not actual:
             print("End of read")
             return
@@ -39,7 +39,7 @@ def write_fd(fd, seed, limit):
     random.seed(seed)
     pos = 0
     while True:
-        data = random.randbytes(min(4096, limit-pos))
+        data = random.randbytes(4096 if limit is None else min(4096, limit-pos))
         pos += len(data)
         if 0 == os.write(fd, data):
             print("End of data")
