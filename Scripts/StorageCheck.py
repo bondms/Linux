@@ -26,17 +26,18 @@ def read_fd(fd, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
     random.seed(seed)
     pos = 0
     while True:
-        actual = os.read(
-            fd, block_size if limit is None else min(block_size, limit - pos)
-        )
+        size_to_read = block_size if limit is None else min(block_size, limit - pos)
+        print(f"Reading ({pos}..{pos + size_to_read})...")
+        actual = os.read(fd, size_to_read)
         if not actual:
             print("End of read")
             return
-        pos += len(actual)
-        print(f"Reading ({pos})...")
+        if len(actual) != size_to_read:
+            raise Exception("Partial read")
         expected = random.randbytes(len(actual))
         if actual != expected:
             raise Exception("Failed")
+        pos += len(actual)
 
 
 def read_path(file_path, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
@@ -51,11 +52,14 @@ def write_fd(fd, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
         data = random.randbytes(
             block_size if limit is None else min(block_size, limit - pos)
         )
-        pos += len(data)
-        if 0 == os.write(fd, data):
+        print(f"Writing ({pos}..{pos + len(data)})...")
+        size_written = os.write(fd, data)
+        if size_written == 0:
             print("End of data")
             return
-        print(f"Writing ({pos})...")
+        if size_written != len(data):
+            raise Exception("Partial write")
+        pos += size_written
 
 
 def write_path(file_path, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
