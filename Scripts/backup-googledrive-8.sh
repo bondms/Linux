@@ -25,7 +25,6 @@ find "${SOURCE}" -mount \( -type f -o -type d \) \
 rclone mkdir "${TARGET_DIR}" || exit 1
 date "+Started: %Y%m%d-%H%M%S%n" | rclone rcat "${TARGET_DIR}/${TIMESTAMP_NAME}" || exit 1
 rclone \
-    --interactive \
     --links \
     --verbose \
     --human-readable \
@@ -40,6 +39,7 @@ rclone \
     --exclude "/Music/AudioCDs/" \
     --exclude "/Music/Other/" \
     --exclude "/Music/Rhythmbox/" \
+    --exclude "/Music/SavedRecordings/" \
     --exclude "/Pictures/" \
     --exclude "/Temp/" \
     --exclude "/Videos/" \
