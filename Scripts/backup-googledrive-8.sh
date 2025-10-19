@@ -26,6 +26,7 @@ rclone mkdir "${TARGET_DIR}" || exit 1
 date "+Started: %Y%m%d-%H%M%S%n" | rclone rcat "${TARGET_DIR}/${TIMESTAMP_NAME}" || exit 1
 rclone \
     --interactive \
+    --links \
     --verbose \
     --human-readable \
     --checksum \
