@@ -34,7 +34,7 @@ def read_fd(fd, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
             print("End of read")
             return
         if len(actual) != size_to_read:
-            raise Exception("Partial read")
+            print(f"Partial read: {len(actual)} bytes")
         expected = random.randbytes(len(actual))
         if actual != expected:
             raise Exception("Failed")
@@ -64,7 +64,7 @@ def write_fd(fd, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
             print("End of data")
             return
         if size_written != len(data):
-            raise Exception("Partial write")
+            print(f"Partial write: {size_written} bytes")
         pos += size_written
 
 
