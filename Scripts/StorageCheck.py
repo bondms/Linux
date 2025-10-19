@@ -39,9 +39,9 @@ def read_fd(fd, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
             raise Exception("Failed")
 
 
-def read_path(file_path, seed=DEFAULT_SEED, limit=None):
+def read_path(file_path, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
     with OsFile(path=file_path, flags=os.O_RDONLY) as fd:
-        read_fd(fd=fd, seed=seed, limit=limit)
+        read_fd(fd=fd, seed=seed, limit=limit, block_size=block_size)
 
 
 def write_fd(fd, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
@@ -58,9 +58,9 @@ def write_fd(fd, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
         print("Writing...")
 
 
-def write_path(file_path, seed=DEFAULT_SEED, limit=None):
+def write_path(file_path, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
     with OsFile(path=file_path, flags=os.O_WRONLY) as fd:
-        write_fd(fd=fd, seed=seed, limit=limit)
+        write_fd(fd=fd, seed=seed, limit=limit, block_size=block_size)
 
 
 def parse_args(argv):
