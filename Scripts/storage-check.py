@@ -30,11 +30,11 @@ def read_fd(fd, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
         size_to_read = block_size if limit is None else min(block_size, limit - pos)
         print(f"Reading (0x{pos:08X}..0x{pos + size_to_read:08X})...")
         actual = os.read(fd, size_to_read)
+        if len(actual) != size_to_read:
+            print(f"Partial read: {len(actual)} bytes")
         if not actual:
             print("End of read")
             return
-        if len(actual) != size_to_read:
-            print(f"Partial read: {len(actual)} bytes")
         expected = random.randbytes(len(actual))
         if actual != expected:
             raise Exception("Failed")
@@ -60,11 +60,11 @@ def write_fd(fd, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
             if oserror.errno != errno.ENOSPC:
                 raise
             size_written = os.lseek(fd, 0, os.SEEK_CUR) - pos
+        if size_written != len(data):
+            print(f"Partial write: {size_written} bytes")
         if size_written == 0:
             print("End of data")
             return
-        if size_written != len(data):
-            print(f"Partial write: {size_written} bytes")
         pos += size_written
 
 
