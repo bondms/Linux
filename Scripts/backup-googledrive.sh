@@ -4,13 +4,10 @@ set -eux
 set -o pipefail
 
 SOURCE="${HOME}/Backup"
-TARGET_DIR="remote:Backup"
+TARGET_ROOT="remote"
+TARGET_DIR="${TARGET_ROOT}:Backup"
 LOGFILE="${SOURCE}/BackupLogs/rsync-googledrive.log"
-TIMESTAMP_NAME="timestamp.txt"
-TIMESTAMP_PATH="${TARGET_DIR}/${TIMESTAMP_NAME}"
-
-# Remove any timestamp file that's been restored from a backup.
-rm --force --verbose "${SOURCE}/${TIMESTAMP_NAME}" || exit 1
+TIMESTAMP_PATH="${TARGET_ROOT}:backup-timestamp.txt"
 
 find "${SOURCE}" -type f -name "*~" -printf "Deleting: %p\n" -delete ||
     exit 1
@@ -22,7 +19,6 @@ find "${SOURCE}" -mount \( -type f -o -type d \) \
 \) || exit 1
 
 rclone mkdir "${TARGET_DIR}" || exit 1
-date "+Started: %Y%m%d-%H%M%S%n" | rclone rcat "${TIMESTAMP_PATH}" || exit 1
 rclone \
     --links \
     --verbose \
