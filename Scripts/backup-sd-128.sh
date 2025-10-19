@@ -17,8 +17,6 @@ rm --force --verbose "${SOURCE}/${TIMESTAMP_NAME}" || exit 1
 [[ -h "${TARGET_LINK}" ]] || exit 1
 [[ -d "${TARGET_DIR}" ]] || exit 1
 
-date "+Started: %Y%m%d-%H%M%S" > "${TIMESTAMP_PATH}" || exit 1
-
 # Sync without checksum.
 # This is much quicker because most of the archive consists of hardlinks which
 # would need to be read repeatedly with checksumming.
@@ -39,5 +37,5 @@ diff \
     --no-dereference \
     -- \
     "${SOURCE}/latest/" "${TARGET_DIR}/latest/" 2>&1 | tee --append "${LOGFILE}" || exit 1
-date "+Completed: %Y%m%d-%H%M%S" >> "${TIMESTAMP_PATH}" || exit 1
+date --utc --iso-8601=seconds > "${TIMESTAMP_PATH}" || exit 1
 sync --file-system "${TIMESTAMP_PATH}" || exit 1

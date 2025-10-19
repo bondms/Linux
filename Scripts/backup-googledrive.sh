@@ -47,4 +47,4 @@ rclone \
     --exclude "*.pyc" \
     sync \
     "${SOURCE}/" "${TARGET_DIR}/" 2>&1 | tee "${LOGFILE}" || exit 1
-date "+Completed: %Y%m%d-%H%M%S%n" | rclone rcat "${TIMESTAMP_PATH}" || exit 1
+date --utc --iso-8601=seconds | rclone rcat "${TIMESTAMP_PATH}" || exit 1
