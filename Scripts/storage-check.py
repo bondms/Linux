@@ -104,34 +104,6 @@ def impl(fd, seed, start, end, count, block_size, write):
             pos += len(actual)
 
 
-def read_fd(
-    fd, seed=DEFAULT_SEED, start=0, end=None, count=None, block_size=DEFAULT_BLOCK_SIZE
-):
-    impl(
-        fd=fd,
-        seed=seed,
-        start=start,
-        end=end,
-        count=count,
-        block_size=block_size,
-        write=False,
-    )
-
-
-def write_fd(
-    fd, seed=DEFAULT_SEED, start=0, end=None, count=None, block_size=DEFAULT_BLOCK_SIZE
-):
-    impl(
-        fd=fd,
-        seed=seed,
-        start=start,
-        end=end,
-        count=count,
-        block_size=block_size,
-        write=True,
-    )
-
-
 def read_path(
     file_path,
     seed=DEFAULT_SEED,
@@ -141,8 +113,14 @@ def read_path(
     block_size=DEFAULT_BLOCK_SIZE,
 ):
     with OsFile(path=file_path, flags=os.O_RDONLY) as fd:
-        read_fd(
-            fd=fd, seed=seed, start=start, end=end, count=count, block_size=block_size
+        impl(
+            fd=fd,
+            seed=seed,
+            start=start,
+            end=end,
+            count=count,
+            block_size=block_size,
+            write=False,
         )
 
 
@@ -155,8 +133,14 @@ def write_path(
     block_size=DEFAULT_BLOCK_SIZE,
 ):
     with OsFile(path=file_path, flags=os.O_WRONLY) as fd:
-        write_fd(
-            fd=fd, seed=seed, start=start, end=end, count=count, block_size=block_size
+        impl(
+            fd=fd,
+            seed=seed,
+            start=start,
+            end=end,
+            count=count,
+            block_size=block_size,
+            write=True,
         )
 
 
