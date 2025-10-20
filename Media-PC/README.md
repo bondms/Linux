@@ -1,6 +1,6 @@
 # Media PC
 
-## Raspberry PI 4 running Raspberry PI OS (64-bit, Debian version 12/Bookwork)
+## Raspberry PI 4 running Raspberry PI OS (64-bit, Debian version 13/Trixie)
 
 1. Main PC: Erase the SD card:
     * `sudo blkdiscard -f /dev/mmcblk0`
