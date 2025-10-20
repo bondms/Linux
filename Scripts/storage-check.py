@@ -51,7 +51,7 @@ def read_fd(
             raise Exception("Both end and count specified")
         end = start + count
 
-    if end < start:
+    if end is not None and end < start:
         raise Exception("End is before start")
 
     pos = start
@@ -98,7 +98,7 @@ def write_fd(
             raise Exception("Both end and count specified")
         end = start + count
 
-    if end < start:
+    if end is not None and end < start:
         raise Exception("End is before start")
 
     pos = start
