@@ -92,7 +92,9 @@ def read_fd(
             return
         expected = random_bytes.randbytes(len(actual))
         if actual != expected:
-            raise Exception("Failed")
+            for index, pair in enumerate(zip(expected, actual)):
+                if pair[0] != pair[1]:
+                    raise Exception(f"Failed at position 0x{pos + index:012X}")
         pos += len(actual)
 
 
@@ -167,13 +169,15 @@ def main(argv):
     args = parse_args(argv)
 
     print(f"File path: {args.file_path}")
-    print(f"Seed: {args.seed}/0x{args.seed:0012X}")
-    print(f"Start: {args.start}/0x{args.start:0012X}")
-    print(f"End: {args.end}" + "" if args.end is None else f"/0x{args.end:0012X}")
+    print(f"Seed: {args.seed} / 0x{args.seed:0012X}")
+    print(f"Start: {args.start} / 0x{args.start:0012X}")
+    print(f"End: {args.end}" + "" if args.end is None else f" / 0x{args.end:0012X}")
     print(
-        f"Count: {args.count}" + "" if args.count is None else f"/0x{args.count:0012X}"
+        f"Count: {args.count}" + ""
+        if args.count is None
+        else f" / 0x{args.count:0012X}"
     )
-    print(f"Block size: {args.block_size}/0x{args.block_size:0012X}")
+    print(f"Block size: {args.block_size} / 0x{args.block_size:0012X}")
 
     if not (args.write or args.read):
         raise Exception("Nothing to do")
