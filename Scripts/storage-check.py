@@ -11,10 +11,15 @@ DEFAULT_BLOCK_SIZE = 4096
 DEFAULT_CHUNK_SIZE = DEFAULT_BLOCK_SIZE
 
 
+# `RandomBytes` wraps `random.randbytes` to read the date in consistently-sized
+# chunks.
+# This is necessary to ensure reproducibility.
+# Reading two single bytes in sequence does not yield the same result as reading
+# two bytes in one go.
 class RandomBytes:
     def __init__(self, chunk_size=DEFAULT_CHUNK_SIZE):
         self.chunk_size = chunk_size
-        self.buffer = b''
+        self.buffer = b""
 
     def randbytes(self, n):
         if len(self.buffer) < n:
