@@ -104,44 +104,14 @@ def impl(fd, seed, start, end, count, block_size, write):
             pos += len(actual)
 
 
-def read_path(
-    file_path,
-    seed=DEFAULT_SEED,
-    start=0,
-    end=None,
-    count=None,
-    block_size=DEFAULT_BLOCK_SIZE,
-):
+def read_path(file_path, **keywords):
     with OsFile(path=file_path, flags=os.O_RDONLY) as fd:
-        impl(
-            fd=fd,
-            seed=seed,
-            start=start,
-            end=end,
-            count=count,
-            block_size=block_size,
-            write=False,
-        )
+        impl(write=False, fd=fd, **keywords)
 
 
-def write_path(
-    file_path,
-    seed=DEFAULT_SEED,
-    start=0,
-    end=None,
-    count=None,
-    block_size=DEFAULT_BLOCK_SIZE,
-):
+def write_path(file_path, **keywords):
     with OsFile(path=file_path, flags=os.O_WRONLY) as fd:
-        impl(
-            fd=fd,
-            seed=seed,
-            start=start,
-            end=end,
-            count=count,
-            block_size=block_size,
-            write=True,
-        )
+        impl(write=True, fd=fd, **keywords)
 
 
 def parse_args(argv):
