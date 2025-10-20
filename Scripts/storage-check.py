@@ -11,16 +11,16 @@ DEFAULT_BLOCK_SIZE = 4096
 DEFAULT_CHUNK_SIZE = DEFAULT_BLOCK_SIZE
 
 
-# `RandomBytes` wraps `random.randbytes` to read the date in consistently-sized
-# chunks.
-# This is necessary to ensure reproducibility.
-# Reading two single bytes in sequence does not yield the same result as reading
-# two bytes in one go.
+# Wraps `random` to provide a consistent stream of bytes even if requests are
+# not made consistently with regard to number of bytes requeted.
+# Using `random` directly, reading two single bytes in sequence does not
+# necessarily yield the same result as reading two bytes in one go.
 class RandomBytes:
     def __init__(self, chunk_size=DEFAULT_CHUNK_SIZE):
         self.chunk_size = chunk_size
         self.buffer = b""
 
+    # Replacment for `random.randbytes`.
     def randbytes(self, n):
         while len(self.buffer) < n:
             self.buffer += random.randbytes(self.chunk_size)
@@ -28,6 +28,14 @@ class RandomBytes:
         result = self.buffer[:n]
         self.buffer = self.buffer[n:]
         return result
+
+    # Replacement for `randbytes` which is less memory-inefficient when the
+    # result is not required.
+    def skipbytes(self, n):
+        while n > self.chunk_size:
+            _ = random.randbytes(self.chunk_size)
+            n -= self.chunk_size
+        _ = self.randbytes(n)
 
 
 class OsFile:
@@ -63,7 +71,7 @@ def read_fd(
 
     random.seed(seed)
     random_bytes = RandomBytes()
-    _ = random_bytes.randbytes(pos)
+    random_bytes.skipbytes(pos)
 
     while True:
         size_to_read = block_size if end is None else min(block_size, end - pos)
@@ -110,7 +118,7 @@ def write_fd(
 
     random.seed(seed)
     random_bytes = RandomBytes()
-    _ = random_bytes.randbytes(pos)
+    random_bytes.skipbytes(pos)
 
     while True:
         data = random_bytes.randbytes(
