@@ -55,9 +55,7 @@ def auto_int(x):
     return int(x, 0)
 
 
-def read_fd(
-    fd, seed=DEFAULT_SEED, start=0, end=None, count=None, block_size=DEFAULT_BLOCK_SIZE
-):
+def initialise(fd, seed, start, end, count, block_size):
     if count:
         if end:
             raise Exception("Both end and count specified")
@@ -72,6 +70,16 @@ def read_fd(
     random.seed(seed)
     random_bytes = RandomBytes()
     random_bytes.skipbytes(pos)
+
+    return (pos, end, random_bytes)
+
+
+def read_fd(
+    fd, seed=DEFAULT_SEED, start=0, end=None, count=None, block_size=DEFAULT_BLOCK_SIZE
+):
+    (pos, end, random_bytes) = initialise(
+        fd=fd, seed=seed, start=start, end=end, count=count, block_size=block_size
+    )
 
     while True:
         size_to_read = block_size if end is None else min(block_size, end - pos)
@@ -105,20 +113,9 @@ def read_path(
 def write_fd(
     fd, seed=DEFAULT_SEED, start=0, end=None, count=None, block_size=DEFAULT_BLOCK_SIZE
 ):
-    if count:
-        if end:
-            raise Exception("Both end and count specified")
-        end = start + count
-
-    if end is not None and end < start:
-        raise Exception("End is before start")
-
-    pos = start
-    os.lseek(fd, pos, os.SEEK_SET)
-
-    random.seed(seed)
-    random_bytes = RandomBytes()
-    random_bytes.skipbytes(pos)
+    (pos, end, random_bytes) = initialise(
+        fd=fd, seed=seed, start=start, end=end, count=count, block_size=block_size
+    )
 
     while True:
         data = random_bytes.randbytes(
