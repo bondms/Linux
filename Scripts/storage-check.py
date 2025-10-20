@@ -22,7 +22,7 @@ class RandomBytes:
         self.buffer = b""
 
     def randbytes(self, n):
-        if len(self.buffer) < n:
+        while len(self.buffer) < n:
             self.buffer += random.randbytes(self.chunk_size)
 
         result = self.buffer[:n]
@@ -41,6 +41,10 @@ class OsFile:
 
     def __exit__(self, exc_type, exc_value, traceback):
         os.close(self.fd)
+
+
+def auto_int(x):
+    return int(x, 0)
 
 
 def read_fd(
@@ -146,11 +150,11 @@ def parse_args(argv):
     parser.add_argument("--file-path", required=True)
     parser.add_argument("--read", action="store_true")
     parser.add_argument("--write", action="store_true")
-    parser.add_argument("--seed", type=int, default=0)
-    parser.add_argument("--start", type=int, default=0)
-    parser.add_argument("--end", type=int)
-    parser.add_argument("--count", type=int)
-    parser.add_argument("--block-size", type=int, default=DEFAULT_BLOCK_SIZE)
+    parser.add_argument("--seed", type=auto_int, default=0)
+    parser.add_argument("--start", type=auto_int, default=0)
+    parser.add_argument("--end", type=auto_int)
+    parser.add_argument("--count", type=auto_int)
+    parser.add_argument("--block-size", type=auto_int, default=DEFAULT_BLOCK_SIZE)
     return parser.parse_args(argv[1:])
 
 
