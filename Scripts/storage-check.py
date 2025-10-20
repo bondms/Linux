@@ -23,11 +23,25 @@ class OsFile:
         os.close(self.fd)
 
 
-def read_fd(fd, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
+def read_fd(
+    fd, seed=DEFAULT_SEED, start=0, end=None, count=None, block_size=DEFAULT_BLOCK_SIZE
+):
+    if count:
+        if end:
+            raise Exception("Both end and count specified")
+        end = start + count
+
+    if end < start:
+        raise Exception("End is before start")
+
+    pos = start
+    os.lseek(fd, pos, os.SEEK_SET)
+
     random.seed(seed)
-    pos = 0
+    _ = random.randbytes(pos)
+
     while True:
-        size_to_read = block_size if limit is None else min(block_size, limit - pos)
+        size_to_read = block_size if end is None else min(block_size, end - pos)
         print(f"Reading (0x{pos:012X}..0x{pos + size_to_read:012X})...")
         actual = os.read(fd, size_to_read)
         if len(actual) != size_to_read:
@@ -41,17 +55,40 @@ def read_fd(fd, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
         pos += len(actual)
 
 
-def read_path(file_path, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
+def read_path(
+    file_path,
+    seed=DEFAULT_SEED,
+    start=0,
+    end=None,
+    count=None,
+    block_size=DEFAULT_BLOCK_SIZE,
+):
     with OsFile(path=file_path, flags=os.O_RDONLY) as fd:
-        read_fd(fd=fd, seed=seed, limit=limit, block_size=block_size)
+        read_fd(
+            fd=fd, seed=seed, start=start, end=end, count=count, block_size=block_size
+        )
 
 
-def write_fd(fd, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
+def write_fd(
+    fd, seed=DEFAULT_SEED, start=0, end=None, count=None, block_size=DEFAULT_BLOCK_SIZE
+):
+    if count:
+        if end:
+            raise Exception("Both end and count specified")
+        end = start + count
+
+    if end < start:
+        raise Exception("End is before start")
+
+    pos = start
+    os.lseek(fd, pos, os.SEEK_SET)
+
     random.seed(seed)
-    pos = 0
+    _ = random.randbytes(pos)
+
     while True:
         data = random.randbytes(
-            block_size if limit is None else min(block_size, limit - pos)
+            block_size if end is None else min(block_size, end - pos)
         )
         print(f"Writing (0x{pos:012X}..0x{pos + len(data):012X})...")
         try:
@@ -68,9 +105,18 @@ def write_fd(fd, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
         pos += size_written
 
 
-def write_path(file_path, seed=DEFAULT_SEED, limit=None, block_size=DEFAULT_BLOCK_SIZE):
+def write_path(
+    file_path,
+    seed=DEFAULT_SEED,
+    start=0,
+    end=None,
+    count=None,
+    block_size=DEFAULT_BLOCK_SIZE,
+):
     with OsFile(path=file_path, flags=os.O_WRONLY) as fd:
-        write_fd(fd=fd, seed=seed, limit=limit, block_size=block_size)
+        write_fd(
+            fd=fd, seed=seed, start=start, end=end, count=count, block_size=block_size
+        )
 
 
 def parse_args(argv):
@@ -79,7 +125,9 @@ def parse_args(argv):
     parser.add_argument("--read", action="store_true")
     parser.add_argument("--write", action="store_true")
     parser.add_argument("--seed", type=int, default=0)
-    parser.add_argument("--limit", type=int)
+    parser.add_argument("--start", type=int, default=0)
+    parser.add_argument("--end", type=int)
+    parser.add_argument("--count", type=int)
     parser.add_argument("--block-size", type=int, default=DEFAULT_BLOCK_SIZE)
     return parser.parse_args(argv[1:])
 
@@ -89,15 +137,22 @@ def main(argv):
 
     print(f"File path: {args.file_path}")
     print(f"Seed: {args.seed}")
-    print(f"Limit: {args.limit}")
+    print(f"Start: {args.start}")
+    print(f"End: {args.end}")
+    print(f"Count: {args.count}")
     print(f"Block size: {args.block_size}")
+
+    if not (args.write or args.read):
+        raise Exception("Nothing to do")
 
     if args.write:
         print("Writing...")
         write_path(
             file_path=args.file_path,
             seed=args.seed,
-            limit=args.limit,
+            start=args.start,
+            end=args.end,
+            count=args.count,
             block_size=args.block_size,
         )
     if args.read:
@@ -105,7 +160,9 @@ def main(argv):
         read_path(
             file_path=args.file_path,
             seed=args.seed,
-            limit=args.limit,
+            start=args.start,
+            end=args.end,
+            count=args.count,
             block_size=args.block_size,
         )
     print("Done.")
