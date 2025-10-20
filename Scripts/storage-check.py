@@ -124,7 +124,7 @@ def parse_args(argv):
     parser.add_argument("--file-path", required=True)
     parser.add_argument("--read", action="store_true")
     parser.add_argument("--write", action="store_true")
-    parser.add_argument("--seed", type=auto_int, default=0)
+    parser.add_argument("--seed", type=auto_int, default=DEFAULT_SEED)
     parser.add_argument("--start", type=auto_int, default=0)
     parser.add_argument("--end", type=auto_int)
     parser.add_argument("--count", type=auto_int)
