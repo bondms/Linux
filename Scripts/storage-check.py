@@ -170,11 +170,13 @@ def main(argv):
     args = parse_args(argv)
 
     print(f"File path: {args.file_path}")
-    print(f"Seed: {args.seed}")
-    print(f"Start: {args.start}")
-    print(f"End: {args.end}")
-    print(f"Count: {args.count}")
-    print(f"Block size: {args.block_size}")
+    print(f"Seed: {args.seed}/0x{args.seed:0012X}")
+    print(f"Start: {args.start}/0x{args.start:0012X}")
+    print(f"End: {args.end}" + "" if args.end is None else f"/0x{args.end:0012X}")
+    print(
+        f"Count: {args.count}" + "" if args.count is None else f"/0x{args.count:0012X}"
+    )
+    print(f"Block size: {args.block_size}/0x{args.block_size:0012X}")
 
     if not (args.write or args.read):
         raise Exception("Nothing to do")
