@@ -83,7 +83,7 @@ def read_fd(
 
     while True:
         size_to_read = block_size if end is None else min(block_size, end - pos)
-        print(f"Reading (0x{pos:012X}..0x{pos + size_to_read:012X})...")
+        print(f"Reading (0x{pos:012X}..0x{pos + size_to_read - 1:012X})...")
         actual = os.read(fd, size_to_read)
         if len(actual) != size_to_read:
             print(f"Partial read: {len(actual)} bytes")
@@ -123,7 +123,7 @@ def write_fd(
         data = random_bytes.randbytes(
             block_size if end is None else min(block_size, end - pos)
         )
-        print(f"Writing (0x{pos:012X}..0x{pos + len(data):012X})...")
+        print(f"Writing (0x{pos:012X}..0x{pos + len(data) - 1:012X})...")
         try:
             size_written = os.write(fd, data)
         except OSError as oserror:
