@@ -8,6 +8,21 @@ import sys
 
 DEFAULT_SEED = 0
 DEFAULT_BLOCK_SIZE = 4096
+DEFAULT_CHUNK_SIZE = DEFAULT_BLOCK_SIZE
+
+
+class RandomBytes:
+    def __init__(self, chunk_size=DEFAULT_CHUNK_SIZE):
+        self.chunk_size = chunk_size
+        self.buffer = b''
+
+    def randbytes(self, n):
+        if len(self.buffer) < n:
+            self.buffer += random.randbytes(self.chunk_size)
+
+        result = self.buffer[:n]
+        self.buffer = self.buffer[n:]
+        return result
 
 
 class OsFile:
@@ -38,7 +53,8 @@ def read_fd(
     os.lseek(fd, pos, os.SEEK_SET)
 
     random.seed(seed)
-    _ = random.randbytes(pos)
+    random_bytes = RandomBytes()
+    _ = random_bytes.randbytes(pos)
 
     while True:
         size_to_read = block_size if end is None else min(block_size, end - pos)
@@ -49,7 +65,7 @@ def read_fd(
         if not actual:
             print("End of read")
             return
-        expected = random.randbytes(len(actual))
+        expected = random_bytes.randbytes(len(actual))
         if actual != expected:
             raise Exception("Failed")
         pos += len(actual)
@@ -84,10 +100,11 @@ def write_fd(
     os.lseek(fd, pos, os.SEEK_SET)
 
     random.seed(seed)
-    _ = random.randbytes(pos)
+    random_bytes = RandomBytes()
+    _ = random_bytes.randbytes(pos)
 
     while True:
-        data = random.randbytes(
+        data = random_bytes.randbytes(
             block_size if end is None else min(block_size, end - pos)
         )
         print(f"Writing (0x{pos:012X}..0x{pos + len(data):012X})...")
