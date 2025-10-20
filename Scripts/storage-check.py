@@ -109,11 +109,11 @@ def read_fd(
 ):
     impl(
         fd=fd,
-        seed=DEFAULT_SEED,
-        start=0,
-        end=None,
-        count=None,
-        block_size=DEFAULT_BLOCK_SIZE,
+        seed=seed,
+        start=start,
+        end=end,
+        count=count,
+        block_size=block_size,
         write=False,
     )
 
@@ -123,11 +123,11 @@ def write_fd(
 ):
     impl(
         fd=fd,
-        seed=DEFAULT_SEED,
-        start=0,
-        end=None,
-        count=None,
-        block_size=DEFAULT_BLOCK_SIZE,
+        seed=seed,
+        start=start,
+        end=end,
+        count=count,
+        block_size=block_size,
         write=True,
     )
 
