@@ -12,9 +12,9 @@ DEFAULT_CHUNK_SIZE = DEFAULT_BLOCK_SIZE
 
 
 # Wraps `random` to provide a consistent stream of bytes even if requests are
-# not made consistently with regard to number of bytes requeted.
-# Using `random` directly, reading two single bytes in sequence does not
-# necessarily yield the same result as reading two bytes in one go.
+# not made consistently with regard to number of bytes requested.
+# Using `random.randbytes` directly, reading two single bytes in sequence does
+# not necessarily yield the same result as reading two bytes in one go.
 class RandomBytes:
     def __init__(self, chunk_size=DEFAULT_CHUNK_SIZE):
         self.chunk_size = chunk_size
@@ -38,6 +38,7 @@ class RandomBytes:
         _ = self.randbytes(n)
 
 
+# Context manager to ensure a file descriptor is closed.
 class OsFile:
     def __init__(self, path, flags):
         self.path = path
@@ -51,11 +52,7 @@ class OsFile:
         os.close(self.fd)
 
 
-def auto_int(x):
-    return int(x, 0)
-
-
-def initialise(fd, seed, start, end, count, block_size):
+def impl(fd, seed, start, end, count, block_size, write):
     if count:
         if end:
             raise Exception("Both end and count specified")
@@ -71,31 +68,68 @@ def initialise(fd, seed, start, end, count, block_size):
     random_bytes = RandomBytes()
     random_bytes.skipbytes(pos)
 
-    return (pos, end, random_bytes)
+    if write:
+        while True:
+            data = random_bytes.randbytes(
+                block_size if end is None else min(block_size, end - pos)
+            )
+            print(f"Writing (0x{pos:012X}..0x{pos + len(data) - 1:012X})...")
+            try:
+                size_written = os.write(fd, data)
+            except OSError as oserror:
+                if oserror.errno != errno.ENOSPC:
+                    raise
+                size_written = os.lseek(fd, 0, os.SEEK_CUR) - pos
+            if size_written != len(data):
+                print(f"Partial write: {size_written} bytes")
+            if size_written == 0:
+                print("End of data")
+                return
+            pos += size_written
+    else:
+        while True:
+            size_to_read = block_size if end is None else min(block_size, end - pos)
+            print(f"Reading (0x{pos:012X}..0x{pos + size_to_read - 1:012X})...")
+            actual = os.read(fd, size_to_read)
+            if len(actual) != size_to_read:
+                print(f"Partial read: {len(actual)} bytes")
+            if not actual:
+                print("End of read")
+                return
+            expected = random_bytes.randbytes(len(actual))
+            if actual != expected:
+                for index, pair in enumerate(zip(expected, actual)):
+                    if pair[0] != pair[1]:
+                        raise Exception(f"Failed at position 0x{pos + index:012X}")
+            pos += len(actual)
 
 
 def read_fd(
     fd, seed=DEFAULT_SEED, start=0, end=None, count=None, block_size=DEFAULT_BLOCK_SIZE
 ):
-    (pos, end, random_bytes) = initialise(
-        fd=fd, seed=seed, start=start, end=end, count=count, block_size=block_size
+    impl(
+        fd=fd,
+        seed=DEFAULT_SEED,
+        start=0,
+        end=None,
+        count=None,
+        block_size=DEFAULT_BLOCK_SIZE,
+        write=False,
     )
 
-    while True:
-        size_to_read = block_size if end is None else min(block_size, end - pos)
-        print(f"Reading (0x{pos:012X}..0x{pos + size_to_read - 1:012X})...")
-        actual = os.read(fd, size_to_read)
-        if len(actual) != size_to_read:
-            print(f"Partial read: {len(actual)} bytes")
-        if not actual:
-            print("End of read")
-            return
-        expected = random_bytes.randbytes(len(actual))
-        if actual != expected:
-            for index, pair in enumerate(zip(expected, actual)):
-                if pair[0] != pair[1]:
-                    raise Exception(f"Failed at position 0x{pos + index:012X}")
-        pos += len(actual)
+
+def write_fd(
+    fd, seed=DEFAULT_SEED, start=0, end=None, count=None, block_size=DEFAULT_BLOCK_SIZE
+):
+    impl(
+        fd=fd,
+        seed=DEFAULT_SEED,
+        start=0,
+        end=None,
+        count=None,
+        block_size=DEFAULT_BLOCK_SIZE,
+        write=True,
+    )
 
 
 def read_path(
@@ -110,32 +144,6 @@ def read_path(
         read_fd(
             fd=fd, seed=seed, start=start, end=end, count=count, block_size=block_size
         )
-
-
-def write_fd(
-    fd, seed=DEFAULT_SEED, start=0, end=None, count=None, block_size=DEFAULT_BLOCK_SIZE
-):
-    (pos, end, random_bytes) = initialise(
-        fd=fd, seed=seed, start=start, end=end, count=count, block_size=block_size
-    )
-
-    while True:
-        data = random_bytes.randbytes(
-            block_size if end is None else min(block_size, end - pos)
-        )
-        print(f"Writing (0x{pos:012X}..0x{pos + len(data) - 1:012X})...")
-        try:
-            size_written = os.write(fd, data)
-        except OSError as oserror:
-            if oserror.errno != errno.ENOSPC:
-                raise
-            size_written = os.lseek(fd, 0, os.SEEK_CUR) - pos
-        if size_written != len(data):
-            print(f"Partial write: {size_written} bytes")
-        if size_written == 0:
-            print("End of data")
-            return
-        pos += size_written
 
 
 def write_path(
@@ -153,7 +161,12 @@ def write_path(
 
 
 def parse_args(argv):
-    parser = argparse.ArgumentParser(prog="Storage Check")
+    # Allow integers to be specified in base 2, 8, 10 or 16 on the command line
+    # using Python's standard prefixes, e.g. "0x..." for hexadecimal.
+    def auto_int(x):
+        return int(x, 0)
+
+    parser = argparse.ArgumentParser()
     parser.add_argument("--file-path", required=True)
     parser.add_argument("--read", action="store_true")
     parser.add_argument("--write", action="store_true")
@@ -168,15 +181,18 @@ def parse_args(argv):
 def main(argv):
     args = parse_args(argv)
 
+    def format_required_int(i):
+        return f"{i} / 0x{i:012X}"
+
+    def format_optional_int(i):
+        return "None" if i is None else format_required_int(i)
+
     print(f"File path: {args.file_path}")
-    print(f"Seed: {args.seed} / 0x{args.seed:0012X}")
-    print(f"Start: {args.start} / 0x{args.start:0012X}")
-    print(f"End: {args.end}" + ("" if args.end is None else f" / 0x{args.end:0012X}"))
-    print(
-        f"Count: {args.count}"
-        + ("" if args.count is None else f" / 0x{args.count:0012X}")
-    )
-    print(f"Block size: {args.block_size} / 0x{args.block_size:0012X}")
+    print(f"Seed: {format_required_int(args.seed)}")
+    print(f"Start: {format_required_int(args.start)}")
+    print(f"End: {format_optional_int(args.end)}")
+    print(f"Count: {format_optional_int(args.count)}")
+    print(f"Block size: {format_required_int(args.block_size)}")
 
     if not (args.write or args.read):
         raise Exception("Nothing to do")
