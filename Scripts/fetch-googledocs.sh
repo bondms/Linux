@@ -12,7 +12,7 @@ rclone \
     --links \
     --verbose \
     --human-readable \
-    --checksum \
+    # --checksum \
     sync \
     "${SOURCE}/" "${TARGET_DIR}/" 2>&1 | tee "${LOGFILE}" || exit 1
 date --utc --iso-8601=seconds > "${TIMESTAMP_PATH}" || exit 1
