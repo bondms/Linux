@@ -16,7 +16,7 @@ DEFAULT_CHUNK_SIZE = DEFAULT_BLOCK_SIZE
 # Using `random.randbytes` directly, reading two single bytes in sequence does
 # not necessarily yield the same result as reading two bytes in one go.
 class RandomBytes:
-    def __init__(self, chunk_size=DEFAULT_CHUNK_SIZE):
+    def __init__(self, chunk_size):
         self.chunk_size = chunk_size
         self.buffer = b""
 
@@ -52,7 +52,7 @@ class OsFile:
         os.close(self.fd)
 
 
-def impl(fd, seed, start, end, count, block_size, write):
+def impl(fd, seed, start, end, count, block_size, chunk_size, write):
     if count:
         if end:
             raise Exception("Both end and count specified")
@@ -65,7 +65,7 @@ def impl(fd, seed, start, end, count, block_size, write):
     os.lseek(fd, pos, os.SEEK_SET)
 
     random.seed(seed)
-    random_bytes = RandomBytes()
+    random_bytes = RandomBytes(chunk_size=chunk_size)
     random_bytes.skipbytes(pos)
 
     if write:
@@ -73,6 +73,9 @@ def impl(fd, seed, start, end, count, block_size, write):
             data = random_bytes.randbytes(
                 block_size if end is None else min(block_size, end - pos)
             )
+            if not data:
+                print("End of data")
+                return
             print(f"Writing (0x{pos:012X}..0x{pos + len(data) - 1:012X})...")
             try:
                 size_written = os.write(fd, data)
@@ -82,20 +85,17 @@ def impl(fd, seed, start, end, count, block_size, write):
                 size_written = os.lseek(fd, 0, os.SEEK_CUR) - pos
             if size_written != len(data):
                 print(f"Partial write: {size_written} bytes")
-            if size_written == 0:
-                print("End of data")
-                return
             pos += size_written
     else:
         while True:
             size_to_read = block_size if end is None else min(block_size, end - pos)
+            if size_to_read == 0:
+                print("End of read")
+                return
             print(f"Reading (0x{pos:012X}..0x{pos + size_to_read - 1:012X})...")
             actual = os.read(fd, size_to_read)
             if len(actual) != size_to_read:
                 print(f"Partial read: {len(actual)} bytes")
-            if not actual:
-                print("End of read")
-                return
             expected = random_bytes.randbytes(len(actual))
             if actual != expected:
                 for index, pair in enumerate(zip(expected, actual)):
@@ -129,6 +129,7 @@ def parse_args(argv):
     parser.add_argument("--end", type=auto_int)
     parser.add_argument("--count", type=auto_int)
     parser.add_argument("--block-size", type=auto_int, default=DEFAULT_BLOCK_SIZE)
+    parser.add_argument("--chunk-size", type=auto_int, default=DEFAULT_CHUNK_SIZE)
     return parser.parse_args(argv[1:])
 
 
@@ -147,6 +148,7 @@ def main(argv):
     print(f"End: {format_optional_int(args.end)}")
     print(f"Count: {format_optional_int(args.count)}")
     print(f"Block size: {format_required_int(args.block_size)}")
+    print(f"Chunk size: {format_required_int(args.chunk_size)}")
 
     if not (args.write or args.read):
         raise Exception("Nothing to do")
@@ -160,6 +162,7 @@ def main(argv):
             end=args.end,
             count=args.count,
             block_size=args.block_size,
+            chunk_size=args.chunk_size,
         )
     if args.read:
         print("Reading...")
@@ -170,6 +173,7 @@ def main(argv):
             end=args.end,
             count=args.count,
             block_size=args.block_size,
+            chunk_size=args.chunk_size,
         )
     print("Done.")
 
