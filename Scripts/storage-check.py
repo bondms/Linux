@@ -85,6 +85,9 @@ def impl(fd, seed, start, end, count, block_size, chunk_size, write):
                 size_written = os.lseek(fd, 0, os.SEEK_CUR) - pos
             if size_written != len(data):
                 print(f"Partial write: {size_written} bytes")
+            if size_written == 0:
+                print("End of media")
+                return
             pos += size_written
     else:
         while True:
@@ -96,6 +99,9 @@ def impl(fd, seed, start, end, count, block_size, chunk_size, write):
             actual = os.read(fd, size_to_read)
             if len(actual) != size_to_read:
                 print(f"Partial read: {len(actual)} bytes")
+            if not actual:
+                print("End of media")
+                return
             expected = random_bytes.randbytes(len(actual))
             if actual != expected:
                 for index, pair in enumerate(zip(expected, actual)):
