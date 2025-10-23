@@ -19,11 +19,11 @@ find "${SOURCE}" -mount \( -type f -o -type d \) \
 \) || exit 1
 
 rclone mkdir "${TARGET_DIR}" || exit 1
+# TODO: Investigate use of `--checksum`.
 rclone \
     --links \
     --verbose \
     --human-readable \
-    --checksum \
     --delete-excluded \
     --exclude "/BackupLogs/" \
     --exclude "/Documents/Archive/Motoring/Ursula/200801 Polestar 2 press kit UK.zip" \

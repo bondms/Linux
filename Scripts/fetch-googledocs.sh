@@ -8,6 +8,7 @@ TARGET_DIR="${HOME}/Documents/GoogleDocs"
 LOGFILE="${HOME}/Backup/BackupLogs/rsync-googledocs.log"
 TIMESTAMP_PATH="${HOME}/Backup/BackupLogs/rsync-googledocs-timestamp.txt"
 
+# TODO: Investigate use of `--checksum`. Doesn't seem to detect changes.
 rclone \
     --links \
     --verbose \
