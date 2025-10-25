@@ -1,2 +1,0 @@
-# podget --no-playlist -vvvv --recent 1  # Recent 0 mean all, not none.
-# podget --no-playlist -vvvv
