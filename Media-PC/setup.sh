@@ -22,20 +22,26 @@ fi
 sudo apt update || exit 1
 sudo apt full-upgrade || exit 1
 
-sudo apt install --assume-yes rpi-eeprom || exit 1
-sudo apt install --assume-yes feh || exit 1
-sudo apt install --assume-yes sox libsox-fmt-all || exit 1
-sudo apt install --assume-yes xscreensaver || exit 1
-# sudo apt install --assume-yes at || exit 1
-sudo apt install --assume-yes libdvd-pkg libavcodec-extra mpv || exit 1
+# Install vim early so that it's easier make fixes if anything fails later.
 sudo apt install --assume-yes vim || exit 1
 
-# rgain dependencies
+# sudo apt install --assume-yes at || exit 1
+sudo apt install --assume-yes feh || exit 1
+sudo apt install --assume-yes rpi-eeprom || exit 1
+sudo apt install --assume-yes sox libsox-fmt-all || exit 1
+sudo apt install --assume-yes xscreensaver || exit 1
+
+# Playing DVDs.
+sudo apt install --assume-yes libdvd-pkg libavcodec-extra mpv || exit 1
+
+# rgain dependencies.
 sudo apt install --assume-yes gstreamer1.0-python3-plugin-loader python3-mutagen || exit 1
 
+# Configure packages.
 sudo rpi-eeprom-update || exit 1
 sudo dpkg-reconfigure libdvd-pkg || exit 1
 
+# Clean up.
 sudo apt autoremove || exit 1
 sudo apt-get autoclean || exit 1
 

@@ -28,10 +28,12 @@ find "${SOURCE}" -mount \( -type f -o -type d \) \
 
 rsync \
     --archive \
-    --verbose \
+    --checksum \
     --human-readable \
     --itemize-changes \
+    --progress \
     --sparse \
+    --verbose \
     --delete --delete-excluded \
     --exclude "/BackupLogs/" \
     --exclude "/Images/Debian/" \

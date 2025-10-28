@@ -1,15 +1,5 @@
 #!/bin/bash
 
-# Enable sudo for user, e.g. for bondms:
-# `su -`
-# `usermod -aG sudo bondms`
-# Confirm: `getent group sudo`
-# `sudo visudo`
-# Add entry for user similar as for root:
-# bondms ALL=(ALL:ALL) ALL
-# Confirm: `su - bondms`
-# Confirm: `sudo whoami`
-
 set -eux
 set -o pipefail
 
@@ -114,69 +104,82 @@ fi
 sudo apt update || exit 1
 sudo apt full-upgrade || exit 1
 
-# For Debian, a log-off and log-on will be required for snaps to show up in the applications.
-sudo apt install --assume-yes snapd || exit 1
-sudo snap refresh || exit 1
+# Install vim early so that it's easier make fixes if anything fails later.
+sudo apt install --assume-yes vim || exit 1
 
-sudo apt install --assume-yes synaptic || exit 1
-sudo apt install --assume-yes git || exit 1
-sudo apt install --assume-yes meld || exit 1
-sudo apt install --assume-yes grisbi || exit 1
-sudo apt install --assume-yes build-essential || exit 1
-sudo apt install --assume-yes cmake || exit 1
-sudo apt install --assume-yes python-is-python3 || exit 1
-sudo snap install --classic code || exit 1
-sudo apt install --assume-yes feh || exit 1
-sudo apt install --assume-yes sox libsox-fmt-all || exit 1
-sudo apt install --assume-yes jmtpfs || exit 1
-sudo apt install --assume-yes exfatprogs || exit 1
-sudo apt install --assume-yes tofrodos || exit 1
-sudo apt install --assume-yes python3-mutagen || exit 1
-sudo apt install --assume-yes symlinks || exit 1
-sudo apt install --assume-yes jhead || exit 1
-sudo apt install --assume-yes mencoder || exit 1
-sudo apt install --assume-yes gimp || exit 1
-sudo apt install --assume-yes clang clang-format clang-tidy || exit 1
-sudo apt install --assume-yes imagemagick || exit 1
-sudo apt install --assume-yes curl || exit 1
-sudo apt install --assume-yes latexdraw || exit 1
-sudo apt install --assume-yes npm || exit 1
+sudo apt install --assume-yes adb android-sdk-platform-tools-common || exit 1
 sudo apt install --assume-yes at || exit 1
 sudo apt install --assume-yes audacity || exit 1
-sudo apt install --assume-yes ffmpeg || exit 1
-sudo snap install --classic rpi-imager || exit 1
 sudo apt install --assume-yes black || exit 1
-sudo apt install --assume-yes sqlite3 unixodbc-dev || exit 1
-sudo apt install --assume-yes gnome-multi-writer || exit 1
-sudo apt install --assume-yes rsync || exit 1
-sudo apt install --assume-yes unrar || exit 1
-sudo apt install --assume-yes pulseaudio-utils || exit 1
-sudo apt install --assume-yes libdvd-pkg libavcodec-extra mpv regionset vobcopy || exit 1
-sudo dpkg-reconfigure libdvd-pkg || exit 1
-sudo apt install --assume-yes adb android-sdk-platform-tools-common || exit 1
+sudo apt install --assume-yes build-essential || exit 1
 sudo apt install --assume-yes cargo rustfmt || exit 1
-sudo apt install --assume-yes vim || exit 1
+sudo apt install --assume-yes clang clang-format clang-tidy || exit 1
+sudo apt install --assume-yes cmake || exit 1
+sudo apt install --assume-yes curl || exit 1
+sudo apt install --assume-yes exfatprogs || exit 1
+sudo apt install --assume-yes feh || exit 1
+sudo apt install --assume-yes ffmpeg || exit 1
+sudo apt install --assume-yes gimp || exit 1
+sudo apt install --assume-yes git || exit 1
+sudo apt install --assume-yes gnome-multi-writer || exit 1
+sudo apt install --assume-yes grisbi || exit 1
+sudo apt install --assume-yes imagemagick || exit 1
+sudo apt install --assume-yes jhead || exit 1
+sudo apt install --assume-yes jmtpfs || exit 1
+# sudo apt install --assume-yes latexdraw || exit 1
+sudo apt install --assume-yes meld || exit 1
+sudo apt install --assume-yes mencoder || exit 1
+sudo apt install --assume-yes npm || exit 1
+sudo apt install --assume-yes pulseaudio-utils || exit 1
+sudo apt install --assume-yes python-is-python3 || exit 1
+sudo apt install --assume-yes python3-mutagen || exit 1
 sudo apt install --assume-yes rclone || exit 1
+sudo apt install --assume-yes rsync || exit 1
+sudo apt install --assume-yes sox libsox-fmt-all || exit 1
+sudo apt install --assume-yes tofrodos || exit 1
+sudo apt install --assume-yes sqlite3 unixodbc-dev || exit 1
+sudo apt install --assume-yes symlinks || exit 1
+sudo apt install --assume-yes synaptic || exit 1
+# sudo apt install --assume-yes unrar || exit 1
+sudo apt install --assume-yes wget || exit 1
+
+# Playing DVDs.
+# sudo apt install --assume-yes libdvd-pkg libavcodec-extra mpv regionset vobcopy || exit 1
+
+# Configure packages.
+# sudo dpkg-reconfigure libdvd-pkg || exit 1
 
 # Install Bazel using bazelisk Debian package from https://github.com/bazelbuild/bazelisk
 # sudo apt install --assume-yes bazel-bootstrap{,-data,-source} bazel-platforms bazel-rules-cc bazel-skylib || exit 1
 
+# Clean up.
 sudo apt autoremove || exit 1
 sudo apt-get autoclean || exit 1
 
+# Configure Git.
 [[ -d "${HOME}/.bash-git-prompt" ]] ||
     git clone https://github.com/magicmonty/bash-git-prompt.git "${HOME}/.bash-git-prompt" --depth=1 || exit 1
-
+git config --global commit.gpgsign true || exit 1
 git config --global core.editor "code --wait --new-window" || exit 1
 git config --global core.pager "less -iM" || exit 1
-git config --global user.email "34947848+bondms@users.noreply.github.com" || exit 1
-git config --global commit.gpgsign true || exit 1
 git config --global init.defaultBranch "main" || exit 1
+git config --global user.email "34947848+bondms@users.noreply.github.com" || exit 1
 
+# Enable ReplayGain.
 [[ -d "${HERE}/../rgain3" ]] ||
     git clone --depth 1 --branch 1.0.0 --verbose -- https://github.com/chaudum/rgain3.git "${HERE}/../rgain3" || exit 1
 [[ -h "${HERE}/../rgain3/scripts/rgain3" ]] ||
     ln --symbolic --verbose -- "../rgain3" "${HERE}/../rgain3/scripts/." || exit 1
+
+# Install packages unavailable from the main repos by downloading .deb files.
+
+type -a code || (
+    pushd "${HOME}/RamDisk/" || exit 1
+    wget --trust-server-names -- https://go.microsoft.com/fwlink/?LinkID=760868 || exit 1
+    popd || exit 1
+    sudo apt install --assume-yes "${HOME}/"RamDisk/code_*_amd64.deb || exit 1
+    rm -- "${HOME}/RamDisk/"code_*_amd64.deb || exit 1
+) || exit 1
 
 type -a google-chrome || (
     pushd "${HOME}/RamDisk/" || exit 1
@@ -184,6 +187,14 @@ type -a google-chrome || (
     popd || exit 1
     sudo apt install --assume-yes "${HOME}/RamDisk/google-chrome-stable_current_amd64.deb" || exit 1
     rm -- "${HOME}/RamDisk/google-chrome-stable_current_amd64.deb" || exit 1
+) || exit 1
+
+type -a rpi-imager || (
+    pushd "${HOME}/RamDisk/" || exit 1
+    wget -- https://downloads.raspberrypi.com/imager/imager_latest_amd64.deb || exit 1
+    popd || exit 1
+    sudo apt install --assume-yes "${HOME}/RamDisk/imager_latest_amd64.deb" || exit 1
+    rm -- "${HOME}/RamDisk/imager_latest_amd64.deb" || exit 1
 ) || exit 1
 
 type -a zoom || (
@@ -195,3 +206,11 @@ type -a zoom || (
 ) || exit 1
 
 echo "*** SUCCESS ***"
+
+### Try to avoid Snaps ###
+
+# For Debian, a log-off and log-on will be required for snaps to show up in the applications.
+# sudo apt install --assume-yes snapd || exit 1
+# sudo snap refresh || exit 1
+# sudo snap install --classic code || exit 1
+# sudo snap install --classic rpi-imager || exit 1

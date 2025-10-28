@@ -31,11 +31,12 @@ find "${SOURCE}" -mount \( -type f -o -type d \) \
 
 rsync \
     --archive \
-    --verbose \
+    --checksum \
     --human-readable \
     --itemize-changes \
-    --checksum \
+    --progress \
     --sparse \
+    --verbose \
     --delete --delete-excluded \
     --exclude "/BackupLogs/" \
     --exclude "/Documents/Archive/Programming/Git/Linux/Scripts/OctopusEnergyApi/data/" \

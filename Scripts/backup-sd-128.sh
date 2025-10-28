@@ -22,11 +22,13 @@ rm --force --verbose "${SOURCE}/${TIMESTAMP_NAME}" || exit 1
 # would need to be read repeatedly with checksumming.
 rsync \
     --archive \
+    --checksum \
     --hard-links \
-    --verbose \
     --human-readable \
     --itemize-changes \
+    --progress \
     --sparse \
+    --verbose \
     --delete --delete-excluded \
     -- \
     "${SOURCE}/" "${TARGET_DIR}/" 2>&1 | tee "${LOGFILE}" || exit 1
