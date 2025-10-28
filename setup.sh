@@ -8,6 +8,7 @@ HERE="$(readlink -e "$(dirname "${BASH_SOURCE[0]}")")"
 
 [[ ! -d "/home/pi" ]] || exit 1
 [[ -f /etc/debian_version ]] || grep -F "Ubuntu" /etc/lsb-release || exit 1
+[[ -d "${HOME}/Archive" ]] || exit 1
 
 BACKUP="$(readlink -e "${HERE}/Backup")"
 [[ -d "${BACKUP}" ]] || exit 1

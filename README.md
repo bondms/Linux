@@ -22,10 +22,7 @@ Configure a Debian 13 (Trixie) Desktop system.
         1. `usermod -aG sudo bondms`
         1. Confirm with: `getent group sudo`
         1. Reboot.
-    1. `mkdir --parents -v -- ~/Archive`
-    1. `cp -aiv /media/bondms/BackupSsd/ ~/Archive/bondms/`
-    1. `cp -aiv ~/Archive/bondms/latest/ ~/Backup/`
-    1. `~/Backup/Documents/Archive/Programming/Git/Linux/setup.sh`
+    1. `~/Backup/Documents/Archive/Programming/Git/Linux/provision.sh`
 1. Setup tasks:
     * Disable local document search.
     * Log-off old sessions and delete old session tokens.
