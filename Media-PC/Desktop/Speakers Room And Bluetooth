@@ -22,7 +22,7 @@ pactl unload-module module-remap-sink || exit 1
 pactl load-module module-remap-sink sink_name=hdmi_mono master="${HDMI_DEVICE}" channels=1 channel_map=mono || exit 1
 
 pactl unload-module module-loopback || exit 1
-pactl load-module module-loopback latency_msec=270 source=hdmi_delayed.monitor sink=hdmi_mono || exit 1
+pactl load-module module-loopback latency_msec=275 source=hdmi_delayed.monitor sink=hdmi_mono || exit 1
 
 pactl unload-module module-combine-sink || exit 1
 pactl load-module module-combine-sink slaves=hdmi_delayed,bluez_output.D8_45_A3_EE_07_96.1 || exit 1
