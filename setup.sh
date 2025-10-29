@@ -49,7 +49,6 @@ do
 
     [[ -h "${HOME}/${NAME}" ]] ||
         ln --symbolic --verbose -- "${UNENCRYPTED_DIR}/${NAME}" "${HOME}/." || exit 1
-
 done
 
 mkdir --verbose --parents -- "${BACKUP}/BackupLogs" || exit 1
@@ -100,6 +99,15 @@ then
 else
   sudo cp --verbose -- "${NEW_CODE_CONFIG}" "${EXISTING_CODE_CONFIG}" || exit 1
   sudo chown --verbose bondms.bondms -- "${EXISTING_CODE_CONFIG}" || exit 1
+fi
+
+# Grisbi settings.
+mkdir --parents --verbose -- "${HOME}/.config/grisbi/" || exit 1
+EXISTING_GIRSBI_CONFIG="${HOME}/.config/grisbi/grisbi.conf"
+NEW_GRISBI_CONFIG="${HERE}/Grisbi/grisbi.conf"
+if [[ ! -e "${EXISTING_GIRSBI_CONFIG}" ]]
+then
+  cp --verbose -- "${NEW_GRISBI_CONFIG}" "${EXISTING_GIRSBI_CONFIG}" || exit 1
 fi
 
 sudo apt update || exit 1
