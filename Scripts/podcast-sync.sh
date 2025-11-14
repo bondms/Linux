@@ -9,7 +9,7 @@ HERE="$(readlink -e "$(dirname "${BASH_SOURCE[0]}")")"
 gpg --decrypt -- "${HERE}/podcast-sync-secrets.sh.gpg" | \
   while read command
   do
-    if [[ "#" == "${command}" ]]
+    if [[ "#" != "${command:0:1}" ]]
     then
       ${command}
     fi
