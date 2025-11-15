@@ -15,6 +15,8 @@ AUTH=$(gpg --decrypt -- "${HERE}/podcast-sync-secrets.sh.gpg" |
     fi
   done) || exit 1
 
+[[ -n "${AUTH}" ]] || exit 1
+
 SOURCE="https://twit.memberfulcontent.com/rss/9054?auth=${AUTH}"
 TARGET="remote:Podcasts/sn.rss"
 
