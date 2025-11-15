@@ -22,7 +22,7 @@ INTERMEDIATE_DIR="${HOME}/RamDisk/Podcasts"
 INTERMEDIATE_FILE="${INTERMEDIATE_DIR}/${NAME}"
 TARGET_DIR="remote:Podcasts"
 
-trap "find ${INTERMEDIATE_DIR} -delete" EXIT || exit 1
+trap "find '${INTERMEDIATE_DIR}' -delete" EXIT || exit 1
 mkdir --parents --verbose "${INTERMEDIATE_DIR}" || exit 1
 
 curl "${SOURCE}" > "${INTERMEDIATE_FILE}" || exit 1
