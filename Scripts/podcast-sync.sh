@@ -14,10 +14,21 @@ AUTH=$(gpg --decrypt -- "${HERE}/podcast-sync-secrets.sh.gpg" |
       echo "${line:5}"
     fi
   done) || exit 1
-
 [[ -n "${AUTH}" ]] || exit 1
 
+NAME="sn.rss"
 SOURCE="https://twit.memberfulcontent.com/rss/9054?auth=${AUTH}"
-TARGET="remote:Podcasts/sn.rss"
+INTERMEDIATE_DIR="${HOME}/RamDisk/Podcasts"
+INTERMEDIATE_FILE="${INTERMEDIATE_DIR}/${NAME}"
+TARGET_DIR="remote:Podcasts"
 
-curl "${SOURCE}" | rclone rcat "${TARGET}" || exit 1
+trap 'find "${INTERMEDIATE_DIR}" -delete' EXIT || exit 1
+mkdir --parents --verbose "${INTERMEDIATE_DIR}" || exit 1
+
+curl "${SOURCE}" > "${INTERMEDIATE_FILE}" || exit 1
+
+rclone \
+    --verbose \
+    --human-readable \
+    --checksum \
+    sync "${INTERMEDIATE_DIR}/" "${TARGET_DIR}/" || exit 1
