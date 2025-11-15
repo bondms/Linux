@@ -2,10 +2,11 @@
   "files": {
     "includes": [
       "**",
-      "!!Backup",
-      "!!Scripts/replaygain",
       "!.vscode/settings.json",
       "!Code/settings.json"
     ]
+  },
+  "formatter": {
+    "indentStyle": "space"
   }
 }
