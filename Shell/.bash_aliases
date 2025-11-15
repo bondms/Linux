@@ -333,11 +333,6 @@ PS1="--\n\$(RET=\$?
     [[ \$(id --user) -ne 0 ]] ||
     echo -n \"\[\e[1;31m\]\")${PS1_ORIGINAL_MINUS_SUFFIX}\[\e[0;m\]\n$ "
 
-case ":${PATH:=${HOME}/Backup/bin}:" in
-    *":${HOME}/Backup/bin:"*) ;;
-    *) PATH="${PATH}:${HOME}/Backup/bin" ;;
-esac
-
 # https://github.com/magicmonty/bash-git-prompt
 if [[ -e "${HOME}/.bash-git-prompt/gitprompt.sh" ]]
 then

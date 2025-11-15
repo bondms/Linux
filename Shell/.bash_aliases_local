@@ -1,3 +1,9 @@
 # Non Media-PC.
+
 mkdir --parents --verbose "/dev/shm/${USER}"
 mkdir --parents --verbose "/tmp/${USER}"
+
+case ":${PATH:=${HOME}/Backup/bin}:" in
+    *":${HOME}/Backup/bin:"*) ;;
+    *) PATH="${PATH}:${HOME}/Backup/bin" ;;
+esac
