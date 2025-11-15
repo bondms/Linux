@@ -7,7 +7,7 @@ HERE="$(readlink -e "$(dirname "${BASH_SOURCE[0]}")")"
 [[ -d "$HERE" ]] || exit 1
 
 AUTH=$(gpg --decrypt -- "${HERE}/podcast-sync-secrets.sh.gpg" |
-  while read line
+  while read -r line
   do
     if [[ "AUTH=" == "${line:0:5}" ]]
     then
