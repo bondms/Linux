@@ -1,10 +1,6 @@
 {
   "files": {
-    "includes": [
-      "**",
-      "!.vscode/settings.json",
-      "!Code/settings.json"
-    ]
+    "includes": ["**", "!.vscode/settings.json", "!Code/settings.json"]
   },
   "formatter": {
     "indentStyle": "space"
