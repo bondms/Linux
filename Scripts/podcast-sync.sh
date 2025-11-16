@@ -6,14 +6,26 @@ set -o pipefail
 HERE="$(readlink -e "$(dirname "${BASH_SOURCE[0]}")")"
 [[ -d "$HERE" ]] || exit 1
 
-AUTH=$(gpg --decrypt -- "${HERE}/podcast-sync-secrets.sh.gpg" |
-  while read -r line
-  do
-    if [[ "AUTH=" == "${line:0:5}" ]]
-    then
-      echo "${line:5}"
-    fi
-  done) || exit 1
+if [[ -e "${HERE}/podcast-sync-secrets.sh" ]]
+then
+  AUTH=$(cat -- "${HERE}/podcast-sync-secrets.sh" |
+    while read -r line
+    do
+      if [[ "AUTH=" == "${line:0:5}" ]]
+      then
+        echo "${line:5}"
+      fi
+    done) || exit 1
+else
+  AUTH=$(gpg --decrypt -- "${HERE}/podcast-sync-secrets.sh.gpg" |
+    while read -r line
+    do
+      if [[ "AUTH=" == "${line:0:5}" ]]
+      then
+        echo "${line:5}"
+      fi
+    done) || exit 1
+fi
 [[ -n "${AUTH}" ]] || exit 1
 
 NAME="sn.rss"
