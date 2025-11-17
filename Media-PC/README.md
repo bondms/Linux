@@ -19,7 +19,7 @@
     * Right click the taskbar clock and choose "Configure Plugin...".
     * From `man date`, change time format from `%R` to `%R:%S`.
 1. Media PC: From Control Center, choose "Set Defaults" "For Large Screens" under "Defaults".
-1. Media PC: Decrypt secrets of podcast-sync.
+1. Media PC: Decrypt secrets of podcast-sync to home folder.
 
 ## Links
 
