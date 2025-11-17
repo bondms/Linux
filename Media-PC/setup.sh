@@ -27,6 +27,7 @@ sudo apt install --assume-yes vim || exit 1
 
 # sudo apt install --assume-yes at || exit 1
 sudo apt install --assume-yes feh || exit 1
+sudo apt install --assume-yes rclone || exit 1
 sudo apt install --assume-yes rpi-eeprom || exit 1
 sudo apt install --assume-yes sox libsox-fmt-all || exit 1
 sudo apt install --assume-yes xscreensaver || exit 1
@@ -58,8 +59,11 @@ sudo apt-get autoclean || exit 1
 [[ -h "${HERE}/../../rgain3/scripts/rgain3" ]] ||
     ln --symbolic --verbose -- "../rgain3" "${HERE}/../../rgain3/scripts/." || exit 1
 
-# Configure recording for time-shifted playback of Radio Varna
 mkdir --verbose --parents -- "${HOME}/Recordings" || exit 1
+
+[[ -e "${HOME}/podcast-sync-secrets.sh" ]] ||
+    gpg --decrypt --output "${HOME}/podcast-sync-secrets.sh" -- "${HERE}/../Scripts/podcast-sync-secrets.sh.gpg" || exit 1
+
 crontab - << EOF || exit 1
 # Record Radio Varna from 10:20 to 13:00 (2h40m) on Sundays.
 # Log both stdout and stderr, and retry on failure.
