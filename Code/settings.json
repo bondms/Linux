@@ -32,5 +32,6 @@
     "editor.autoClosingDelete": "never",
     "editor.autoClosingOvertype": "never",
     "workbench.secondarySideBar.defaultVisibility": "hidden",
-    "git.enabled": false
+    "git.enabled": false,
+    "security.workspace.trust.untrustedFiles": "open"
 }

@@ -149,6 +149,7 @@ sudo apt install --assume-yes tofrodos || exit 1
 sudo apt install --assume-yes sqlite3 unixodbc-dev || exit 1
 sudo apt install --assume-yes symlinks || exit 1
 sudo apt install --assume-yes synaptic || exit 1
+sudo apt install --assume-yes systemd-timesyncd || exit 1
 # sudo apt install --assume-yes unrar || exit 1
 sudo apt install --assume-yes wget || exit 1
 
