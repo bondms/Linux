@@ -69,9 +69,9 @@ crontab - << EOF || exit 1
 # Log both stdout and stderr, and retry on failure.
 20 10 * * sun sox --show-progress --clobber --type mp3 http://broadcast.masters.bg:8000/live "${HOME}/Recordings/radio-varna.mp3" trim 0 2:40:00 > "${HOME}/RamDisk/radio-varna.log" 2>&1 || sox --show-progress --clobber --type mp3 http://broadcast.masters.bg:8000/live "${HOME}/Recordings/radio-varna.mp3" trim 0 2:40:00 >> "${HOME}/RamDisk/radio-varna.log" 2>&1
 
-# Synchronise podcasts at the start of each hour from midnight to 8am every Wednesday.
+# Synchronise podcasts at 8:00 am every Wednesday, and again on Thursday in case of error or late publishing.
 # Log both stdout and stderr.
-0 0-8 * * wed "${HOME}/Linux-main/Scripts/podcast-sync.sh" > "${HOME}/RamDisk/podcast-sync.log" 2>&1
+0 8 * * 3,4 "${HOME}/Linux-main/Scripts/podcast-sync.sh" > "${HOME}/RamDisk/podcast-sync.log" 2>&1
 EOF
 
 echo "*** SUCCESS ***"
