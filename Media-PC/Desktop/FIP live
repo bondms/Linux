@@ -1,3 +1,3 @@
 #!/bin/bash
 
-"${HOME}/Linux-main/Scripts/play-radio.sh" "http://direct.fipradio.fr/live/fip-midfi.mp3"
+"${HOME}/Linux/Scripts/play-radio.sh" "http://direct.fipradio.fr/live/fip-midfi.mp3"

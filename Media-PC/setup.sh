@@ -71,7 +71,7 @@ crontab - << EOF || exit 1
 
 # Synchronise podcasts at 8:00 am every Wednesday, and again on Thursday in case of error or late publishing.
 # Log both stdout and stderr.
-0 8 * * 3,4 "${HOME}/Linux-main/Scripts/podcast-sync.sh" > "${HOME}/RamDisk/podcast-sync.log" 2>&1
+# 0 8 * * 3,4 "${HOME}/Linux/Scripts/podcast-sync.sh" > "${HOME}/RamDisk/podcast-sync.log" 2>&1
 EOF
 
 echo "*** SUCCESS ***"

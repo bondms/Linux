@@ -1,4 +1,4 @@
 #!/bin/bash
 
 # TODO: Run automatically at startup.
-"${HOME}/Linux-main/Scripts/audio-mono-device.sh"
+"${HOME}/Linux/Scripts/audio-mono-device.sh"

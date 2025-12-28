@@ -1,3 +1,3 @@
 #!/bin/bash
 
-"${HOME}/Linux-main/Scripts/music-resume.sh" "/media/${USER}/."
+"${HOME}/Linux/Scripts/music-resume.sh" "/media/${USER}/."

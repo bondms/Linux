@@ -8,9 +8,10 @@
 * For the PI 4 (Model B), the 64-bit Raspberry PI OS is preferred.
 * Don't worry that this creates a small root partition. On first boot it will be expanded to fill the available space.
 * Provide the Wi-Fi password to the Imager so that it doesn't need to be entered on the Pi.
-1. Media PC: Download Linux-main.zip from [GitHub](https://github.com/bondms/Linux) and expand to home folder (i.e. to create ~/Linux-main/...): `cd && unzip ~/Downloads/Linux-main.zip`
+1. Clone "Linux" Git repo:
+    * `git clone https://github.com/bondms/Linux.git "${HOME}/Linux"`
 1. Media PC: Run:
-    * `~/Linux-main/Media-PC/setup.sh`.
+    * `~/Linux/Media-PC/setup.sh`.
 1. Media PC: Perform initial setup:
     * `sudo raspi-config`
 1. Main PC: Use `./sync.sh` to synchronise Music, Pictures, Playlists, Podcasts, etc. to the Media PC's disk.
