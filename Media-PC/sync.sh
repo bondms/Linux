@@ -8,7 +8,7 @@ HERE="$(readlink -e "$(dirname "${BASH_SOURCE[0]}")")"
 
 [[ -d "/media/bondms/rootfs/home/pi" ]] || exit 1
 
-for subdir in "Music" "Pictures" "Playlists" "Podcasts"
+for subdir in "Music" "Pictures" "Playlists" "Podcasts" "Videos"
 do
     mkdir --parents -- "/media/bondms/rootfs/home/pi/${subdir}" || exit 1
     rsync \
@@ -18,21 +18,9 @@ do
         --itemize-changes \
         --checksum \
         --delete \
-        --exclude "/Screenshots/" \
         -- \
         "${HOME}/${subdir}/." "/media/bondms/rootfs/home/pi/${subdir}/." || exit 1
 done
-
-mkdir --parents -- "/media/bondms/rootfs/home/pi/Videos/Pi/." || exit 1
-rsync \
-    --archive \
-    --verbose \
-    --human-readable \
-    --itemize-changes \
-    --checksum \
-    --delete \
-    -- \
-    "${HOME}/Videos/Pi/." "/media/bondms/rootfs/home/pi/Videos/Pi/." || exit 1
 
 sync --file-system "/media/bondms/rootfs/home/pi/." || exit 1
 
