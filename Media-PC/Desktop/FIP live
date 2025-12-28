@@ -1,5 +1,3 @@
 #!/bin/bash
 
-find "${PWD}/." -mindepth 1 -maxdepth 1 -name "wget-log*" -size 0c -delete
-trap 'find "${PWD}/." -mindepth 1 -maxdepth 1 -name "wget-log*" -size 0c -delete' 0
-play http://direct.fipradio.fr/live/fip-midfi.mp3
+"${HOME}/Linux/Scripts/play-radio.sh" "http://direct.fipradio.fr/live/fip-midfi.mp3"

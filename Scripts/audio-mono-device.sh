@@ -5,17 +5,19 @@
 set -eux
 set -o pipefail
 
+pactl unload-module module-combine-sink || exit 1
+pactl unload-module module-loopback || exit 1
+pactl unload-module module-null-sink || exit 1
+pactl unload-module module-remap-sink || exit
 pactl unload-module module-stream-restore || exit 1
+
 pactl load-module module-stream-restore restore_device=false || exit 1
 
 HDMI_DEVICE="$(pactl list sinks short | cut -f 2 | grep -F hdmi-stereo)" || exit 1
 [[ -n "${HDMI_DEVICE}" ]] || exit 1
 
 pactl set-default-sink "${HDMI_DEVICE}" || exit 1
-
-pactl unload-module module-remap-sink || exit 1
 pactl load-module module-remap-sink sink_name=hdmi_mono master="${HDMI_DEVICE}" channels=1 channel_map=mono || exit 1
-
 pactl set-default-sink hdmi_mono || exit 1
 
 echo "Sinks:"

@@ -5,15 +5,14 @@
 set -eux
 set -o pipefail
 
-pactl unload-module module-stream-restore || exit 1
-pactl load-module module-stream-restore restore_device=false || exit 1
-
-pactl set-default-sink alsa_output.platform-fef05700.hdmi.hdmi-stereo || exit 1
-
+pactl unload-module module-combine-sink || exit 1
+pactl unload-module module-loopback || exit 1
 pactl unload-module module-null-sink || exit 1
 pactl unload-module module-remap-sink || exit
-pactl unload-module module-loopback || exit 1
-pactl unload-module module-combine-sink || exit 1
+pactl unload-module module-stream-restore || exit 1
+
+pactl load-module module-stream-restore restore_device=false || exit 1
+pactl set-default-sink alsa_output.platform-fef05700.hdmi.hdmi-stereo || exit 1
 
 echo "Sinks:"
 pactl list short sinks || exit 1
