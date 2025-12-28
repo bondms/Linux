@@ -9,7 +9,7 @@
 * Don't worry that this creates a small root partition. On first boot it will be expanded to fill the available space.
 * Provide the Wi-Fi password to the Imager so that it doesn't need to be entered on the Pi.
 1. Clone "Linux" Git repo:
-    * `git clone https://github.com/bondms/Linux.git "${HOME}/Linux"`
+    * `git clone --filter=blob:none https://github.com/bondms/Linux.git "${HOME}/Linux"`
 1. Media PC: Run:
     * `~/Linux/Media-PC/setup.sh`.
 1. Media PC: Perform initial setup:
