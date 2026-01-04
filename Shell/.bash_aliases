@@ -27,7 +27,9 @@ alias git-log-diff-to='git-log ^HEAD'
 alias git-log-first-parent='git-log --first-parent'
 alias git-merge-force-ours='git merge -s ours'
 alias git-merge-resolve-ours='git merge -X ours'
-alias git-pre-commit='$(git rev-parse --git-common-dir)/hooks/pre-commit'
+alias git-pre-commit='$(git rev-parse --git-dir)/hooks/pre-commit'
+alias git-worktree-add='git worktree add -- "$(git rev-parse --show-toplevel)/../$(basename -- "$(git rev-parse --show-toplevel)")-alt"'
+alias git-worktree-remove='git worktree remove -- "$(git rev-parse --show-toplevel)/../$(basename -- "$(git rev-parse --show-toplevel)")-alt"'
 alias grep-context='grep -C 5'
 alias gunzip='gunzip -v'
 alias gzip='gzip -v'
@@ -207,18 +209,6 @@ generate-replay-gain-track-tags()
 {
     find -type f -print0 | xargs --null -I{} id3convert --v1tag -- {}
     find -type f -print0 | xargs --null -I{} replaygain --no-album -- {}
-}
-
-git-worktree-add()
-{
-    [[ -d '.git' ]] || return $?
-    git worktree add -- "../$(basename -- "$(pwd)")-alt" || return $?
-}
-
-git-worktree-remove()
-{
-    [[ -d '.git' ]] || return $?
-    git worktree remove -- "../$(basename -- "$(pwd)")-alt" || return $?
 }
 
 mount-iso()
