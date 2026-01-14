@@ -14,7 +14,7 @@
 set -eux
 set -o pipefail
 
-HERE="$(readlink -e "$(dirname "${BASH_SOURCE[0]}")")"
+HERE="$(readlink --canonicalize-existing "$(dirname "${BASH_SOURCE[0]}")")"
 [[ -d "$HERE" ]] || exit 1
 
 [[ $# -eq 2 ]] || exit 1

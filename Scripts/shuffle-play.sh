@@ -6,7 +6,7 @@ set -o pipefail
 [[ $# -eq 1 ]] || exit 1
 [[ -d "$1" ]] || exit 1
 
-HERE="$(readlink -e "$(dirname "${BASH_SOURCE[0]}")")"
+HERE="$(readlink --canonicalize-existing "$(dirname "${BASH_SOURCE[0]}")")"
 [[ -d "${HERE}" ]] || exit 1
 
 trap '' INT || exit 1

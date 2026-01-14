@@ -113,7 +113,7 @@ rsync \
 PLAYLIST_SOURCE_DIR="${HOME}/Playlists"
 [[ -d "${PLAYLIST_SOURCE_DIR}" ]] || exit 1
 
-PLAYLIST_SOURCE_DIR_SANITIZED="$(readlink -e "${PLAYLIST_SOURCE_DIR}")"
+PLAYLIST_SOURCE_DIR_SANITIZED="$(readlink --canonicalize-existing "${PLAYLIST_SOURCE_DIR}")"
 [[ -d "${PLAYLIST_SOURCE_DIR_SANITIZED}" ]] || exit 1
 
 mkdir --verbose -- "${PLAYLIST_STAGE_DIR}" || exit 1
@@ -133,7 +133,7 @@ find "${PLAYLIST_SOURCE_DIR}/." \
             find -L \"\$F\" \
             -type f \
             -print0 |
-            xargs --null --max-args=1 --no-run-if-empty readlink -e |
+            xargs --null --max-args=1 --no-run-if-empty readlink --canonicalize-existing |
             python -c \"
 import os.path
 import sys

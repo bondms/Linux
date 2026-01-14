@@ -144,7 +144,7 @@ find "${PLAYLIST_SOURCE_DIR}/." \
             find -L \"\$F\" \
                 -type f \
                 -print0 |
-                    xargs --null --max-args=1 --no-run-if-empty readlink -e |
+                    xargs --null --max-args=1 --no-run-if-empty readlink --canonicalize-existing |
                     python -c \"
 import os.path
 import sys
