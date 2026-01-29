@@ -47,8 +47,7 @@ rsync \
     --exclude "/Images/Windows/" \
     --exclude "/Music/Rhythmbox/" \
     --exclude "/Temp/" \
-    --exclude "/Videos/Pi/" \
-    --exclude "/Videos/Temp/" \
+    --exclude "/Videos/" \
     --exclude ".git/" \
     --exclude "bazel-*" \
     --exclude "bin/" \
