@@ -110,6 +110,12 @@ then
   cp --verbose -- "${NEW_GRISBI_CONFIG}" "${EXISTING_GIRSBI_CONFIG}" || exit 1
 fi
 
+# Add contrib sources.
+[[ -e /etc/apt/sources.list.orig ]] || (
+    sudo cp --archive --verbose /etc/apt/sources.list{,.orig} || exit 1
+    sudo sed --regexp-extended --in-place 's/^deb(.*)$/deb\1 contrib/g' /etc/apt/sources.list || exit 1
+) || exit 1
+
 sudo apt update || exit 1
 sudo apt full-upgrade || exit 1
 
@@ -154,10 +160,10 @@ sudo apt install --assume-yes systemd-timesyncd || exit 1
 sudo apt install --assume-yes wget || exit 1
 
 # Playing DVDs.
-# sudo apt install --assume-yes libdvd-pkg libavcodec-extra mpv regionset vobcopy || exit 1
+sudo apt install --assume-yes libdvd-pkg libavcodec-extra mpv regionset vobcopy || exit 1
 
 # Configure packages.
-# sudo dpkg-reconfigure libdvd-pkg || exit 1
+sudo dpkg-reconfigure libdvd-pkg || exit 1
 
 # Install Bazel using bazelisk Debian package from https://github.com/bazelbuild/bazelisk
 # sudo apt install --assume-yes bazel-bootstrap{,-data,-source} bazel-platforms bazel-rules-cc bazel-skylib || exit 1
