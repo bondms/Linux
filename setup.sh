@@ -120,47 +120,47 @@ sudo apt update || exit 1
 sudo apt full-upgrade || exit 1
 
 # Install vim early so that it's easier make fixes if anything fails later.
-sudo apt install --assume-yes vim || exit 1
+which vim || sudo apt install --assume-yes vim || exit 1
 
-sudo apt install --assume-yes adb android-sdk-platform-tools-common || exit 1
-sudo apt install --assume-yes at || exit 1
-sudo apt install --assume-yes audacity || exit 1
-sudo apt install --assume-yes black || exit 1
-sudo apt install --assume-yes build-essential || exit 1
-sudo apt install --assume-yes cargo rustfmt || exit 1
-sudo apt install --assume-yes clang clang-format clang-tidy || exit 1
-sudo apt install --assume-yes cmake || exit 1
-sudo apt install --assume-yes curl || exit 1
-sudo apt install --assume-yes exfatprogs || exit 1
-sudo apt install --assume-yes feh || exit 1
-sudo apt install --assume-yes ffmpeg || exit 1
-sudo apt install --assume-yes gimp || exit 1
-sudo apt install --assume-yes git || exit 1
-sudo apt install --assume-yes gnome-multi-writer || exit 1
-sudo apt install --assume-yes grisbi || exit 1
-sudo apt install --assume-yes imagemagick || exit 1
-sudo apt install --assume-yes jhead || exit 1
-sudo apt install --assume-yes jmtpfs || exit 1
+which adb || sudo apt install --assume-yes adb android-sdk-platform-tools-common || exit 1
+which at || sudo apt install --assume-yes at || exit 1
+which audacity || sudo apt install --assume-yes audacity || exit 1
+which black || sudo apt install --assume-yes black || exit 1
+which gcc || sudo apt install --assume-yes build-essential || exit 1
+which cargo || sudo apt install --assume-yes cargo rustfmt || exit 1
+which clang || sudo apt install --assume-yes clang clang-format clang-tidy || exit 1
+which cmake || sudo apt install --assume-yes cmake || exit 1
+which curl || sudo apt install --assume-yes curl || exit 1
+which /usr/sbin/fsck.exfat || sudo apt install --assume-yes exfatprogs || exit 1
+which feh || sudo apt install --assume-yes feh || exit 1
+which ffmpeg || sudo apt install --assume-yes ffmpeg || exit 1
+which gimp || sudo apt install --assume-yes gimp || exit 1
+which git || sudo apt install --assume-yes git || exit 1
+which gnome-multi-writer || sudo apt install --assume-yes gnome-multi-writer || exit 1
+which grisbi || sudo apt install --assume-yes grisbi || exit 1
+which magick || sudo apt install --assume-yes imagemagick || exit 1
+which jhead || sudo apt install --assume-yes jhead || exit 1
+which jmtpfs || sudo apt install --assume-yes jmtpfs || exit 1
 # sudo apt install --assume-yes latexdraw || exit 1
-sudo apt install --assume-yes meld || exit 1
-sudo apt install --assume-yes mencoder || exit 1
-sudo apt install --assume-yes npm || exit 1
-sudo apt install --assume-yes pulseaudio-utils || exit 1
-sudo apt install --assume-yes python-is-python3 || exit 1
-sudo apt install --assume-yes python3-mutagen || exit 1
-sudo apt install --assume-yes rclone || exit 1
-sudo apt install --assume-yes rsync || exit 1
-sudo apt install --assume-yes sox libsox-fmt-all || exit 1
-sudo apt install --assume-yes tofrodos || exit 1
-sudo apt install --assume-yes sqlite3 unixodbc-dev || exit 1
-sudo apt install --assume-yes symlinks || exit 1
-sudo apt install --assume-yes synaptic || exit 1
-sudo apt install --assume-yes systemd-timesyncd || exit 1
-# sudo apt install --assume-yes unrar || exit 1
-sudo apt install --assume-yes wget || exit 1
+which meld || sudo apt install --assume-yes meld || exit 1
+which mencoder || sudo apt install --assume-yes mencoder || exit 1
+which npm || sudo apt install --assume-yes npm || exit 1
+which pactl || sudo apt install --assume-yes pulseaudio-utils || exit 1
+which python || sudo apt install --assume-yes python-is-python3 || exit 1
+which mutagen-inspect || sudo apt install --assume-yes python3-mutagen || exit 1
+which rclone || sudo apt install --assume-yes rclone || exit 1
+which rsync || sudo apt install --assume-yes rsync || exit 1
+which sox || sudo apt install --assume-yes sox libsox-fmt-all || exit 1
+which todos || sudo apt install --assume-yes tofrodos || exit 1
+which sqlite3 || sudo apt install --assume-yes sqlite3 unixodbc-dev || exit 1
+which symlinks || sudo apt install --assume-yes symlinks || exit 1
+which synaptic || sudo apt install --assume-yes synaptic || exit 1
+[[ -f /etc/systemd/timesyncd.conf ]] || sudo apt install --assume-yes systemd-timesyncd || exit 1
+# which unrar || sudo apt install --assume-yes unrar-free || exit 1
+which wget || sudo apt install --assume-yes wget || exit 1
 
 # Playing DVDs.
-sudo apt install --assume-yes libdvd-pkg libavcodec-extra mpv regionset vobcopy || exit 1
+which mpv || sudo apt install --assume-yes libdvd-pkg libavcodec-extra mpv regionset vobcopy || exit 1
 
 # Configure packages.
 sudo dpkg-reconfigure libdvd-pkg || exit 1
