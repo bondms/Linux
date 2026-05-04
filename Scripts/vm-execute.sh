@@ -7,7 +7,7 @@ err_msg ()
 }
 
 # Start with basic command-line.
-CMDLINE="kvm -no-quit -usb -device usb-tablet"
+CMDLINE="kvm -display gtk,window-close=off -usb -device usb-tablet"
 
 # When launching as root, drop priveledges once running.
 DROPPRIV=1
@@ -21,7 +21,6 @@ do
     ("-isolate") ISOLATE=1 ;;
     ("-localtime") LOCALTIME=1 ;;
     ("-nooptimise") NOOPTIMISE=1 ;;
-    ("-nosound") NOSOUND=1 ;;
     ("-novirtio") NOVIRTIO=1 ;;
     ("-ram") RAM="$2" ; shift ;;
     ("-smp") SMP="$2" ; shift ;;
@@ -159,14 +158,6 @@ then
     echo "Running in non-persistent mode."
 else
     echo "Running in persistent mode."
-fi
-
-if [ -z "${NOSOUND}" ]
-then
-    CMDLINE="${CMDLINE} -soundhw all"
-    echo "Sound support enabled."
-else
-    echo "Sound support not enabled."
 fi
 
 CMDLINE="${CMDLINE} -net nic"
