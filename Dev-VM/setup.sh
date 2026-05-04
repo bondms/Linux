@@ -92,7 +92,6 @@ sudo apt-get autoclean || exit 1
 # Configure Git.
 [[ -d "${HOME}/.bash-git-prompt" ]] ||
     git clone https://github.com/magicmonty/bash-git-prompt.git "${HOME}/.bash-git-prompt" --depth=1 || exit 1
-git config --global commit.gpgsign true || exit 1
 git config --global core.editor "code --wait --new-window" || exit 1
 git config --global core.pager "less -iM" || exit 1
 git config --global init.defaultBranch "main" || exit 1
