@@ -217,12 +217,11 @@ then
         chmod a-w "${FOLDER}/${PARENTIMAGE}" || err_msg "Failed to write-protect parent disk."
 
         # In order to use a relative path in the differencing disk for the base, we need to create the differencing disk in whilst in the target FOLDER.
-        SAVEDIR="$(pwd)"
-        cd "${FOLDER}" || err_msg "Failed to change to target folder."
+        pushd "${FOLDER}" || err_msg "Failed to change to target folder."
 
         qemu-img create -f qcow2 -b "./${PARENTIMAGE}" "./${IMAGE}" || err_msg "Failed to create differencing disk."
 
-        cd "${SAVEDIR}" || err_msg "Failed to change back to saved folder"
+        popd || err_msg "Failed to change back to saved folder"
     fi
 else
     echo "Using existing disk: ${VERSION}"
