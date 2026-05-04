@@ -32,5 +32,8 @@ Configure a Debian 13 (Trixie) Desktop system.
     * Re-sync GitHub repos locally.
     * etc.
 
+## Development-VM
+[Configure a QEMU/KVM development virtual machine](Dev-VM/README.md).
+
 ## Media-PC
 [Configure a Raspberry PI 4 media system](Media-PC/README.md).
