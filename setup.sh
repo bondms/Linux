@@ -148,6 +148,8 @@ which npm || sudo apt install --assume-yes npm || exit 1
 which pactl || sudo apt install --assume-yes pulseaudio-utils || exit 1
 which python || sudo apt install --assume-yes python-is-python3 || exit 1
 which mutagen-inspect || sudo apt install --assume-yes python3-mutagen || exit 1
+which kvm || sudo apt install --assume-yes qemu-system-x86 || exit 1
+which qemu-img || sudo apt install --assume-yes qemu-utils || exit 1
 which rclone || sudo apt install --assume-yes rclone || exit 1
 which rsync || sudo apt install --assume-yes rsync || exit 1
 which sox || sudo apt install --assume-yes sox libsox-fmt-all || exit 1
