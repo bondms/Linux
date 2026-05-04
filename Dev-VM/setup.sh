@@ -12,13 +12,6 @@ HERE="$(readlink --canonicalize-existing "$(dirname "${BASH_SOURCE[0]}")")"
 
 mkdir --parents --verbose -- "${HOME}/Temp" || exit 1
 
-if [[ ! -h "${HOME}/Git" ]]
-then
-    PARENT="$(dirname "${HERE}")"
-    [[ "Git" == "$(basename "${PARENT}")" ]] || exit 1
-    ln --symbolic --verbose -- "${PARENT}" "${HOME}/." || exit 1
-fi
-
 [[ -h "${HOME}/.bash_aliases" ]] ||
     ln --symbolic --verbose -- "${HERE}/Shell/.bash_aliases" "${HOME}/." || exit 1
 [[ -h "${HOME}/.bash_aliases_local" ]] ||
