@@ -219,7 +219,7 @@ then
         # In order to use a relative path in the differencing disk for the base, we need to create the differencing disk in whilst in the target FOLDER.
         pushd "${FOLDER}" || err_msg "Failed to change to target folder."
 
-        qemu-img create -f qcow2 -b "./${PARENTIMAGE}" "./${IMAGE}" || err_msg "Failed to create differencing disk."
+        qemu-img create -f qcow2 -b "./${PARENTIMAGE}" -F qcow2 "./${IMAGE}" || err_msg "Failed to create differencing disk."
 
         popd || err_msg "Failed to change back to saved folder"
     fi
