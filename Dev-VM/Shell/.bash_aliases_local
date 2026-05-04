@@ -1,0 +1,6 @@
+# Media-PC only.
+
+case ":${PATH:=${HOME}/Linux/Scripts}:" in
+    *":${HOME}/Linux/Scripts:"*) ;;
+    *) PATH="${PATH}:${HOME}/Linux/Scripts" ;;
+esac
