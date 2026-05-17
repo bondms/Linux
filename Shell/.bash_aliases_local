@@ -4,3 +4,8 @@ case ":${PATH:=${HOME}/Backup/bin}:" in
     *":${HOME}/Backup/bin:"*) ;;
     *) PATH="${PATH}:${HOME}/Backup/bin" ;;
 esac
+
+case ":${PATH:=${HOME}/android-studio/bin}:" in
+    *":${HOME}/android-studio/bin:"*) ;;
+    *) PATH="${PATH}:${HOME}/android-studio/bin" ;;
+esac
