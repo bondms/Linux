@@ -158,7 +158,7 @@ which sqlite3 || sudo apt install --assume-yes sqlite3 unixodbc-dev || exit 1
 which symlinks || sudo apt install --assume-yes symlinks || exit 1
 which synaptic || sudo apt install --assume-yes synaptic || exit 1
 [[ -f /etc/systemd/timesyncd.conf ]] || sudo apt install --assume-yes systemd-timesyncd || exit 1
-# which unrar || sudo apt install --assume-yes unrar-free || exit 1
+which unrar || sudo apt install --assume-yes unrar-free || exit 1
 which wget || sudo apt install --assume-yes wget || exit 1
 
 # Playing DVDs.
