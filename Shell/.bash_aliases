@@ -221,6 +221,15 @@ mount-iso()
     sudo mount -o loop,ro "$1" ~/Mount/. || return $?
 }
 
+normalize-volume()
+{
+    [[ $# -eq 2 ]] || return $?
+    [[ -f "$1" ]] || return $?
+    [[ ! -e "$2" ]] || return $?
+
+    sox "$1" "$2" gain -n || return $?
+}
+
 openssl-gen-key-pair()
 {
     [[ ! -e 'private.pem' ]] || return $?
