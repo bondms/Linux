@@ -25,7 +25,7 @@ rclone \
     --human-readable \
     --checksum \
     --delete-excluded \
-    --transfers 2 --checkers 4 \
+    --transfers 1 --checkers 1 \
     --exclude "/BackupLogs/" \
     --exclude "/Documents/Archive/Motoring/Ursula/200801 Polestar 2 press kit UK.zip" \
     --exclude "/Documents/Archive/Programming/Git/" \
