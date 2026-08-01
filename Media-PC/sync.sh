@@ -16,6 +16,7 @@ rsync \
     --checksum \
     --delete --delete-excluded \
     --exclude ".git/" \
+    --exclude "/Scripts/OctopusEnergyApi/data/" \
     -- \
     "${HERE}/../." "/media/bondms/rootfs/home/pi/Linux/." || exit 1
 
