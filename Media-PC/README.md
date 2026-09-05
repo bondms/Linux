@@ -32,3 +32,5 @@
 * [Stereo test](https://youtu.be/6TWJaFD6R2s?si=SeF6gn_TzVnGVoJe)
 * [YouTube](https://www.youtube.com/)
 * [YouTube Music](https://music.youtube.com/)
+  * [Joli](https://music.youtube.com/@SvetlanaBond-p3q)
+  * [Mark](https://music.youtube.com/@markbond5800)
