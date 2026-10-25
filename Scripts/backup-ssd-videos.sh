@@ -21,24 +21,16 @@ rm --force --verbose "${SOURCE}/${TIMESTAMP_NAME}" || exit 1
 # This is much quicker because most of the archive consists of hardlinks which
 # would are read repeatedly with checksumming.
 rsync \
-    --archive \
-    --hard-links \
     --human-readable \
     --itemize-changes \
+    --modify-window=3601 \
     --progress \
-    --sparse \
+    --recursive \
+    --times \
     --verbose \
     --delete --delete-excluded \
     -- \
     "${SOURCE}/" "${TARGET_DIR}/" 2>&1 | tee "${LOGFILE}" || exit 1
-
-# Verify the latest explicitly to mitigate the risk of syncing without
-# checksum.
-diff \
-    --recursive \
-    --no-dereference \
-    -- \
-    "${SOURCE}/latest/" "${TARGET_DIR}/latest/" 2>&1 | tee --append "${LOGFILE}" || exit 1
 
 date --utc --iso-8601=seconds > "${TIMESTAMP_PATH}" || exit 1
 sync --file-system "${TIMESTAMP_PATH}" || exit 1
