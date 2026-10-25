@@ -40,6 +40,7 @@ rsync \
     --exclude "/Images/Ubuntu/" \
     --exclude "/Images/RaspberryPi/" \
     --exclude "/Images/Windows/" \
+    --exclude "/Videos/Hamilton/" \
     --exclude ".git/" \
     --exclude "bazel-*" \
     --exclude "bin/" \

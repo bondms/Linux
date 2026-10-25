@@ -20,7 +20,7 @@ rsync \
     -- \
     "${HERE}/../." "/media/bondms/rootfs/home/pi/Linux/." || exit 1
 
-for subdir in "Music" "Pictures" "Playlists" "Podcasts" "Videos"
+for subdir in "Music" "Pictures" "Playlists" "Podcasts"
 do
     mkdir --parents -- "/media/bondms/rootfs/home/pi/${subdir}" || exit 1
     rsync \
