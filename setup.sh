@@ -160,11 +160,15 @@ which synaptic || sudo apt install --assume-yes synaptic || exit 1
 [[ -f /etc/systemd/timesyncd.conf ]] || sudo apt install --assume-yes systemd-timesyncd || exit 1
 which todos || sudo apt install --assume-yes tofrodos || exit 1
 which unrar || sudo apt install --assume-yes unrar-free || exit 1
-which vlc || sudo apt install --assume-yes vlc || exit 1
 which wget || sudo apt install --assume-yes wget || exit 1
 
 # Playing DVDs.
 which mpv || sudo apt install --assume-yes libdvd-pkg libavcodec-extra mpv regionset vobcopy || exit 1
+
+# Playing Blu-Ray.
+which bd_info || sudo apt-get install --assume-yes libbluray-bdj libbluray-bin || exit 1
+[[ -d /usr/lib/jvm/java-21-openjdk-amd64 ]] || sudo apt install --assume-yes openjdk-21-jre || exit 1
+which vlc || sudo apt install --assume-yes vlc || exit 1
 
 # Configure packages.
 sudo dpkg-reconfigure libdvd-pkg || exit 1
