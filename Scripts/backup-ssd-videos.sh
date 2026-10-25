@@ -7,7 +7,7 @@ SOURCE="${HOME}/Videos"
 TARGET="ssd-videos"
 TARGET_LINK="${HOME}/Backup/BackupTargets/${TARGET}"
 TARGET_DIR="${TARGET_LINK}/Videos"
-LOGFILE="${SOURCE}/BackupLogs/rsync-${TARGET}.log"
+LOGFILE="${HOME}/Backup/BackupLogs/rsync-${TARGET}.log"
 TIMESTAMP_NAME="timestamp.txt"
 TIMESTAMP_PATH="${TARGET_DIR}/${TIMESTAMP_NAME}"
 
