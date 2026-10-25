@@ -29,7 +29,6 @@ rsync \
     --sparse \
     --verbose \
     --delete --delete-excluded \
-    --exclude "/Videos/Hamilton/" \
     -- \
     "${SOURCE}/" "${TARGET_DIR}/" 2>&1 | tee "${LOGFILE}" || exit 1
 
