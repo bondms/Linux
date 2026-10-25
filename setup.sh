@@ -152,13 +152,15 @@ which kvm || sudo apt install --assume-yes qemu-system-x86 || exit 1
 which qemu-img || sudo apt install --assume-yes qemu-utils || exit 1
 which rclone || sudo apt install --assume-yes rclone || exit 1
 which rsync || sudo apt install --assume-yes rsync || exit 1
+which smbclient || sudo apt install --assume-yes smbclient || exit 1
 which sox || sudo apt install --assume-yes sox libsox-fmt-all || exit 1
-which todos || sudo apt install --assume-yes tofrodos || exit 1
 which sqlite3 || sudo apt install --assume-yes sqlite3 unixodbc-dev || exit 1
 which symlinks || sudo apt install --assume-yes symlinks || exit 1
 which synaptic || sudo apt install --assume-yes synaptic || exit 1
 [[ -f /etc/systemd/timesyncd.conf ]] || sudo apt install --assume-yes systemd-timesyncd || exit 1
+which todos || sudo apt install --assume-yes tofrodos || exit 1
 which unrar || sudo apt install --assume-yes unrar-free || exit 1
+which vlc || sudo apt install --assume-yes vlc || exit 1
 which wget || sudo apt install --assume-yes wget || exit 1
 
 # Playing DVDs.
