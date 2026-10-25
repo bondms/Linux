@@ -35,6 +35,11 @@ which xscreensaver || sudo apt install --assume-yes xscreensaver || exit 1
 # Playing DVDs.
 which mpv || sudo apt install --assume-yes libdvd-pkg libavcodec-extra mpv || exit 1
 
+# Playing Blu-Ray.
+which bd_info || sudo apt-get install --assume-yes libbluray-bdj libbluray-bin || exit 1
+[[ -d /usr/lib/jvm/java-21-openjdk-amd64 ]] || sudo apt install --assume-yes openjdk-21-jre || exit 1
+which vlc || sudo apt install --assume-yes vlc || exit 1
+
 # rgain dependencies.
 which mutagen-inspect || sudo apt install --assume-yes gstreamer1.0-python3-plugin-loader python3-mutagen || exit 1
 
