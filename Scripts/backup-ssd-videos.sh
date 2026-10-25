@@ -5,7 +5,7 @@ set -o pipefail
 
 SOURCE="${HOME}/Videos"
 TARGET="ssd-videos"
-TARGET_LINK="${SOURCE}/BackupTargets/${TARGET}"
+TARGET_LINK="${HOME}/Backup/BackupTargets/${TARGET}"
 TARGET_DIR="${TARGET_LINK}/Videos"
 LOGFILE="${SOURCE}/BackupLogs/rsync-${TARGET}.log"
 TIMESTAMP_NAME="timestamp.txt"
