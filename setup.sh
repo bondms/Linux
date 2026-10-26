@@ -139,6 +139,7 @@ which git || sudo apt install --assume-yes git || exit 1
 which gnome-multi-writer || sudo apt install --assume-yes gnome-multi-writer || exit 1
 which grisbi || sudo apt install --assume-yes grisbi || exit 1
 which magick || sudo apt install --assume-yes imagemagick || exit 1
+which jdupes || sudo apt install --assume-yes jdupes || exit 1
 which jhead || sudo apt install --assume-yes jhead || exit 1
 which jmtpfs || sudo apt install --assume-yes jmtpfs || exit 1
 # sudo apt install --assume-yes latexdraw || exit 1
