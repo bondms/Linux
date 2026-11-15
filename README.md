@@ -33,7 +33,7 @@ Configure a Debian 13 (Trixie) Desktop system.
     * etc.
 
 ### Note(s)
-* Use phone USB tethering for Internet until WiFi is configured, but be sure to disable mobile data so that tethering shares the metered WiFi rather than the metered mobile data.
+* Use phone USB tethering for internet until Wi-Fi is configured, but be sure to disable mobile data so that tethering shares the metered Wi-Fi rather than the metered mobile data.
 * Use `gnome-text-editor` or `vi` until `code` or `vim` are available.
 
 ## Media-PC
