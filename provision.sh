@@ -41,3 +41,15 @@ rsync \
     -- \
     /media/bondms/BackupSsd/Backup/ "${HOME}/Archive/bondms/" || exit 1
 
+[[ -d "${HOME}/Backup/Videos" ]] || exit 1
+[[ -z $(find "${HOME}/Backup/Videos" -mindepth 1 -print -quit) ]] || exit 1
+rsync \
+    --human-readable \
+    --itemize-changes \
+    --modify-window=3601 \
+    --progress \
+    --recursive \
+    --times \
+    --verbose \
+    -- \
+    /media/bondms/Videos/Videos/. "${HOME}/Backup/Videos/." || exit 1
