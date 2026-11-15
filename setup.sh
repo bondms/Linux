@@ -187,6 +187,7 @@ sudo apt-get autoclean || exit 1
 git config --global commit.gpgsign true || exit 1
 git config --global core.editor "code --wait --new-window" || exit 1
 git config --global core.pager "less -iM" || exit 1
+git config --global tag.gpgSign true || exit 1
 git config --global init.defaultBranch "main" || exit 1
 git config --global user.email "34947848+bondms@users.noreply.github.com" || exit 1
 
