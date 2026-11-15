@@ -17,15 +17,24 @@ Configure a Debian 13 (Trixie) Desktop system.
         * `sudo blkdiscard --force /dev/sdX`
     1. Reboot again and run the installer.
 1. On the freshly installed system:
-    1. `~/Backup/Documents/Archive/Programming/Git/Linux/provision.sh`
+    1. `/media/bondms/BackupSsd/Backup/latest/Documents/Archive/Programming/Git/Linux/provision.sh`
 1. Setup tasks:
     * Disable local document search.
     * Log-off old sessions and delete old session tokens.
-    * Confugure RClone remote:
-        * `rclone config`
-    * Replace GitHub SSH certificates.
-    * Re-sync GitHub repos locally.
+    * Google Drive:
+        * Confugure RClone remote:
+            * `rclone config`
+        * Fetch latest Google docs
+            * `fetch-googledocs.sh`
+    * GitHub:
+        * Replace SSH and signing keys.
+        * Re-sync repos locally.
+    * Update any documents, photos, music, etc. since last full backup from partial backups.
     * etc.
+
+### Note(s)
+* Use phone USB tethering for Internet until WiFi is configured, but be sure to disable mobile data so that tethering shares the metered WiFi rather than the metered mobile data.
+* Use `gnome-text-editor` or `vi` until `code` or `vim` are available.
 
 ## Media-PC
 [Configure a Raspberry PI 4 media system](Media-PC/README.md).
