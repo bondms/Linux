@@ -168,7 +168,7 @@ which mpv || sudo apt install --assume-yes libdvd-pkg libavcodec-extra mpv regio
 
 # Playing Blu-Ray.
 which bd_info || sudo apt-get install --assume-yes libbluray-bdj libbluray-bin || exit 1
-[[ -d /usr/lib/jvm/java-21-openjdk-amd64 ]] || sudo apt install --assume-yes openjdk-21-jre || exit 1
+[[ -f /usr/lib/jvm/java-21-openjdk-amd64/lib/libatk-wrapper.so ]] || sudo apt install --assume-yes openjdk-21-jre || exit 1
 which vlc || sudo apt install --assume-yes vlc || exit 1
 
 # Configure packages.
